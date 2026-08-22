@@ -1,1 +1,160 @@
 @import "tailwindcss";
+
+@theme {
+  /* ---------- Typography ---------- */
+  --font-display: "Archivo Black", "Arial Black", ui-sans-serif, sans-serif;
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", monospace;
+
+  /* ---------- Ink & Paper ---------- */
+  --color-ink: #191423;
+  --color-ink-soft: #4a4358;
+  --color-paper: #fffaf0;
+  --color-cream: #fdf1dc;
+
+  /* ---------- Funk palette ---------- */
+  --color-grape: #7b2ff2;
+  --color-grape-soft: #ede4ff;
+  --color-sky: #2f6bff;
+  --color-sky-soft: #dde7ff;
+  --color-mint: #00b37e;
+  --color-mint-soft: #d7f7e9;
+  --color-coral: #ff5e5b;
+  --color-coral-soft: #ffe1df;
+  --color-lemon: #ffc514;
+  --color-lemon-soft: #fff3cf;
+  --color-flamingo: #ff4fa3;
+  --color-flamingo-soft: #ffdcec;
+  --color-turq: #00c2d1;
+  --color-turq-soft: #d6f7fa;
+
+  /* ---------- Offset (skewmorphic) shadows ---------- */
+  --shadow-pop-xs: 2px 2px 0 0 var(--color-ink);
+  --shadow-pop-sm: 3px 3px 0 0 var(--color-ink);
+  --shadow-pop: 5px 5px 0 0 var(--color-ink);
+  --shadow-pop-lg: 8px 8px 0 0 var(--color-ink);
+  --shadow-pop-xl: 12px 12px 0 0 var(--color-ink);
+
+  /* ---------- Animations ---------- */
+  --animate-pop-in: pop-in 0.45s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+  --animate-fly-out: fly-out 0.55s ease-in both;
+  --animate-bob: bob 2.4s ease-in-out infinite;
+  --animate-bob-slow: bob 3.6s ease-in-out infinite;
+  --animate-marquee: marquee 28s linear infinite;
+  --animate-arrow-drop: arrow-drop 0.9s ease-in-out infinite;
+  --animate-spin-slow: spin 9s linear infinite;
+  --animate-blink: blink 1s steps(2, start) infinite;
+
+  @keyframes pop-in {
+    0% { transform: translateY(-110%) scale(0.5); opacity: 0; }
+    60% { transform: translateY(8%) scale(1.06); opacity: 1; }
+    100% { transform: translateY(0) scale(1); }
+  }
+  @keyframes fly-out {
+    to { transform: translateY(-170%) rotate(10deg); opacity: 0; }
+  }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-9px); }
+  }
+  @keyframes marquee {
+    to { transform: translateX(-50%); }
+  }
+  @keyframes arrow-drop {
+    0%, 100% { transform: translateY(-3px); }
+    50% { transform: translateY(4px); }
+  }
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+    background-image: radial-gradient(rgba(25, 20, 35, 0.07) 1.2px, transparent 1.2px);
+    background-size: 22px 22px;
+  }
+
+  ::selection {
+    background: var(--color-lemon);
+    color: var(--color-ink);
+  }
+
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-cream);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-ink);
+    border: 3px solid var(--color-cream);
+    border-radius: 8px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Chunky skewmorphic panel */
+  .panel {
+    @apply relative bg-white border-[3px] border-ink shadow-pop;
+  }
+
+  .panel-flat {
+    @apply relative bg-white border-[3px] border-ink shadow-pop-sm;
+  }
+
+  /* Chunky button with press physics */
+  .btn {
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 border-[3px] border-ink
+      px-4 py-2.5 font-bold uppercase tracking-wider shadow-pop-sm select-none
+      transition-all duration-150;
+  }
+  .btn:hover:not(:disabled) {
+    @apply -translate-x-0.5 -translate-y-0.5 shadow-pop;
+  }
+  .btn:active:not(:disabled) {
+    @apply translate-x-0.5 translate-y-0.5 shadow-none;
+  }
+  .btn:disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+
+  /* Small sticker / tag */
+  .sticker {
+    @apply inline-block border-[3px] border-ink bg-white px-3 py-1 font-display text-[11px]
+      uppercase tracking-[0.18em] shadow-pop-xs;
+  }
+
+  /* Tiny label chip */
+  .chip {
+    @apply inline-flex items-center gap-1.5 border-2 border-ink bg-white px-2.5 py-1 text-[11px]
+      font-bold uppercase tracking-widest shadow-pop-xs;
+  }
+
+  /* Mono expression tile */
+  .tile {
+    @apply inline-flex items-center justify-center border-[3px] border-ink font-mono font-bold
+      leading-none shadow-pop-xs;
+  }
+
+  /* Skewed section title */
+  .heading-skew {
+    @apply font-display uppercase tracking-tight;
+    transform: skewX(-4deg);
+  }
+}
