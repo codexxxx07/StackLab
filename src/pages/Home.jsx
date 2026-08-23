@@ -47,15 +47,15 @@ function Hero() {
       />
 
       {/* Blurred decorative blobs */}
-      <span aria-hidden className="absolute -left-32 top-20 size-96 rounded-full bg-orange-500/20 blur-3xl dark:bg-orange-500/[0.04]" />
-      <span aria-hidden className="absolute -right-32 top-40 size-80 rounded-full bg-indigo-600/20 blur-3xl dark:bg-indigo-600/[0.04]" />
-      <span aria-hidden className="absolute bottom-0 left-1/3 size-72 rounded-full bg-amber-500/15 blur-3xl dark:bg-amber-500/[0.03]" />
+      <span aria-hidden className="absolute -left-32 top-20 size-96 rounded-full bg-orange-500/20 blur-3xl dark:bg-orange-500/4" />
+      <span aria-hidden className="absolute -right-32 top-40 size-80 rounded-full bg-indigo-600/20 blur-3xl dark:bg-indigo-600/4" />
+      <span aria-hidden className="absolute bottom-0 left-1/3 size-72 rounded-full bg-amber-500/15 blur-3xl dark:bg-amber-500/3" />
 
       {/* Floating deco shapes */}
-      <span aria-hidden className="absolute -left-2 top-24 hidden size-16 -rotate-12 rounded-2xl bg-amber-500 animate-bob md:block dark:bg-[#0f172a] dark:border dark:border-[rgba(255,255,255,0.06)]" style={{ boxShadow: '0 8px 24px rgba(245,158,11,0.2)' }} />
-      <span aria-hidden className="absolute right-4 top-40 hidden size-12 rotate-12 rounded-full bg-indigo-600 animate-bob-slow md:block dark:bg-[#0f172a] dark:border dark:border-[rgba(255,255,255,0.06)]" style={{ boxShadow: '0 8px 24px rgba(79,70,229,0.2)' }} />
-      <span aria-hidden className="absolute bottom-10 left-10 hidden size-9 rotate-45 rounded-xl bg-pink-500 animate-bob lg:block dark:bg-[#0f172a] dark:border dark:border-[rgba(255,255,255,0.06)]" style={{ boxShadow: '0 8px 24px rgba(236,72,153,0.2)' }} />
-      <span aria-hidden className="absolute -right-1 bottom-20 hidden size-14 -rotate-6 rounded-2xl bg-emerald-500 animate-bob-slow lg:block dark:bg-[#0f172a] dark:border dark:border-[rgba(255,255,255,0.06)]" style={{ boxShadow: '0 8px 24px rgba(16,185,129,0.2)' }} />
+      <span aria-hidden className="absolute -left-2 top-24 hidden size-16 -rotate-12 rounded-2xl bg-amber-500 animate-bob md:block dark:bg-bugbusters-card dark:border dark:border-[rgba(255,255,255,0.06)]" style={{ boxShadow: '0 8px 24px rgba(245,158,11,0.2)' }} />
+      <span aria-hidden className="absolute right-4 top-40 hidden size-12 rotate-12 rounded-full bg-indigo-600 animate-bob-slow md:block dark:bg-bugbusters-card dark:border dark:border-[rgba(255,255,255,0.06)]" style={{ boxShadow: '0 8px 24px rgba(79,70,229,0.2)' }} />
+      <span aria-hidden className="absolute bottom-10 left-10 hidden size-9 rotate-45 rounded-xl bg-pink-500 animate-bob lg:block dark:bg-bugbusters-card dark:border dark:border-[rgba(255,255,255,0.06)]" style={{ boxShadow: '0 8px 24px rgba(236,72,153,0.2)' }} />
+      <span aria-hidden className="absolute -right-1 bottom-20 hidden size-14 -rotate-6 rounded-2xl bg-emerald-500 animate-bob-slow lg:block dark:bg-bugbusters-card dark:border dark:border-[rgba(255,255,255,0.06)]" style={{ boxShadow: '0 8px 24px rgba(16,185,129,0.2)' }} />
 
       <div className="relative text-center">
         {/* Eyebrow badge */}
@@ -95,7 +95,7 @@ function Hero() {
           </Link>
           <a
             href="#conversions"
-            className="btn rotate-1 bg-white px-8 py-3.5 text-base border border-stone-900/5 hover:rotate-0 dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)] dark:text-white dark:hover:border-[rgba(255,255,255,0.12)]"
+            className="btn rotate-1 bg-white px-8 py-3.5 text-base border border-stone-900/5 hover:rotate-0 dark:bg-bugbusters-card dark:border-[rgba(255,255,255,0.06)] dark:text-white dark:hover:border-[rgba(255,255,255,0.12)]"
           >
             Explore Conversions
           </a>
@@ -124,7 +124,7 @@ function HeroDemo() {
   const step = steps[Math.min(tick, steps.length - 1)];
 
   return (
-    <div className="panel mx-auto max-w-3xl -rotate-1 p-5 transition-all duration-300 hover:rotate-0 sm:p-7 dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)]">
+    <div className="panel mx-auto max-w-3xl -rotate-1 p-5 transition-all duration-300 hover:rotate-0 sm:p-7 dark:bg-bugbusters-card dark:border-[rgba(255,255,255,0.06)]">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <span className="sticker -rotate-1 bg-orange-500 text-white border-transparent">Live demo &middot; looping</span>
         <code className="font-mono text-xs font-bold uppercase tracking-widest text-stone-600 dark:text-gray-400">
@@ -161,7 +161,7 @@ function HeroDemo() {
         </div>
 
         {/* Stack */}
-        <div className="rounded-2xl border border-dashed border-stone-900/10 bg-indigo-600/5 p-3 dark:border-[rgba(255,255,255,0.06)] dark:bg-indigo-600/[0.06]">
+        <div className="rounded-2xl border border-dashed border-stone-900/10 bg-indigo-600/5 p-3 dark:border-[rgba(255,255,255,0.06)] dark:bg-indigo-600/6">
           <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-stone-500 dark:text-gray-500">
             Stack &middot; {step.stack.length === 0 ? 'empty' : `top = ${step.stack[step.stack.length - 1]}`}
           </p>
@@ -309,7 +309,7 @@ function ConversionsGrid() {
 function WhyStacks() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-24 sm:px-6">
-      <div className="card overflow-hidden p-0 dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)]">
+      <div className="card overflow-hidden p-0 dark:bg-bugbusters-card dark:border-[rgba(255,255,255,0.06)]">
         <div className="grid md:grid-cols-[1.3fr_1fr]">
           <div className="p-7 sm:p-10">
             <span className="section-eyebrow -rotate-1">
@@ -336,7 +336,7 @@ function WhyStacks() {
                 <span className="chip py-0.5! bg-amber-500/10 text-amber-500">peek()</span> check who&apos;s on top before deciding
               </li>
             </ul>
-            <Link to="/about" className="btn mt-7 bg-white border border-stone-900/5 dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)] dark:text-white dark:hover:border-[rgba(255,255,255,0.12)]">
+            <Link to="/about" className="btn mt-7 bg-white border border-stone-900/5 dark:bg-bugbusters-card dark:border-[rgba(255,255,255,0.06)] dark:text-white dark:hover:border-[rgba(255,255,255,0.12)]">
               Learn more <FiArrowRight />
             </Link>
           </div>
