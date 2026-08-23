@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import ClickSpark from './components/ClickSpark';
 import Home from './pages/Home';
 import InfixToPostfix from './pages/InfixToPostfix';
 import PostfixToInfix from './pages/PostfixToInfix';
@@ -23,23 +24,32 @@ export default function App() {
   return (
     <Router>
       <ScrollToTop />
-      <div className="flex min-h-screen flex-col">
-        <Navbar />
-        <main className="grow">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/infix-to-postfix" element={<InfixToPostfix />} />
-            <Route path="/postfix-to-infix" element={<PostfixToInfix />} />
-            <Route path="/infix-to-prefix" element={<InfixToPrefix />} />
-            <Route path="/prefix-to-infix" element={<PrefixToInfix />} />
-            <Route path="/postfix-to-prefix" element={<PostfixToPrefix />} />
-            <Route path="/prefix-to-postfix" element={<PrefixToPostfix />} />
-            <Route path="/about" element={<About />} />
-            <Route path="*" element={<Home />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
+      <ClickSpark
+        sparkColor="#f97316"
+        sparkSize={12}
+        sparkRadius={20}
+        sparkCount={8}
+        duration={400}
+        easing="ease-out"
+      >
+        <div className="flex min-h-screen flex-col">
+          <Navbar />
+          <main className="grow">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/infix-to-postfix" element={<InfixToPostfix />} />
+              <Route path="/postfix-to-infix" element={<PostfixToInfix />} />
+              <Route path="/infix-to-prefix" element={<InfixToPrefix />} />
+              <Route path="/prefix-to-infix" element={<PrefixToInfix />} />
+              <Route path="/postfix-to-prefix" element={<PostfixToPrefix />} />
+              <Route path="/prefix-to-postfix" element={<PrefixToPostfix />} />
+              <Route path="/about" element={<About />} />
+              <Route path="*" element={<Home />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </ClickSpark>
     </Router>
   );
 }
