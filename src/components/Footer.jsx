@@ -1,5 +1,42 @@
 import { Link } from 'react-router-dom';
 import { CONVERSIONS } from '../data/conversions';
+import { FaLinkedinIn, FaGithub, FaInstagram } from 'react-icons/fa6';
+
+const SOCIAL_LINKS = [
+  {
+    icon: FaLinkedinIn,
+    label: 'LinkedIn',
+    href: '#',
+    hoverColor: 'group-hover:text-[#0A66C2]',
+    darkHoverColor: 'dark:group-hover:text-[#0A66C2]',
+    hoverBorder: 'hover:border-[#0A66C2]/50',
+    darkHoverBorder: 'dark:hover:border-[#0A66C2]/40',
+    hoverShadow: 'hover:shadow-[0_0_15px_rgba(10,102,194,0.3)]',
+    darkHoverShadow: 'dark:hover:shadow-[0_0_15px_rgba(10,102,194,0.4)]',
+  },
+  {
+    icon: FaGithub,
+    label: 'GitHub',
+    href: '#',
+    hoverColor: 'group-hover:text-gray-900',
+    darkHoverColor: 'dark:group-hover:text-white',
+    hoverBorder: 'hover:border-gray-900/30',
+    darkHoverBorder: 'dark:hover:border-white/20',
+    hoverShadow: 'hover:shadow-[0_0_12px_rgba(0,0,0,0.15)]',
+    darkHoverShadow: 'dark:hover:shadow-[0_0_12px_rgba(255,255,255,0.15)]',
+  },
+  {
+    icon: FaInstagram,
+    label: 'Instagram',
+    href: '#',
+    hoverColor: 'group-hover:text-[#E1306C]',
+    darkHoverColor: 'dark:group-hover:text-[#E1306C]',
+    hoverBorder: 'hover:border-[#E1306C]/50',
+    darkHoverBorder: 'dark:hover:border-[#E1306C]/40',
+    hoverShadow: 'hover:shadow-[0_0_15px_rgba(225,48,108,0.3)]',
+    darkHoverShadow: 'dark:hover:shadow-[0_0_15px_rgba(225,48,108,0.4)]',
+  },
+];
 
 export default function Footer() {
   return (
@@ -56,10 +93,24 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 border-t border-stone-900/5 pt-4 text-center dark:border-[rgba(255,255,255,0.06)]">
-          <p className="text-xs font-bold uppercase tracking-wider text-stone-500 dark:text-gray-500">
-            DSA Expression Visualizer &copy; {new Date().getFullYear()}
+        <div className="mt-8 border-t border-stone-900/5 pt-8 text-center dark:border-[rgba(255,255,255,0.06)]">
+          <p className="text-sm font-medium text-stone-600 dark:text-gray-400">
+            &copy; 2026 Krish. All rights reserved.
           </p>
+          <div className="mt-4 flex items-center justify-center gap-3">
+            {SOCIAL_LINKS.map(({ icon: Icon, label, href, hoverColor, darkHoverColor, hoverBorder, darkHoverBorder, hoverShadow, darkHoverShadow }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className={`group flex h-10 w-10 items-center justify-center rounded-full border border-stone-900/5 bg-white transition-all duration-300 -rotate-1 hover:-translate-y-1 hover:rotate-0 hover:scale-105 ${hoverBorder} ${hoverShadow} dark:border-[rgba(255,255,255,0.08)] dark:bg-[#0f172a] ${darkHoverBorder} ${darkHoverShadow}`}
+              >
+                <Icon size={18} className={`text-stone-500 transition-colors duration-300 ${hoverColor} dark:text-gray-400 ${darkHoverColor}`} />
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </footer>
