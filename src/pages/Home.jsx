@@ -244,7 +244,7 @@ function HowItWorks() {
               <span className={`grid size-12 place-items-center rounded-2xl bg-gradient-to-br ${s.gradient} text-white ${s.shadow}`}>
                 <s.icon className="size-6" />
               </span>
-              <span className="font-extrabold text-4xl text-stone-900/5 dark:text-white/5">0{i + 1}</span>
+              <span className="font-extrabold text-4xl text-stone-900 dark:text-white/5">0{i + 1}</span>
             </div>
             <h3 className="heading-skew mt-4 text-lg text-stone-900 dark:text-white">{s.title}</h3>
             <p className="mt-2 text-sm leading-relaxed text-stone-600 dark:text-bugbusters-soft">{s.desc}</p>
