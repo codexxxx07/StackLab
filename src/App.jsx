@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ClickSpark from './components/ClickSpark';
+import SkeletonLoader from './components/SkeletonLoader';
 import Home from './pages/Home';
 import InfixToPostfix from './pages/InfixToPostfix';
 import PostfixToInfix from './pages/PostfixToInfix';
@@ -20,17 +21,37 @@ function ScrollToTop() {
   return null;
 }
 
-export default function App() {
+function AppContent() {
+  const [loading, setLoading] = useState(true);
+  const [fadeState, setFadeState] = useState('skeleton');
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setFadeState('transitioning');
+      setTimeout(() => {
+        setLoading(false);
+        setFadeState('content');
+      }, 150);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <Router>
-      <ScrollToTop />
-      <ClickSpark
-        sparkColor="#f97316"
-        sparkSize={12}
-        sparkRadius={20}
-        sparkCount={8}
-        duration={400}
-        easing="ease-out"
+    <>
+      {loading && (
+        <div
+          className={`fixed inset-0 z-9999 transition-opacity duration-150 ${
+            fadeState === 'transitioning' ? 'opacity-0' : 'opacity-100'
+          }`}
+        >
+          <SkeletonLoader />
+        </div>
+      )}
+      <div
+        className={`transition-opacity duration-150 ${
+          fadeState === 'content' ? 'opacity-100' : fadeState === 'transitioning' ? 'opacity-100' : 'opacity-0'
+        }`}
       >
         <div className="flex min-h-screen flex-col">
           <Navbar />
@@ -49,6 +70,24 @@ export default function App() {
           </main>
           <Footer />
         </div>
+      </div>
+    </>
+  );
+}
+
+export default function App() {
+  return (
+    <Router>
+      <ScrollToTop />
+      <ClickSpark
+        sparkColor="#f97316"
+        sparkSize={12}
+        sparkRadius={20}
+        sparkCount={8}
+        duration={400}
+        easing="ease-out"
+      >
+        <AppContent />
       </ClickSpark>
     </Router>
   );

@@ -51,6 +51,7 @@
   --animate-spin-slow: spin 9s linear infinite;
   --animate-blink: blink 1s steps(2, start) infinite;
   --animate-shimmer: shimmer 2s ease-in-out infinite;
+  --animate-shimmer-bg: shimmer-bg 1.5s ease-in-out infinite;
   --animate-dropdown-in: dropdown-in 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
 
   @keyframes dropdown-in {
@@ -83,6 +84,11 @@
   @keyframes shimmer {
     0%, 100% { opacity: 0; }
     50% { opacity: 1; }
+  }
+
+  @keyframes shimmer-bg {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
   }
 }
 
