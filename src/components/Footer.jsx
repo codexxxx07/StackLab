@@ -45,7 +45,7 @@ export default function Footer() {
         <div className="grid gap-12 md:grid-cols-3">
           <div>
             <div className="mb-3 flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 font-extrabold text-sm text-white">
+              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-linear-to-br from-orange-500 to-amber-500 font-extrabold text-sm text-white">
                 S
               </div>
               <span className="font-extrabold text-base uppercase tracking-tight heading-skew text-stone-900 dark:text-white">
@@ -95,7 +95,7 @@ export default function Footer() {
 
         <div className="mt-8 border-t border-stone-900/5 pt-8 text-center dark:border-[rgba(255,255,255,0.06)]">
           <p className="text-sm font-medium text-stone-600 dark:text-gray-400">
-            &copy; 2026 Krish. All rights reserved.
+            &copy; 2026 Krish | Built with ❤️ and Code | All rights reserved.
           </p>
           <div className="mt-4 flex items-center justify-center gap-3">
             {SOCIAL_LINKS.map(({ icon: Icon, label, href, hoverColor, darkHoverColor, hoverBorder, darkHoverBorder, hoverShadow, darkHoverShadow }) => (
@@ -105,7 +105,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className={`group flex h-10 w-10 items-center justify-center rounded-full border border-stone-900/5 bg-white transition-all duration-300 -rotate-1 hover:-translate-y-1 hover:rotate-0 hover:scale-105 ${hoverBorder} ${hoverShadow} dark:border-[rgba(255,255,255,0.08)] dark:bg-[#0f172a] ${darkHoverBorder} ${darkHoverShadow}`}
+                className={`group flex h-10 w-10 items-center justify-center rounded-full border border-stone-900/5 bg-white transition-all duration-300 -rotate-1 hover:-translate-y-1 hover:rotate-0 hover:scale-105 ${hoverBorder} ${hoverShadow} dark:border-[rgba(255,255,255,0.08)] dark:bg-bugbusters-card ${darkHoverBorder} ${darkHoverShadow}`}
               >
                 <Icon size={18} className={`text-stone-500 transition-colors duration-300 ${hoverColor} dark:text-gray-400 ${darkHoverColor}`} />
               </a>
