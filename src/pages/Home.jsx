@@ -68,16 +68,16 @@ function Hero() {
 
         <h1 className="mt-7 text-5xl font-extrabold leading-[0.95] tracking-tight text-stone-900 sm:text-6xl lg:text-7xl dark:text-white">
           DSA Expression
-          <span className="mt-1 block bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 bg-clip-text text-transparent dark:from-cyan-300 dark:via-bugbusters-blue dark:to-bugbusters-purple">
+          <span className="mt-1 block bg-linear-to-r from-orange-500 via-amber-500 to-orange-600 bg-clip-text text-transparent dark:from-cyan-300 dark:via-bugbusters-blue dark:to-bugbusters-purple">
             Visualizer
           </span>
         </h1>
 
         {/* Skewed accent bar under title */}
         <div className="mx-auto mt-4 flex items-center justify-center gap-2">
-          <span className="h-1.5 w-16 -rotate-2 rounded-full bg-gradient-to-r from-orange-500 to-amber-500" />
-          <span className="h-1.5 w-8 rotate-1 rounded-full bg-gradient-to-r from-indigo-600 to-violet-500" />
-          <span className="h-1.5 w-4 -rotate-1 rounded-full bg-gradient-to-r from-emerald-500 to-teal-400" />
+          <span className="h-1.5 w-16 -rotate-2 rounded-full bg-linear-to-r from-orange-500 to-amber-500" />
+          <span className="h-1.5 w-8 rotate-1 rounded-full bg-linear-to-r from-indigo-600 to-violet-500" />
+          <span className="h-1.5 w-4 -rotate-1 rounded-full bg-linear-to-r from-emerald-500 to-teal-400" />
         </div>
 
         <p className="mx-auto mt-6 max-w-2xl text-lg font-normal leading-relaxed text-stone-600 sm:text-xl dark:text-bugbusters-soft">
@@ -89,7 +89,7 @@ function Hero() {
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
           <Link
             to="/infix-to-postfix"
-            className="btn -rotate-1 bg-gradient-to-r from-orange-500 to-amber-500 px-8 py-3.5 text-base text-white shadow-glow hover:rotate-0 hover:shadow-lift dark:from-bugbusters-cyan dark:via-bugbusters-blue dark:to-bugbusters-purple dark:shadow-bugbusters"
+            className="btn -rotate-1 bg-linear-to-r from-orange-500 to-amber-500 px-8 py-3.5 text-base text-white shadow-glow hover:rotate-0 hover:shadow-lift dark:from-bugbusters-cyan dark:via-bugbusters-blue dark:to-bugbusters-purple dark:shadow-bugbusters"
           >
             Start Visualizing <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
           </Link>
@@ -151,7 +151,7 @@ function HeroDemo() {
           <p className="mt-2 text-[9px] font-bold uppercase tracking-[0.25em] text-stone-500 dark:text-gray-500">Output tape</p>
           <p className="mt-1 min-h-7 break-all font-mono text-xl font-extrabold text-pink-500">
             {step.output}
-            <span className="ml-0.5 inline-block h-5 w-[2px] animate-blink bg-stone-900 align-middle dark:bg-white" />
+            <span className="ml-0.5 inline-block h-5 w-0.5 animate-blink bg-stone-900 align-middle dark:bg-white" />
           </p>
         </div>
 
@@ -241,7 +241,7 @@ function HowItWorks() {
             className={`card card-hover card-shimmer p-6 ${i % 2 === 0 ? '-rotate-1' : 'rotate-1'}`}
           >
             <div className="flex items-center justify-between">
-              <span className={`grid size-12 place-items-center rounded-2xl bg-gradient-to-br ${s.gradient} text-white ${s.shadow}`}>
+              <span className={`grid size-12 place-items-center rounded-2xl bg-linear-to-br ${s.gradient} text-white ${s.shadow}`}>
                 <s.icon className="size-6" />
               </span>
               <span className="font-extrabold text-4xl text-stone-900 dark:text-white/5">0{i + 1}</span>
@@ -324,13 +324,13 @@ function WhyStacks() {
             </p>
             <ul className="mt-5 space-y-2 text-sm font-semibold">
               <li className="flex items-start gap-2 text-stone-700 dark:text-gray-300">
-                <span className="chip !py-0.5 bg-emerald-500/10 text-emerald-500">push()</span> drop an operator onto the pile
+                <span className="chip py-0.5! bg-emerald-500/10 text-emerald-500">push()</span> drop an operator onto the pile
               </li>
               <li className="flex items-start gap-2 text-stone-700 dark:text-gray-300">
-                <span className="chip !py-0.5 bg-rose-500/10 text-rose-500">pop()</span> take the most recent one back
+                <span className="chip py-0.5! bg-rose-500/10 text-rose-500">pop()</span> take the most recent one back
               </li>
               <li className="flex items-start gap-2 text-stone-700 dark:text-gray-300">
-                <span className="chip !py-0.5 bg-amber-500/10 text-amber-500">peek()</span> check who&apos;s on top before deciding
+                <span className="chip py-0.5! bg-amber-500/10 text-amber-500">peek()</span> check who&apos;s on top before deciding
               </li>
             </ul>
             <Link to="/about" className="btn mt-7 bg-white border border-stone-900/5 dark:bg-bugbusters-card dark:border-white/10 dark:text-white">
@@ -371,7 +371,7 @@ function WhyStacks() {
 function FinalCta() {
   return (
     <section className="mx-auto max-w-6xl px-4 pb-6 sm:px-6">
-      <div className="card relative -rotate-1 overflow-hidden bg-gradient-to-br from-orange-500 to-amber-500 p-8 text-center text-white sm:p-12 shadow-glow dark:from-bugbusters-cyan dark:via-bugbusters-blue dark:to-bugbusters-purple dark:shadow-bugbusters">
+      <div className="card relative -rotate-1 overflow-hidden bg-linear-to-br from-orange-500 to-amber-500 p-8 text-center text-white sm:p-12 shadow-glow dark:from-bugbusters-cyan dark:via-bugbusters-blue dark:to-bugbusters-purple dark:shadow-bugbusters">
         <span aria-hidden className="absolute -left-6 -top-6 size-24 rotate-12 rounded-2xl bg-white opacity-20" />
         <span aria-hidden className="absolute -bottom-8 -right-6 size-28 -rotate-6 rounded-2xl bg-white opacity-20" />
 
