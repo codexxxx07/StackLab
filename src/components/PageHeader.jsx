@@ -6,8 +6,8 @@ export default function PageHeader({ title, subtitle, algo, accent = 'bg-grape' 
   return (
     <div className="mx-auto max-w-6xl px-4 pt-10 sm:px-6">
       <div className="flex flex-wrap items-center gap-2.5">
-        <span className="sticker -rotate-1 bg-ink text-paper">Data Structure · Stack</span>
-        <span className={`sticker rotate-1 ${accent} text-white`}>Algorithm · {algo}</span>
+        <span className="sticker">Data Structure · Stack</span>
+        <span className={`sticker ${accent} text-white border-transparent`}>Algorithm · {algo}</span>
       </div>
 
       <h1 className="heading-skew mt-6 text-4xl leading-[1.05] sm:text-6xl">{title}</h1>

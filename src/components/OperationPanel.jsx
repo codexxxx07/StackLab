@@ -1,12 +1,12 @@
 import { FiCpu } from 'react-icons/fi';
 
 const TONES = {
-  good: { box: 'border-mint bg-mint-soft', dot: 'bg-mint' },
-  info: { box: 'border-sky bg-sky-soft', dot: 'bg-sky' },
-  warn: { box: 'border-lemon bg-lemon-soft', dot: 'bg-lemon' },
-  hot: { box: 'border-coral bg-coral-soft', dot: 'bg-coral' },
-  win: { box: 'border-flamingo bg-flamingo-soft', dot: 'bg-flamingo' },
-  plain: { box: 'border-ink/20 bg-paper', dot: 'bg-ink/40' },
+  good: { box: 'bg-mint-soft border-mint/30', dot: 'bg-mint' },
+  info: { box: 'bg-sky-soft border-sky/30', dot: 'bg-sky' },
+  warn: { box: 'bg-lemon-soft border-lemon/30', dot: 'bg-lemon' },
+  hot: { box: 'bg-coral-soft border-coral/30', dot: 'bg-coral' },
+  win: { box: 'bg-flamingo-soft border-flamingo/30', dot: 'bg-flamingo' },
+  plain: { box: 'bg-paper border-gray-200', dot: 'bg-ink/40' },
 };
 
 /**
@@ -21,27 +21,28 @@ export default function OperationPanel({ step, accent = 'grape' }) {
       <div className="flex items-center justify-between gap-2">
         <span className="flex items-center gap-2">
           <span
-            className={`grid size-9 place-items-center border-[3px] border-ink text-white shadow-pop-xs ${
+            className={`grid size-9 place-items-center rounded-xl text-white ${
               accent === 'sky' ? 'bg-coral' : 'bg-grape'
             }`}
+            style={{ boxShadow: accent === 'sky' ? 'var(--shadow-glow-coral)' : 'var(--shadow-glow-grape)' }}
           >
             <FiCpu />
           </span>
           <h3 className="heading-skew text-xl">Current Operation</h3>
         </span>
-        <span className="chip bg-lemon">STEP {step.step}</span>
+        <span className="chip bg-lemon-soft border-lemon/30">STEP {step.step}</span>
       </div>
 
       {/* Big symbol + action */}
       <div
-        className={`mt-4 flex flex-wrap items-center gap-4 border-[3px] border-ink p-4 ${
+        className={`mt-4 flex flex-wrap items-center gap-4 rounded-xl border p-4 ${
           step.type === 'done' ? TONES.win.box : TONES.plain.box
         }`}
       >
         <span
           key={step.step}
           className={`tile animate-pop-in min-w-14 px-3 py-3 text-center font-display text-2xl ${
-            accent === 'sky' ? 'bg-sky text-white' : 'bg-ink text-white'
+            accent === 'sky' ? 'bg-sky text-white border-sky' : 'bg-ink text-white border-ink'
           }`}
         >
           {step.symbol}
@@ -51,7 +52,7 @@ export default function OperationPanel({ step, accent = 'grape' }) {
 
       {/* Precedence duel */}
       {step.compare && (
-        <div className="mt-4 flex flex-wrap items-center justify-center gap-3 border-[3px] border-dashed border-ink/30 bg-cream px-4 py-3">
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-3 rounded-xl border border-dashed border-gray-200 bg-cream px-4 py-3">
           <DuelChip label={step.compare.current} score={step.compare.currentScore} tone="hot" />
           <span className="font-display text-xl">{step.compare.verdict}</span>
           <DuelChip label={step.compare.top} score={step.compare.topScore} tone="info" reversed />
@@ -63,7 +64,7 @@ export default function OperationPanel({ step, accent = 'grape' }) {
 
       {/* Built formula (postfix→infix) */}
       {step.built && (
-        <div className="animate-pop-in mt-4 border-[3px] border-ink bg-flamingo-soft px-4 py-3 text-center shadow-pop-sm">
+        <div className="animate-pop-in mt-4 rounded-xl border border-flamingo/30 bg-flamingo-soft px-4 py-3 text-center" style={{ boxShadow: 'var(--shadow-soft-sm)' }}>
           <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-ink-soft">
             New sub-expression →
           </span>
@@ -78,7 +79,7 @@ export default function OperationPanel({ step, accent = 'grape' }) {
           return (
             <li
               key={i}
-              className={`flex items-start gap-2.5 border-l-4 px-3 py-2 text-sm font-semibold leading-relaxed ${tone.box}`}
+              className={`flex items-start gap-2.5 rounded-r-lg border-l-[3px] px-3 py-2 text-sm font-semibold leading-relaxed ${tone.box}`}
             >
               <span className={`mt-1.5 size-2 shrink-0 rounded-full ${tone.dot}`} />
               <span>{r.text}</span>
@@ -93,7 +94,7 @@ export default function OperationPanel({ step, accent = 'grape' }) {
 function DuelChip({ label, score, tone, reversed = false }) {
   const cls = TONES[tone].box;
   return (
-    <span className={`flex items-center gap-2 border-[3px] border-ink px-3 py-1.5 shadow-pop-xs ${cls}`}>
+    <span className={`flex items-center gap-2 rounded-xl border px-3 py-1.5 ${cls}`} style={{ boxShadow: 'var(--shadow-soft-xs)' }}>
       {!reversed && <b className="font-display text-lg">{label}</b>}
       <span className="chip !border-0 !bg-white !px-1.5 !py-0 !text-[10px] !shadow-none">
         P:{score}

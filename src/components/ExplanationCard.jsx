@@ -4,10 +4,10 @@
  */
 export default function ExplanationCard({ number, title, tint = 'bg-grape', children }) {
   return (
-    <section className="panel p-0" aria-label={title}>
-      <div className={`flex flex-wrap items-center gap-3 border-b-[3px] border-ink ${tint} px-5 py-4`}>
-        <span className="sticker bg-white">{number}</span>
-        <h3 className="font-display text-lg uppercase tracking-wide text-white [text-shadow:2px_2px_0_var(--color-ink)]">
+    <section className="panel overflow-hidden rounded-2xl" aria-label={title}>
+      <div className={`flex flex-wrap items-center gap-3 border-b border-gray-100 ${tint} px-5 py-4`}>
+        <span className="sticker bg-white border-transparent">{number}</span>
+        <h3 className="font-display text-lg uppercase tracking-wide text-white">
           {title}
         </h3>
       </div>

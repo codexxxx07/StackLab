@@ -15,19 +15,18 @@ import { validateInfix } from '../utils/expressionValidator';
 
 const EXAMPLES = ['A+B*C', '(A+B)*C', 'A*B+C/D', 'A^B^C', 'A+(B*C-(D/E)^F)*G'];
 
-/** Used by the static walkthrough before the user runs anything. */
 const DEFAULT_DEMO = infixToPostfix('A+B*C');
 
 const TABLE_COLUMNS = [
   { label: 'Step', accessor: (s) => s.step, mono: false },
   { label: 'Symbol', accessor: (s) => s.symbol },
   { label: 'Action', accessor: (s) => s.action, mono: false },
-  { label: 'Stack (bottom→top)', accessor: (s) => s.stack.join(' ') },
+  { label: 'Stack (bottom\u2192top)', accessor: (s) => s.stack.join(' ') },
   { label: 'Output', accessor: (s) => s.output },
 ];
 
 export default function InfixToPostfix() {
-  const [data, setData] = useState(null); // { input, steps, result } | { error }
+  const [data, setData] = useState(null);
   const total = data?.steps?.length ?? 0;
   const player = usePlayer(total);
 
@@ -55,17 +54,16 @@ export default function InfixToPostfix() {
       <PageHeader
         title={
           <>
-            Infix <span className="text-coral">→</span>{' '}
+            Infix <span className="text-coral">\u2192</span>{' '}
             <span className="border-b-8 border-grape">Postfix</span>
           </>
         }
-        subtitle="Operators get impatient — the stack decides who prints first. Scan left to right and watch precedence do the sorting."
-        algo="INFIX → POSTFIX"
+        subtitle="Operators get impatient \u2014 the stack decides who prints first. Scan left to right and watch precedence do the sorting."
+        algo="INFIX \u2192 POSTFIX"
         accent="bg-grape"
       />
 
       <div className="mx-auto max-w-6xl space-y-8 px-4 py-10 sm:px-6">
-        {/* INPUT */}
         <ExpressionInput
           label="Enter Infix Expression"
           placeholder="e.g. A+B*C"
@@ -75,13 +73,12 @@ export default function InfixToPostfix() {
           error={data?.error ?? null}
         />
 
-        {/* VISUALIZER */}
         {cur && !data.error && (
           <div id="visualizer" className="scroll-mt-28 animate-pop-in space-y-6">
             <div className="flex flex-wrap items-center gap-3">
-              <span className="sticker -rotate-1 bg-coral text-white">Step 02</span>
+              <span className="sticker -rotate-1 bg-coral text-white border-transparent">Step 02</span>
               <h2 className="heading-skew text-xl sm:text-2xl">Watch the algorithm run</h2>
-              <span className="chip ml-auto hidden sm:inline-flex">Input · Stack · Output stay in sync</span>
+              <span className="chip ml-auto hidden sm:inline-flex">Input &middot; Stack &middot; Output stay in sync</span>
             </div>
 
             <ExpressionVisualizer
@@ -101,19 +98,7 @@ export default function InfixToPostfix() {
               <OperationPanel step={cur} accent="grape" />
             </div>
 
-            <ControlPanel
-              index={player.index}
-              total={total}
-              playing={player.playing}
-              speedPos={player.speedPos}
-              speedLabel={player.speedLabel}
-              onToggle={player.toggle}
-              onPrev={player.prev}
-              onNext={player.next}
-              onReset={player.reset}
-              onSpeed={player.setSpeedPos}
-              disabled={false}
-            />
+            <ControlPanel player={player} color="grape" />
 
             <StepTable
               steps={data.steps}
@@ -135,7 +120,6 @@ export default function InfixToPostfix() {
           </div>
         )}
 
-        {/* EXPLANATIONS */}
         <div className="space-y-8 pt-6">
           <PlainExplanation />
           <StackExplanation steps={data?.steps} />
@@ -145,7 +129,7 @@ export default function InfixToPostfix() {
   );
 }
 
-/* =================== EXPLANATION 1 — plain idea =================== */
+/* =================== EXPLANATION 1 =================== */
 
 function PlainExplanation() {
   return (
@@ -153,26 +137,25 @@ function PlainExplanation() {
       <div className="grid gap-8 lg:grid-cols-[1.2fr_1fr]">
         <div>
           <p className="text-sm leading-relaxed text-ink-soft sm:text-base">
-            <b className="text-ink">Infix</b> writes operators <i>between</i> operands — it&apos;s what
+            <b className="text-ink">Infix</b> writes operators <i>between</i> operands &mdash; it&apos;s what
             humans like to read. But a computer evaluating <code className="font-mono font-bold">A+B*C</code>{' '}
-            must constantly ask: “which operation comes first?”.{' '}
+            must constantly ask: &ldquo;which operation comes first?&rdquo;.{' '}
             <b className="text-ink">Postfix</b> removes that question forever: the operator appears{' '}
             <i>after</i> its operands, so no parentheses and no precedence rules are needed at run time.
           </p>
 
-          {/* Precedence ladder */}
           <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.25em] text-ink-soft">
             The pecking order
           </p>
           <div className="mt-3 space-y-2">
             {[
-              { ops: '^', p: 3, w: 'w-full', c: 'bg-coral text-white' },
-              { ops: '*  /', p: 2, w: 'w-3/4', c: 'bg-lemon' },
-              { ops: '+  -', p: 1, w: 'w-1/2', c: 'bg-sky text-white' },
+              { ops: '^', p: 3, w: 'w-full', c: 'bg-coral text-white border-coral' },
+              { ops: '*  /', p: 2, w: 'w-3/4', c: 'bg-lemon border-lemon/30' },
+              { ops: '+  -', p: 1, w: 'w-1/2', c: 'bg-sky text-white border-sky' },
             ].map((r) => (
-              <div key={r.ops} className={`flex items-center gap-3`}>
+              <div key={r.ops} className="flex items-center gap-3">
                 <code className={`tile w-24 justify-center px-3 py-2 text-base ${r.c}`}>{r.ops}</code>
-                <div className={`h-5 border-[3px] border-ink ${r.w} ${r.c.split(' ')[0]}`} />
+                <div className={`h-5 rounded-full ${r.w} ${r.c.split(' ')[0]}`} />
                 <span className="font-mono text-xs font-bold text-ink-soft">P:{r.p}</span>
               </div>
             ))}
@@ -182,7 +165,6 @@ function PlainExplanation() {
           </p>
         </div>
 
-        {/* Transformation chain */}
         <div className="space-y-3">
           <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-ink-soft">
             Same expression, three outfits
@@ -193,7 +175,7 @@ function PlainExplanation() {
           <Center><FiArrowDown className="text-coral" /></Center>
           <Stage label="Drop the brackets" expr="A B C * +" tint="bg-mint-soft" note="order alone encodes grouping" rotate="-rotate-1" />
 
-          <div className="border-[3px] border-dashed border-ink/30 bg-paper p-3 text-center font-mono text-sm font-bold">
+          <div className="rounded-xl border border-dashed border-gray-300 bg-paper p-3 text-center font-mono text-sm font-bold">
             (A+B)*C <FiArrowRight className="inline" /> A B + C *
           </div>
         </div>
@@ -204,7 +186,7 @@ function PlainExplanation() {
 
 function Stage({ label, expr, note, tint, rotate }) {
   return (
-    <div className={`border-[3px] border-ink p-3 shadow-pop-sm ${tint} ${rotate}`}>
+    <div className={`rounded-xl border border-gray-100 p-3 ${tint} ${rotate}`} style={{ boxShadow: 'var(--shadow-soft-xs)' }}>
       <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-ink-soft">{label}</p>
       <code className="mt-1 block break-all font-mono text-xl font-extrabold">{expr}</code>
       <p className="mt-0.5 text-[11px] font-semibold italic text-ink-soft">{note}</p>
@@ -216,13 +198,13 @@ function Center({ children }) {
   return <div className="flex justify-center">{children}</div>;
 }
 
-/* =================== EXPLANATION 2 — stack mechanics =================== */
+/* =================== EXPLANATION 2 =================== */
 
 const RULES = [
   { title: 'Operand?', tone: 'bg-mint-soft', body: 'Straight to the OUTPUT. Operands never touch the stack.' },
-  { title: 'Operator?', tone: 'bg-grape-soft', body: 'Pop every stacked operator with priority ≥ yours, then push yourself.' },
+  { title: 'Operator?', tone: 'bg-grape-soft', body: 'Pop every stacked operator with priority \u2265 yours, then push yourself.' },
   { title: '( ?', tone: 'bg-lemon-soft', body: 'Push it as a floor. Nothing underneath may leave until its ) arrives.' },
-  { title: ' ) ?', tone: 'bg-coral-soft', body: 'Pop everything back to the ( — print each one — discard both brackets.' },
+  { title: ' ) ?', tone: 'bg-coral-soft', body: 'Pop everything back to the ( \u2014 print each one \u2014 discard both brackets.' },
 ];
 
 function StackExplanation({ steps }) {
@@ -231,41 +213,38 @@ function StackExplanation({ steps }) {
 
   return (
     <ExplanationCard number="Explanation 02" title="How the stack actually does it" tint="bg-sky">
-      {/* Rules grid */}
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {RULES.map((r, i) => (
-          <div key={r.title} className={`border-[3px] border-ink p-4 shadow-pop-sm ${r.tone} ${i % 2 ? 'rotate-[0.5deg]' : '-rotate-[0.5deg]'}`}>
+          <div key={r.title} className={`rounded-xl border border-gray-100 p-4 ${r.tone} ${i % 2 ? 'rotate-[0.5deg]' : '-rotate-[0.5deg]'}`} style={{ boxShadow: 'var(--shadow-soft-sm)' }}>
             <p className="font-display text-sm">{r.title}</p>
             <p className="mt-2 text-xs leading-relaxed font-semibold text-ink-soft">{r.body}</p>
           </div>
         ))}
       </div>
 
-      {/* Endgame note */}
-      <div className="mt-6 flex flex-col items-start gap-3 border-[3px] border-dashed border-ink/40 bg-paper p-4 sm:flex-row sm:items-center">
-        <span className="sticker -rotate-2 bg-flamingo text-white shrink-0">ENDGAME</span>
+      <div className="mt-6 flex flex-col items-start gap-3 rounded-xl border border-dashed border-gray-300 bg-paper p-4 sm:flex-row sm:items-center">
+        <span className="sticker -rotate-2 bg-flamingo text-white border-transparent shrink-0">ENDGAME</span>
         <p className="text-sm font-semibold leading-relaxed">
           Input finished? Flush the stack: pop every leftover operator straight to the output. When
           the stack hits empty, the output <b>is</b> your postfix expression.
         </p>
       </div>
 
-      {/* Dynamic replay */}
       <p className="mt-8 text-[11px] font-bold uppercase tracking-[0.25em] text-ink-soft">
-        Replay — {steps ? 'your expression' : 'example A+B*C'} · every move
+        Replay &mdash; {steps ? 'your expression' : 'example A+B*C'} &middot; every move
       </p>
       <ol className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
         {replay.map((s, i) => (
           <li key={i} className="panel-flat flex flex-col gap-2 p-3.5">
             <div className="flex items-center gap-2.5">
-              <span className={`grid size-9 shrink-0 place-items-center border-[3px] border-ink font-mono font-extrabold ${
-                s.symbol === 'END' ? 'bg-coral text-white' : /[A-Z]/.test(s.symbol) && s.symbol.length === 1 && !'+-*/^'.includes(s.symbol) ? 'bg-mint-soft' : s.symbol.includes('(') || s.symbol === ')' ? 'bg-lemon-soft' : 'bg-grape-soft'
+              <span className={`grid size-9 shrink-0 place-items-center rounded-lg border font-mono font-extrabold ${
+                s.symbol === 'END' ? 'bg-coral text-white border-coral' : /[A-Z]/.test(s.symbol) && s.symbol.length === 1 && !'+-*/^'.includes(s.symbol) ? 'bg-mint-soft border-mint/30' : s.symbol.includes('(') || s.symbol === ')' ? 'bg-lemon-soft border-lemon/30' : 'bg-grape-soft border-grape/30'
               }`}>
                 {s.symbol}
               </span>
               <span className="text-xs font-bold leading-tight">{s.action}</span>
             </div>
-            <div className="flex flex-wrap gap-x-4 gap-y-1 border-t-2 border-dashed border-ink/15 pt-2 font-mono text-[11px] font-bold">
+            <div className="flex flex-wrap gap-x-4 gap-y-1 border-t border-dashed border-gray-200 pt-2 font-mono text-[11px] font-bold">
               <span>
                 stack: <b className="text-sky">[{s.stack.join(' ') || ' '}]</b>
               </span>

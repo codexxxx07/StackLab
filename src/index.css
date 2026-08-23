@@ -7,33 +7,38 @@
   --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", monospace;
 
   /* ---------- Ink & Paper ---------- */
-  --color-ink: #191423;
-  --color-ink-soft: #4a4358;
-  --color-paper: #fffaf0;
-  --color-cream: #fdf1dc;
+  --color-ink: #171717;
+  --color-ink-soft: #6B7280;
+  --color-paper: #F8F7F2;
+  --color-cream: #FFF9F0;
 
   /* ---------- Funk palette ---------- */
-  --color-grape: #7b2ff2;
-  --color-grape-soft: #ede4ff;
-  --color-sky: #2f6bff;
-  --color-sky-soft: #dde7ff;
-  --color-mint: #00b37e;
-  --color-mint-soft: #d7f7e9;
-  --color-coral: #ff5e5b;
-  --color-coral-soft: #ffe1df;
-  --color-lemon: #ffc514;
-  --color-lemon-soft: #fff3cf;
-  --color-flamingo: #ff4fa3;
-  --color-flamingo-soft: #ffdcec;
-  --color-turq: #00c2d1;
-  --color-turq-soft: #d6f7fa;
+  --color-grape: #6846FF;
+  --color-grape-soft: #EDE9FF;
+  --color-sky: #4C6FFF;
+  --color-sky-soft: #E0E7FF;
+  --color-mint: #00C99A;
+  --color-mint-soft: #D1FAE5;
+  --color-coral: #FF7A00;
+  --color-coral-soft: #FFF3E0;
+  --color-lemon: #FFC83D;
+  --color-lemon-soft: #FFF8E1;
+  --color-flamingo: #FF4F8B;
+  --color-flamingo-soft: #FFE4EF;
+  --color-turq: #00C99A;
+  --color-turq-soft: #E0F7FA;
 
-  /* ---------- Offset (skewmorphic) shadows ---------- */
-  --shadow-pop-xs: 2px 2px 0 0 var(--color-ink);
-  --shadow-pop-sm: 3px 3px 0 0 var(--color-ink);
-  --shadow-pop: 5px 5px 0 0 var(--color-ink);
-  --shadow-pop-lg: 8px 8px 0 0 var(--color-ink);
-  --shadow-pop-xl: 12px 12px 0 0 var(--color-ink);
+  /* ---------- Soft layered shadows ---------- */
+  --shadow-soft-xs: 0 2px 8px rgba(0,0,0,0.04);
+  --shadow-soft-sm: 0 4px 12px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-soft: 0 8px 24px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.03);
+  --shadow-soft-lg: 0 16px 40px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.04);
+  --shadow-soft-xl: 0 24px 56px rgba(0,0,0,0.12), 0 6px 16px rgba(0,0,0,0.05);
+  --shadow-glow-grape: 0 8px 32px rgba(104,70,255,0.15), 0 2px 8px rgba(104,70,255,0.08);
+  --shadow-glow-coral: 0 8px 32px rgba(255,122,0,0.15), 0 2px 8px rgba(255,122,0,0.08);
+  --shadow-glow-mint: 0 8px 32px rgba(0,201,154,0.15), 0 2px 8px rgba(0,201,154,0.08);
+  --shadow-glow-sky: 0 8px 32px rgba(76,111,255,0.15), 0 2px 8px rgba(76,111,255,0.08);
+  --shadow-glow-flamingo: 0 8px 32px rgba(255,79,139,0.15), 0 2px 8px rgba(255,79,139,0.08);
 
   /* ---------- Animations ---------- */
   --animate-pop-in: pop-in 0.45s cubic-bezier(0.2, 1.4, 0.4, 1) both;
@@ -76,8 +81,6 @@
 
   body {
     @apply bg-paper text-ink font-sans antialiased;
-    background-image: radial-gradient(rgba(25, 20, 35, 0.07) 1.2px, transparent 1.2px);
-    background-size: 22px 22px;
   }
 
   ::selection {
@@ -86,16 +89,18 @@
   }
 
   ::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
+    width: 8px;
+    height: 8px;
   }
   ::-webkit-scrollbar-track {
-    background: var(--color-cream);
+    background: var(--color-paper);
   }
   ::-webkit-scrollbar-thumb {
-    background: var(--color-ink);
-    border: 3px solid var(--color-cream);
-    border-radius: 8px;
+    background: #D1D5DB;
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #9CA3AF;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -109,47 +114,55 @@
 }
 
 @layer components {
-  /* Chunky skewmorphic panel */
+  /* Soft skewmorphic panel */
   .panel {
-    @apply relative bg-white border-[3px] border-ink shadow-pop;
+    @apply relative bg-white rounded-2xl border border-gray-100;
+    box-shadow: var(--shadow-soft);
   }
 
   .panel-flat {
-    @apply relative bg-white border-[3px] border-ink shadow-pop-sm;
+    @apply relative bg-white rounded-xl border border-gray-100;
+    box-shadow: var(--shadow-soft-sm);
   }
 
-  /* Chunky button with press physics */
+  /* Soft button with hover lift */
   .btn {
-    @apply inline-flex cursor-pointer items-center justify-center gap-2 border-[3px] border-ink
-      px-4 py-2.5 font-bold uppercase tracking-wider shadow-pop-sm select-none
-      transition-all duration-150;
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl
+      px-5 py-2.5 font-bold tracking-wide select-none
+      transition-all duration-200;
+    box-shadow: var(--shadow-soft-sm);
   }
   .btn:hover:not(:disabled) {
-    @apply -translate-x-0.5 -translate-y-0.5 shadow-pop;
+    @apply -translate-y-0.5;
+    box-shadow: var(--shadow-soft);
   }
   .btn:active:not(:disabled) {
-    @apply translate-x-0.5 translate-y-0.5 shadow-none;
+    @apply translate-y-0;
+    box-shadow: var(--shadow-soft-xs);
   }
   .btn:disabled {
     @apply cursor-not-allowed opacity-50;
   }
 
-  /* Small sticker / tag */
+  /* Soft pill sticker / tag */
   .sticker {
-    @apply inline-block border-[3px] border-ink bg-white px-3 py-1 font-display text-[11px]
-      uppercase tracking-[0.18em] shadow-pop-xs;
+    @apply inline-block rounded-full border border-gray-200 bg-white px-3.5 py-1
+      font-display text-[11px] uppercase tracking-[0.15em];
+    box-shadow: var(--shadow-soft-xs);
   }
 
-  /* Tiny label chip */
+  /* Soft label chip */
   .chip {
-    @apply inline-flex items-center gap-1.5 border-2 border-ink bg-white px-2.5 py-1 text-[11px]
-      font-bold uppercase tracking-widest shadow-pop-xs;
+    @apply inline-flex items-center gap-1.5 rounded-lg border border-gray-100
+      bg-white px-2.5 py-1 text-[11px] font-bold uppercase tracking-widest;
+    box-shadow: var(--shadow-soft-xs);
   }
 
-  /* Mono expression tile */
+  /* Soft mono expression tile */
   .tile {
-    @apply inline-flex items-center justify-center border-[3px] border-ink font-mono font-bold
-      leading-none shadow-pop-xs;
+    @apply inline-flex items-center justify-center rounded-xl border border-gray-100
+      font-mono font-bold leading-none;
+    box-shadow: var(--shadow-soft-xs);
   }
 
   /* Skewed section title */

@@ -18,7 +18,7 @@ const TABLE_COLUMNS = [
   { label: 'Step', accessor: (s) => s.step, mono: false },
   { label: 'Symbol', accessor: (s) => s.symbol },
   { label: 'Operation', accessor: (s) => s.action, mono: false },
-  { label: 'Stack (bottom→top)', accessor: (s) => s.stack.join(', ') },
+  { label: 'Stack (bottom\u2192top)', accessor: (s) => s.stack.join(', ') },
 ];
 
 export default function PostfixToInfix() {
@@ -50,12 +50,12 @@ export default function PostfixToInfix() {
       <PageHeader
         title={
           <>
-            Postfix <span className="text-coral">→</span>{' '}
+            Postfix <span className="text-coral">\u2192</span>{' '}
             <span className="border-b-8 border-sky">Infix</span>
           </>
         }
-        subtitle="A stack of growing strings. Operands land alone; operators marry the two most recent expressions — right one popped first!"
-        algo="POSTFIX → INFIX"
+        subtitle="A stack of growing strings. Operands land alone; operators marry the two most recent expressions \u2014 right one popped first!"
+        algo="POSTFIX \u2192 INFIX"
         accent="bg-sky"
       />
 
@@ -72,7 +72,7 @@ export default function PostfixToInfix() {
         {cur && !data.error && (
           <div id="visualizer" className="scroll-mt-28 animate-pop-in space-y-6">
             <div className="flex flex-wrap items-center gap-3">
-              <span className="sticker -rotate-1 bg-coral text-white">Step 02</span>
+              <span className="sticker -rotate-1 bg-coral text-white border-transparent">Step 02</span>
               <h2 className="heading-skew text-xl sm:text-2xl">Watch the strings merge</h2>
               <span className="chip ml-auto hidden sm:inline-flex">Stack holds partial expressions</span>
             </div>
@@ -89,19 +89,7 @@ export default function PostfixToInfix() {
               <OperationPanel step={cur} accent="sky" />
             </div>
 
-            <ControlPanel
-              index={player.index}
-              total={total}
-              playing={player.playing}
-              speedPos={player.speedPos}
-              speedLabel={player.speedLabel}
-              onToggle={player.toggle}
-              onPrev={player.prev}
-              onNext={player.next}
-              onReset={player.reset}
-              onSpeed={player.setSpeedPos}
-              disabled={false}
-            />
+            <ControlPanel player={player} color="sky" />
 
             <StepTable
               steps={data.steps}
@@ -114,6 +102,7 @@ export default function PostfixToInfix() {
               <ResultCard
                 input={data.input}
                 result={data.result}
+                color="sky"
                 onAgain={() => {
                   player.reset();
                   document.getElementById('input')?.scrollIntoView({ behavior: 'smooth' });

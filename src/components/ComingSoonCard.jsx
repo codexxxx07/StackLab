@@ -2,19 +2,14 @@ import { Link } from 'react-router-dom';
 import { FiArrowLeft, FiCheckSquare, FiClock, FiLoader } from 'react-icons/fi';
 import { COLOR_STYLES, LIVE_CONVERSIONS } from '../data/conversions';
 
-/**
- * Full-page "Coming Soon" hero for unimplemented conversions.
- * Drop-in: each future page just renders this with its own config,
- * then swaps it for a real lab when the algorithm lands.
- */
 export default function ComingSoonCard({ title, desc, color = 'mint', planned = [], example }) {
   const styles = COLOR_STYLES[color] ?? COLOR_STYLES.mint;
-  const [from, to] = title.split('→').map((s) => s.trim());
+  const [from, to] = title.split('\u2192').map((s) => s.trim());
 
   return (
     <section className="mx-auto max-w-4xl px-4 py-14 sm:px-6 sm:py-20">
       <div className="panel relative rotate-1 p-8 pt-12 text-center sm:p-12">
-        <span className={`sticker absolute -top-4 left-1/2 -translate-x-1/2 ${styles.solid}`}>
+        <span className={`sticker absolute -top-4 left-1/2 -translate-x-1/2 ${styles.solid} border-transparent`}>
           UNDER CONSTRUCTION
         </span>
 
@@ -25,7 +20,7 @@ export default function ComingSoonCard({ title, desc, color = 'mint', planned = 
 
         <h1 className="heading-skew mt-6 text-3xl sm:text-5xl">
           {from}
-          <span className={`mx-3 inline-block h-6 w-10 border-b-8 align-middle ${styles.bar}`}>&nbsp;</span>
+          <span className={`mx-3 inline-block h-6 w-10 rounded-full align-middle ${styles.bar}`}>&nbsp;</span>
           {to}
         </h1>
 
@@ -33,9 +28,8 @@ export default function ComingSoonCard({ title, desc, color = 'mint', planned = 
           {desc}
         </p>
 
-        {/* Planned features */}
         <div
-          className={`mx-auto mt-8 max-w-md border-[3px] border-dashed border-ink/40 p-5 text-left ${styles.soft}`}
+          className={`mx-auto mt-8 max-w-md rounded-xl border border-dashed border-gray-300 p-5 text-left ${styles.soft}`}
         >
           <p className="mb-3 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.25em] text-ink-soft">
             <FiClock /> On the roadmap
@@ -51,27 +45,26 @@ export default function ComingSoonCard({ title, desc, color = 'mint', planned = 
         </div>
 
         {example && (
-          <div className="mt-6 inline-flex flex-wrap items-center justify-center gap-3 border-[3px] border-dashed border-ink/30 bg-paper px-4 py-2 font-mono text-sm opacity-60">
-            <s>{example.in}</s> → <s>{example.out}</s>
+          <div className="mt-6 inline-flex flex-wrap items-center justify-center gap-3 rounded-xl border border-dashed border-gray-300 bg-paper px-4 py-2 font-mono text-sm opacity-60">
+            <s>{example.in}</s> &rarr; <s>{example.out}</s>
             <span className="text-xs uppercase tracking-widest">(not yet!)</span>
           </div>
         )}
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-          <Link to="/" className="btn bg-white">
+          <Link to="/" className="btn bg-white border border-gray-200">
             <FiArrowLeft /> Back Home
           </Link>
-          <Link to="/infix-to-postfix" className={`btn ${styles.solid}`}>
+          <Link to="/infix-to-postfix" className={`btn ${styles.solid} border-transparent`}>
             Try a Live Visualizer
           </Link>
         </div>
       </div>
 
-      {/* Meanwhile strip */}
       <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-        <span className="sticker -rotate-2 bg-lemon">Meanwhile…</span>
+        <span className="sticker -rotate-2 bg-lemon border-lemon/30">Meanwhile...</span>
         {LIVE_CONVERSIONS.map((c) => (
-          <Link key={c.id} to={c.path} className="btn bg-white px-3 py-2 font-mono text-sm !normal-case">
+          <Link key={c.id} to={c.path} className="btn bg-white border border-gray-200 px-3 py-2 font-mono text-sm !normal-case">
             {c.title}
           </Link>
         ))}

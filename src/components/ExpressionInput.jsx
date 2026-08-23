@@ -40,7 +40,8 @@ export default function ExpressionInput({ label, placeholder, buttonText, onSubm
             setError(null);
           }}
           placeholder={placeholder}
-          className="flex-1 border-[3px] border-ink bg-white px-4 py-3 font-mono text-lg font-bold tracking-widest shadow-pop-xs outline-none transition-shadow focus:shadow-pop placeholder:font-sans placeholder:text-sm placeholder:font-normal placeholder:tracking-normal placeholder:text-ink-soft"
+          className="flex-1 rounded-xl border border-gray-200 bg-white px-4 py-3 font-mono text-lg font-bold tracking-widest outline-none transition-all focus:border-grape focus:ring-2 focus:ring-grape/20 placeholder:font-sans placeholder:text-sm placeholder:font-normal placeholder:tracking-normal placeholder:text-ink-soft"
+          style={{ boxShadow: 'var(--shadow-soft-xs)' }}
         />
         <button
           type="submit"
@@ -50,7 +51,7 @@ export default function ExpressionInput({ label, placeholder, buttonText, onSubm
         </button>
       </div>
       {error && (
-        <div className="mt-3 border-[3px] border-coral bg-coral-soft px-4 py-2 text-sm font-medium text-coral">
+        <div className="mt-3 rounded-xl border border-coral/30 bg-coral-soft px-4 py-2.5 text-sm font-medium text-coral">
           {error}
         </div>
       )}

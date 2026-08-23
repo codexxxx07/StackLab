@@ -7,13 +7,13 @@ export default function OutputDisplay({ output, label = 'Output' }) {
           [...output].map((char, i) => (
             <span
               key={i}
-              className="inline-flex h-10 w-10 items-center justify-center border-[3px] border-ink bg-grape-soft font-mono text-lg font-bold shadow-pop-xs animate-pop-in"
+              className="tile h-10 w-10 bg-grape-soft border-grape/30 font-mono text-lg font-bold animate-pop-in"
             >
               {char}
             </span>
           ))
         ) : (
-          <span className="font-mono text-sm text-ink-soft/50">—</span>
+          <span className="font-mono text-sm text-ink-soft/50">&mdash;</span>
         )}
       </div>
     </div>

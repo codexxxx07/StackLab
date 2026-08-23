@@ -16,8 +16,8 @@ export default function StepTable({ steps, current, onRowClick, columns }) {
   }, [current]);
 
   return (
-    <section className="panel p-0" aria-label="Step table">
-      <div className="flex items-center justify-between gap-2 border-b-[3px] border-ink bg-cream px-4 py-3 sm:px-6">
+    <section className="panel overflow-hidden" aria-label="Step table">
+      <div className="flex items-center justify-between gap-2 border-b border-gray-100 bg-cream/60 px-4 py-3 sm:px-6">
         <h3 className="heading-skew text-lg sm:text-xl">Step-by-step Trace</h3>
         <span className="hidden items-center gap-1.5 font-mono text-[11px] uppercase tracking-widest text-ink-soft sm:flex">
           <FiCornerRightDown /> click a row to jump
@@ -31,8 +31,8 @@ export default function StepTable({ steps, current, onRowClick, columns }) {
               {columns.map((col, i) => (
                 <th
                   key={col.label}
-                  className={`border-b-[3px] border-r-2 border-ink/60 px-3 py-2.5 font-display text-[11px] uppercase tracking-[0.15em] ${HEAD_TINTS[i % HEAD_TINTS.length]} ${
-                    i === columns.length - 1 ? 'border-r-0' : ''
+                  className={`border-b border-gray-200 px-3 py-2.5 font-display text-[11px] uppercase tracking-[0.15em] ${HEAD_TINTS[i % HEAD_TINTS.length]} ${
+                    i < columns.length - 1 ? 'border-r border-gray-200/60' : ''
                   }`}
                 >
                   {col.label}
@@ -49,9 +49,9 @@ export default function StepTable({ steps, current, onRowClick, columns }) {
                   key={idx}
                   data-current={isCurrent}
                   onClick={() => onRowClick(idx)}
-                  className={`cursor-pointer border-b-2 border-ink/10 transition-colors duration-100
-                    ${isCurrent ? 'bg-lemon-soft shadow-[inset_4px_0_0_0_var(--color-coral)]' : ''}
-                    ${!isCurrent && isPast ? 'bg-white hover:bg-sky-soft/50' : ''}
+                  className={`cursor-pointer border-b border-gray-100 transition-colors duration-100
+                    ${isCurrent ? 'bg-lemon-soft/60 shadow-[inset_3px_0_0_0_var(--color-coral)]' : ''}
+                    ${!isCurrent && isPast ? 'bg-white hover:bg-sky-soft/30' : ''}
                     ${!isCurrent && !isPast ? 'opacity-55 hover:opacity-100 hover:bg-paper' : ''}`}
                 >
                   {columns.map((col, ci) => {

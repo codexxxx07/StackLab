@@ -34,6 +34,7 @@ export default function App() {
             <Route path="/prefix-to-infix" element={<PrefixToInfix />} />
             <Route path="/postfix-to-prefix" element={<PostfixToPrefix />} />
             <Route path="/prefix-to-postfix" element={<PrefixToPostfix />} />
+            <Route path="/about" element={<About />} />
             <Route path="*" element={<Home />} />
           </Routes>
         </main>
