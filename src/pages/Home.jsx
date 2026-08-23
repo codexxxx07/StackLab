@@ -151,7 +151,7 @@ function HeroDemo() {
           <p className="mt-2 text-[9px] font-bold uppercase tracking-[0.25em] text-stone-500 dark:text-gray-500">Output tape</p>
           <p className="mt-1 min-h-7 break-all font-mono text-xl font-extrabold text-pink-500">
             {step.output}
-            <span className="ml-0.5 inline-block h-5 w-1.5 animate-blink bg-stone-900 align-middle dark:bg-white" />
+            <span className="ml-0.5 inline-block h-5 w-[2px] animate-blink bg-stone-900 align-middle dark:bg-white" />
           </p>
         </div>
 
