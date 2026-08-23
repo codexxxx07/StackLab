@@ -51,6 +51,12 @@
   --animate-spin-slow: spin 9s linear infinite;
   --animate-blink: blink 1s steps(2, start) infinite;
   --animate-shimmer: shimmer 2s ease-in-out infinite;
+  --animate-dropdown-in: dropdown-in 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  @keyframes dropdown-in {
+    0% { opacity: 0; transform: translateY(-4px) scale(0.97); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
 
   @keyframes pop-in {
     0% { transform: translateY(-110%) scale(0.5); opacity: 0; }
