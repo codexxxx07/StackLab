@@ -2,16 +2,16 @@ import { useState, useEffect } from 'react';
 
 const SkeletonBlock = ({ className = '', rounded = 'rounded-xl' }) => (
   <div
-    className={`relative overflow-hidden bg-stone-200/80 dark:bg-white/[0.06] ${rounded} ${className}`}
+    className={`relative overflow-hidden bg-stone-200/80 dark:bg-[rgba(255,255,255,0.04)] ${rounded} ${className}`}
   >
-    <div className="absolute inset-0 -translate-x-full animate-shimmer-bg bg-gradient-to-r from-transparent via-white/40 dark:via-white/[0.08] to-transparent" />
+    <div className="absolute inset-0 -translate-x-full animate-shimmer-bg bg-gradient-to-r from-transparent via-white/40 dark:via-white/[0.04] to-transparent" />
   </div>
 );
 
 const NavbarSkeleton = () => (
   <nav className="sticky top-0 z-50 px-4 pt-3 sm:px-6 lg:px-8">
     <div className="mx-auto max-w-5xl">
-      <div className="flex items-center justify-between rounded-2xl border border-stone-900/5 bg-white/90 px-4 py-2.5 shadow-soft backdrop-blur-xl sm:px-6 lg:px-8 dark:border-white/10 dark:bg-bugbusters-card/90">
+      <div className="flex items-center justify-between rounded-2xl border border-stone-900/5 bg-white/90 px-4 py-2.5 shadow-soft backdrop-blur-xl sm:px-6 lg:px-8 dark:border-[rgba(255,255,255,0.06)] dark:bg-[rgba(15,23,42,0.85)]">
         <div className="flex items-center gap-2.5">
           <SkeletonBlock className="h-9 w-9" rounded="rounded-xl" />
           <SkeletonBlock className="hidden h-5 w-20 sm:block" rounded="rounded-lg" />
@@ -42,9 +42,9 @@ const HeroSkeleton = () => (
       }}
     />
 
-    <span aria-hidden className="absolute -left-32 top-20 size-96 rounded-full bg-orange-500/20 blur-3xl dark:bg-orange-500/10" />
-    <span aria-hidden className="absolute -right-32 top-40 size-80 rounded-full bg-indigo-600/20 blur-3xl dark:bg-indigo-600/10" />
-    <span aria-hidden className="absolute bottom-0 left-1/3 size-72 rounded-full bg-amber-500/15 blur-3xl dark:bg-amber-500/5" />
+    <span aria-hidden className="absolute -left-32 top-20 size-96 rounded-full bg-orange-500/20 blur-3xl dark:bg-orange-500/[0.04]" />
+    <span aria-hidden className="absolute -right-32 top-40 size-80 rounded-full bg-indigo-600/20 blur-3xl dark:bg-indigo-600/[0.04]" />
+    <span aria-hidden className="absolute bottom-0 left-1/3 size-72 rounded-full bg-amber-500/15 blur-3xl dark:bg-amber-500/[0.03]" />
 
     <div className="relative text-center">
       <div className="flex flex-wrap items-center justify-center gap-3">
@@ -74,14 +74,14 @@ const HeroSkeleton = () => (
     </div>
 
     <div className="relative mt-14">
-      <div className="panel mx-auto max-w-3xl -rotate-1 p-5 sm:p-7 dark:bg-bugbusters-card dark:border-white/10">
+      <div className="panel mx-auto max-w-3xl -rotate-1 p-5 sm:p-7 dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)]">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <SkeletonBlock className="h-6 w-32" rounded="rounded-full" />
           <SkeletonBlock className="h-4 w-28" rounded="rounded-lg" />
         </div>
 
         <div className="mt-5 grid gap-4 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1.2fr)]">
-          <div className="rounded-2xl border border-dashed border-stone-900/10 bg-cream p-3 dark:border-white/10 dark:bg-[#0a0a0a]">
+          <div className="rounded-2xl border border-dashed border-stone-900/10 bg-cream p-3 dark:border-[rgba(255,255,255,0.06)] dark:bg-[#0a0a0a]">
             <SkeletonBlock className="h-2.5 w-12" rounded="rounded-sm" />
             <div className="mt-2 flex flex-wrap gap-1.5">
               {[...Array(5)].map((_, i) => (
@@ -96,7 +96,7 @@ const HeroSkeleton = () => (
             <SkeletonBlock className="h-8 w-8" rounded="rounded-full" />
           </div>
 
-          <div className="rounded-2xl border border-dashed border-stone-900/10 bg-indigo-600/5 p-3 dark:border-white/10 dark:bg-indigo-600/10">
+          <div className="rounded-2xl border border-dashed border-stone-900/10 bg-indigo-600/5 p-3 dark:border-[rgba(255,255,255,0.06)] dark:bg-indigo-600/[0.06]">
             <SkeletonBlock className="h-2.5 w-20" rounded="rounded-sm" />
             <div className="mt-2 flex min-h-20 flex-col-reverse items-start gap-1.5">
               {[...Array(3)].map((_, i) => (
@@ -106,7 +106,7 @@ const HeroSkeleton = () => (
           </div>
         </div>
 
-        <div className="mt-4 flex items-center gap-2 border-t border-dashed border-stone-900/10 pt-3 dark:border-white/10">
+        <div className="mt-4 flex items-center gap-2 border-t border-dashed border-stone-900/10 pt-3 dark:border-[rgba(255,255,255,0.06)]">
           <SkeletonBlock className="h-4 w-4 shrink-0" rounded="rounded-full" />
           <SkeletonBlock className="h-4 w-48" rounded="rounded-lg" />
         </div>
@@ -116,7 +116,7 @@ const HeroSkeleton = () => (
 );
 
 const MarqueeSkeleton = () => (
-  <div className="bg-stone-900 py-3.5 dark:bg-bugbusters-card" aria-hidden>
+  <div className="bg-stone-900 py-3.5 dark:bg-[#050505]" aria-hidden>
     <div className="flex w-max gap-8 whitespace-nowrap pr-8">
       {[...Array(16)].map((_, i) => (
         <span key={i} className="flex items-center gap-8">
@@ -182,7 +182,7 @@ const ConversionSectionSkeleton = () => (
 
 export default function SkeletonLoader() {
   return (
-    <div className="min-h-screen overflow-x-clip bg-cream dark:bg-black">
+    <div className="min-h-screen overflow-x-clip bg-cream dark:bg-[#000000]">
       <NavbarSkeleton />
       <HeroSkeleton />
       <MarqueeSkeleton />

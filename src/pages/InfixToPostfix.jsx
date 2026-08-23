@@ -178,7 +178,7 @@ function PlainExplanation() {
           <Center><FiArrowDown className="text-rose-500" /></Center>
           <Stage label="Drop the brackets" expr="A B C * +" tint="bg-emerald-500/10" note="order alone encodes grouping" rotate="-rotate-1" />
 
-          <div className="rounded-2xl border border-dashed border-stone-900/10 bg-cream p-3 text-center font-mono text-sm font-bold text-stone-900 dark:border-white/10 dark:bg-[#0a0a0a] dark:text-white">
+          <div className="rounded-2xl border border-dashed border-stone-900/10 bg-cream p-3 text-center font-mono text-sm font-bold text-stone-900 dark:border-[rgba(255,255,255,0.06)] dark:bg-[#0a0a0a] dark:text-white">
             (A+B)*C <FiArrowRight className="inline" /> A B + C *
           </div>
         </div>
@@ -189,7 +189,7 @@ function PlainExplanation() {
 
 function Stage({ label, expr, note, tint, rotate }) {
   return (
-    <div className={`rounded-2xl border border-stone-900/5 p-3 ${tint} ${rotate} dark:border-white/10`} style={{ boxShadow: '0 1px 2px rgb(28 25 23 / 0.05)' }}>
+    <div className={`rounded-2xl border border-stone-900/5 p-3 ${tint} ${rotate} dark:border-[rgba(255,255,255,0.06)]`} style={{ boxShadow: '0 1px 2px rgb(28 25 23 / 0.05)' }}>
       <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-stone-500 dark:text-gray-400">{label}</p>
       <code className="mt-1 block break-all font-mono text-xl font-extrabold text-stone-900 dark:text-white">{expr}</code>
       <p className="mt-0.5 text-[11px] font-semibold italic text-stone-500 dark:text-gray-400">{note}</p>
@@ -218,14 +218,14 @@ function StackExplanation({ steps }) {
     <ExplanationCard number="Explanation 02" title="How the stack actually does it" tint="bg-indigo-600">
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {RULES.map((r, i) => (
-          <div key={r.title} className={`rounded-2xl border border-stone-900/5 p-4 ${r.tone} ${i % 2 ? 'rotate-[0.5deg]' : '-rotate-[0.5deg]'} dark:border-white/10`} style={{ boxShadow: '0 1px 2px rgb(28 25 23 / 0.05), 0 4px 12px -2px rgb(28 25 23 / 0.08)' }}>
+          <div key={r.title} className={`rounded-2xl border border-stone-900/5 p-4 ${r.tone} ${i % 2 ? 'rotate-[0.5deg]' : '-rotate-[0.5deg]'} dark:border-[rgba(255,255,255,0.06)]`} style={{ boxShadow: '0 1px 2px rgb(28 25 23 / 0.05), 0 4px 12px -2px rgb(28 25 23 / 0.08)' }}>
             <p className="font-extrabold text-sm text-stone-900 dark:text-white">{r.title}</p>
             <p className="mt-2 text-xs leading-relaxed font-semibold text-stone-600 dark:text-bugbusters-soft">{r.body}</p>
           </div>
         ))}
       </div>
 
-      <div className="mt-6 flex flex-col items-start gap-3 rounded-2xl border border-dashed border-stone-900/10 bg-cream p-4 sm:flex-row sm:items-center dark:border-white/10 dark:bg-[#0a0a0a]">
+      <div className="mt-6 flex flex-col items-start gap-3 rounded-2xl border border-dashed border-stone-900/10 bg-cream p-4 sm:flex-row sm:items-center dark:border-[rgba(255,255,255,0.06)] dark:bg-[#0a0a0a]">
         <span className="sticker -rotate-2 bg-pink-500 text-white border-transparent shrink-0">ENDGAME</span>
         <p className="text-sm font-semibold leading-relaxed text-stone-700 dark:text-gray-300">
           Input finished? Flush the stack: pop every leftover operator straight to the output. When
@@ -238,7 +238,7 @@ function StackExplanation({ steps }) {
       </p>
       <ol className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
         {replay.map((s, i) => (
-          <li key={i} className="panel-flat flex flex-col gap-2 p-3.5 dark:bg-bugbusters-card dark:border-white/10">
+          <li key={i} className="panel-flat flex flex-col gap-2 p-3.5 dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)]">
             <div className="flex items-center gap-2.5">
               <span className={`grid size-9 shrink-0 place-items-center rounded-xl border font-mono font-extrabold ${
                 s.symbol === 'END' ? 'bg-rose-500 text-white border-rose-500' : /[A-Z]/.test(s.symbol) && s.symbol.length === 1 && !'+-*/^'.includes(s.symbol) ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-500' : s.symbol.includes('(') || s.symbol === ')' ? 'bg-amber-500/10 border-amber-500/30 text-amber-600' : 'bg-orange-500/10 border-orange-500/30 text-orange-500'

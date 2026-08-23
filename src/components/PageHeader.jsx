@@ -19,7 +19,7 @@ export default function PageHeader({ title, subtitle, algo, accent = 'bg-orange-
       <h1 className="heading-skew relative mt-6 text-4xl font-extrabold leading-[1.05] text-stone-900 sm:text-6xl dark:text-white">{title}</h1>
 
       {subtitle && (
-        <p className="relative mt-4 max-w-2xl text-base font-medium leading-relaxed text-stone-600 sm:text-lg dark:text-bugbusters-soft">
+        <p className="relative mt-4 max-w-2xl text-base font-medium leading-relaxed text-stone-600 sm:text-lg dark:text-[#9ca3af]">
           {subtitle}
         </p>
       )}

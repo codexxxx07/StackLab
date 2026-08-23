@@ -12,7 +12,7 @@ export default function ControlPanel({ player, color = 'orange', total }) {
   };
 
   return (
-    <div className="panel-flat p-4 dark:bg-bugbusters-card dark:border-white/10">
+    <div className="panel-flat p-4 dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)]">
       <div className="mb-3 flex items-center justify-between">
         <h3 className="font-extrabold text-xs uppercase tracking-wider text-stone-500 dark:text-gray-400">Controls</h3>
         <span className="chip bg-amber-500/10 text-amber-600 border-amber-500/30">
@@ -21,10 +21,10 @@ export default function ControlPanel({ player, color = 'orange', total }) {
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
-        <button onClick={reset} className="btn border border-stone-900/5 bg-white px-3 py-2 dark:border-white/10 dark:bg-bugbusters-card dark:text-white" title="Reset">
+        <button onClick={reset} className="btn border border-stone-900/5 bg-white px-3 py-2 dark:border-[rgba(255,255,255,0.06)] dark:bg-[#0f172a] dark:text-white dark:hover:border-[rgba(255,255,255,0.12)]" title="Reset">
           <FaRedo size={14} />
         </button>
-        <button onClick={prev} className="btn border border-stone-900/5 bg-white px-3 py-2 dark:border-white/10 dark:bg-bugbusters-card dark:text-white" title="Previous step">
+        <button onClick={prev} className="btn border border-stone-900/5 bg-white px-3 py-2 dark:border-[rgba(255,255,255,0.06)] dark:bg-[#0f172a] dark:text-white dark:hover:border-[rgba(255,255,255,0.12)]" title="Previous step">
           <FaStepBackward size={14} />
         </button>
         <button
@@ -34,7 +34,7 @@ export default function ControlPanel({ player, color = 'orange', total }) {
           {playing ? <FaPause size={16} /> : <FaPlay size={16} />}
           <span className="text-xs">{playing ? 'Pause' : 'Play'}</span>
         </button>
-        <button onClick={next} className="btn border border-stone-900/5 bg-white px-3 py-2 dark:border-white/10 dark:bg-bugbusters-card dark:text-white" title="Next step">
+        <button onClick={next} className="btn border border-stone-900/5 bg-white px-3 py-2 dark:border-[rgba(255,255,255,0.06)] dark:bg-[#0f172a] dark:text-white dark:hover:border-[rgba(255,255,255,0.12)]" title="Next step">
           <FaStepForward size={14} />
         </button>
       </div>

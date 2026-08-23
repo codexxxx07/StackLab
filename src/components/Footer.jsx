@@ -3,7 +3,7 @@ import { CONVERSIONS } from '../data/conversions';
 
 export default function Footer() {
   return (
-    <footer className="mt-auto border-t border-stone-900/5 bg-cream-dark dark:border-white/10 dark:bg-[#050505]">
+    <footer className="mt-auto border-t border-stone-900/5 bg-cream-dark dark:border-[rgba(255,255,255,0.06)] dark:bg-[#050505]">
       <div className="mx-auto max-w-6xl px-4 py-16 lg:px-6">
         <div className="grid gap-12 md:grid-cols-3">
           <div>
@@ -15,7 +15,7 @@ export default function Footer() {
                 Stack Lab
               </span>
             </div>
-            <p className="max-w-xs text-sm leading-relaxed text-stone-600 dark:text-bugbusters-soft">
+            <p className="max-w-xs text-sm leading-relaxed text-stone-600 dark:text-[#9ca3af]">
               A DSA learning tool that shows how expression conversions work step by step using the
               stack data structure.
             </p>
@@ -28,7 +28,7 @@ export default function Footer() {
                 <li key={c.id}>
                   <Link
                     to={c.path}
-                    className="text-sm font-medium text-stone-600 transition-colors hover:text-orange-500 dark:text-gray-400 dark:hover:text-cyan-300"
+                    className="text-sm font-medium text-stone-600 transition-colors hover:text-orange-500 dark:text-[#9ca3af] dark:hover:text-white"
                   >
                     {c.title}
                     {c.status === 'soon' && (
@@ -56,7 +56,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 border-t border-stone-900/5 pt-4 text-center dark:border-white/10">
+        <div className="mt-8 border-t border-stone-900/5 pt-4 text-center dark:border-[rgba(255,255,255,0.06)]">
           <p className="text-xs font-bold uppercase tracking-wider text-stone-500 dark:text-gray-500">
             DSA Expression Visualizer &copy; {new Date().getFullYear()}
           </p>

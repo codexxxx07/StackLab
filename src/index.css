@@ -41,6 +41,17 @@
   --shadow-glow-indigo: 0 10px 32px -8px rgb(99 102 241 / 0.50), 0 24px 48px -12px rgb(28 25 23 / 0.14);
   --shadow-bugbusters: 0 10px 32px -8px rgb(0 198 215 / 0.45), 0 24px 48px -12px rgb(45 93 170 / 0.40);
 
+  /* ---------- Dark Mode Surfaces ---------- */
+  --surface-body: #000000;
+  --surface-section: #050505;
+  --surface-raised: #0a0a0a;
+  --surface-card: #0f172a;
+  --surface-inner: rgba(255, 255, 255, 0.03);
+  --border-dark: rgba(255, 255, 255, 0.06);
+  --border-dark-hover: rgba(255, 255, 255, 0.10);
+  --shadow-dark-card: 0 1px 3px rgb(0 0 0 / 0.3), 0 8px 24px -4px rgb(0 0 0 / 0.4);
+  --shadow-dark-lift: 0 4px 12px rgb(0 0 0 / 0.4), 0 16px 40px -8px rgb(0 0 0 / 0.5);
+
   /* ---------- Animations ---------- */
   --animate-pop-in: pop-in 0.45s cubic-bezier(0.2, 1.4, 0.4, 1) both;
   --animate-fly-out: fly-out 0.55s ease-in both;
@@ -103,7 +114,8 @@
 
   .dark body,
   .dark {
-    @apply bg-black text-white;
+    background-color: var(--surface-body);
+    color: #ffffff;
   }
 
   ::selection {
@@ -124,7 +136,7 @@
     background: var(--color-cream);
   }
   .dark ::-webkit-scrollbar-track {
-    background: #050505;
+    background: var(--surface-section);
   }
   ::-webkit-scrollbar-thumb {
     background: #D1D5DB;
@@ -132,6 +144,12 @@
   }
   ::-webkit-scrollbar-thumb:hover {
     background: #9CA3AF;
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+  }
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -151,11 +169,20 @@
     box-shadow: var(--shadow-soft);
   }
   .dark .card {
-    @apply bg-bugbusters-card border-white/10;
+    background-color: var(--surface-card);
+    border-color: var(--border-dark);
+    box-shadow: var(--shadow-dark-card);
   }
 
   .card-hover {
-    @apply transition-all duration-300 hover:-translate-y-1.5 hover:shadow-lift hover:rotate-0;
+    @apply transition-all duration-300 hover:-translate-y-1.5 hover:rotate-0;
+    &:hover {
+      box-shadow: var(--shadow-lift);
+    }
+  }
+  .dark .card-hover:hover {
+    box-shadow: var(--shadow-dark-lift);
+    border-color: var(--border-dark-hover);
   }
 
   /* Section heading pattern */
@@ -165,7 +192,9 @@
     box-shadow: 0 1px 2px rgb(28 25 23 / 0.05);
   }
   .dark .section-eyebrow {
-    @apply border-white/10 bg-white/5 text-gray-400;
+    border-color: var(--border-dark);
+    background-color: var(--surface-inner);
+    color: #9ca3af;
   }
 
   /* Soft pill sticker / tag */
@@ -175,7 +204,8 @@
     box-shadow: 0 1px 2px rgb(28 25 23 / 0.05);
   }
   .dark .sticker {
-    @apply border-white/10 bg-white/5;
+    border-color: var(--border-dark);
+    background-color: var(--surface-inner);
   }
 
   /* Soft label chip */
@@ -185,7 +215,8 @@
     box-shadow: 0 1px 2px rgb(28 25 23 / 0.05);
   }
   .dark .chip {
-    @apply border-white/10 bg-white/5;
+    border-color: var(--border-dark);
+    background-color: var(--surface-inner);
   }
 
   /* Soft mono expression tile */
@@ -195,7 +226,8 @@
     box-shadow: 0 1px 2px rgb(28 25 23 / 0.05);
   }
   .dark .tile {
-    @apply border-white/10 bg-white/5;
+    border-color: var(--border-dark);
+    background-color: var(--surface-inner);
   }
 
   /* Soft button with hover lift */
@@ -208,6 +240,10 @@
   .btn:hover:not(:disabled) {
     @apply -translate-y-0.5;
     box-shadow: var(--shadow-soft);
+  }
+  .dark .btn:hover:not(:disabled) {
+    box-shadow: var(--shadow-dark-card);
+    border-color: var(--border-dark-hover);
   }
   .btn:active:not(:disabled) {
     @apply translate-y-0;
@@ -237,6 +273,9 @@
   .card-shimmer:hover::after {
     opacity: 1;
   }
+  .dark .card-shimmer::after {
+    background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.04) 50%, transparent 60%);
+  }
 
   /* Decorative gradient bar */
   .deco-bar {
@@ -249,7 +288,9 @@
     box-shadow: var(--shadow-soft);
   }
   .dark .panel {
-    @apply bg-bugbusters-card border-white/10;
+    background-color: var(--surface-card);
+    border-color: var(--border-dark);
+    box-shadow: var(--shadow-dark-card);
   }
 
   .panel-flat {
@@ -257,7 +298,9 @@
     box-shadow: 0 1px 2px rgb(28 25 23 / 0.05), 0 4px 12px -2px rgb(28 25 23 / 0.08);
   }
   .dark .panel-flat {
-    @apply bg-bugbusters-card border-white/10;
+    background-color: var(--surface-card);
+    border-color: var(--border-dark);
+    box-shadow: var(--shadow-dark-card);
   }
 }
 

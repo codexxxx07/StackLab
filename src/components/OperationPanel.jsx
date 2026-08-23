@@ -6,14 +6,14 @@ const TONES = {
   warn: { box: 'bg-amber-500/10 border-amber-500/30', dot: 'bg-amber-500' },
   hot: { box: 'bg-rose-500/10 border-rose-500/30', dot: 'bg-rose-500' },
   win: { box: 'bg-pink-500/10 border-pink-500/30', dot: 'bg-pink-500' },
-  plain: { box: 'bg-cream border-stone-900/5 dark:bg-[#0a0a0a] dark:border-white/10', dot: 'bg-stone-400 dark:bg-gray-500' },
+  plain: { box: 'bg-cream border-stone-900/5 dark:bg-[#0a0a0a] dark:border-[rgba(255,255,255,0.06)]', dot: 'bg-stone-400 dark:bg-[#6b7280]' },
 };
 
 export default function OperationPanel({ step, accent = 'orange' }) {
   if (!step) return null;
 
   return (
-    <section className="card flex flex-col p-5 sm:p-6 dark:bg-bugbusters-card dark:border-white/10" aria-label="Current operation">
+    <section className="card flex flex-col p-5 sm:p-6 dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)]" aria-label="Current operation">
       <div className="flex items-center justify-between gap-2">
         <span className="flex items-center gap-2">
           <span
@@ -48,7 +48,7 @@ export default function OperationPanel({ step, accent = 'orange' }) {
 
       {/* Precedence duel */}
       {step.compare && (
-        <div className="mt-4 flex flex-wrap items-center justify-center gap-3 rounded-2xl border border-dashed border-stone-900/10 bg-cream px-4 py-3 dark:border-white/10 dark:bg-[#0a0a0a]">
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-3 rounded-2xl border border-dashed border-stone-900/10 bg-cream px-4 py-3 dark:border-[rgba(255,255,255,0.06)] dark:bg-[#0a0a0a]">
           <DuelChip label={step.compare.current} score={step.compare.currentScore} tone="hot" />
           <span className="font-extrabold text-xl text-stone-900 dark:text-white">{step.compare.verdict}</span>
           <DuelChip label={step.compare.top} score={step.compare.topScore} tone="info" reversed />
@@ -92,7 +92,7 @@ function DuelChip({ label, score, tone, reversed = false }) {
   return (
     <span className={`flex items-center gap-2 rounded-xl border px-3 py-1.5 ${cls}`} style={{ boxShadow: '0 1px 2px rgb(28 25 23 / 0.05)' }}>
       {!reversed && <b className="font-extrabold text-lg text-stone-900 dark:text-white">{label}</b>}
-      <span className="chip !border-0 !bg-white !px-1.5 !py-0 !text-[10px] !shadow-none dark:!bg-white/10 dark:!text-white">
+      <span className="chip !border-0 !bg-white !px-1.5 !py-0 !text-[10px] !shadow-none dark:!bg-[rgba(255,255,255,0.06)] dark:!text-white">
         P:{score}
       </span>
       {reversed && <b className="font-extrabold text-lg text-stone-900 dark:text-white">{label}</b>}

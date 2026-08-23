@@ -8,7 +8,7 @@ export default function ComingSoonCard({ title, desc, color = 'emerald', planned
 
   return (
     <section className="mx-auto max-w-4xl px-4 py-14 sm:px-6 sm:py-20">
-      <div className="card relative rotate-1 p-8 pt-12 text-center sm:p-12 dark:bg-bugbusters-card dark:border-white/10">
+      <div className="card relative rotate-1 p-8 pt-12 text-center sm:p-12 dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)]">
         <span className={`sticker absolute -top-4 left-1/2 -translate-x-1/2 ${styles.solid} border-transparent`}>
           UNDER CONSTRUCTION
         </span>
@@ -29,7 +29,7 @@ export default function ComingSoonCard({ title, desc, color = 'emerald', planned
         </p>
 
         <div
-          className={`mx-auto mt-8 max-w-md rounded-2xl border border-dashed border-stone-900/10 p-5 text-left ${styles.soft} dark:border-white/10`}
+          className={`mx-auto mt-8 max-w-md rounded-2xl border border-dashed border-stone-900/10 p-5 text-left ${styles.soft} dark:border-[rgba(255,255,255,0.06)]`}
         >
           <p className="mb-3 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.25em] text-stone-500 dark:text-gray-400">
             <FiClock /> On the roadmap
@@ -45,14 +45,14 @@ export default function ComingSoonCard({ title, desc, color = 'emerald', planned
         </div>
 
         {example && (
-          <div className="mt-6 inline-flex flex-wrap items-center justify-center gap-3 rounded-2xl border border-dashed border-stone-900/10 bg-cream px-4 py-2 font-mono text-sm opacity-60 dark:border-white/10 dark:bg-[#0a0a0a] dark:text-white">
+          <div className="mt-6 inline-flex flex-wrap items-center justify-center gap-3 rounded-2xl border border-dashed border-stone-900/10 bg-cream px-4 py-2 font-mono text-sm opacity-60 dark:border-[rgba(255,255,255,0.06)] dark:bg-[#0a0a0a] dark:text-white">
             <s>{example.in}</s> &rarr; <s>{example.out}</s>
             <span className="text-xs uppercase tracking-widest">(not yet!)</span>
           </div>
         )}
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-          <Link to="/" className="btn bg-white border border-stone-900/5 dark:bg-bugbusters-card dark:border-white/10 dark:text-white">
+          <Link to="/" className="btn bg-white border border-stone-900/5 dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)] dark:text-white dark:hover:border-[rgba(255,255,255,0.12)]">
             <FiArrowLeft /> Back Home
           </Link>
           <Link to="/infix-to-postfix" className={`btn ${styles.solid} border-transparent`}>
@@ -64,7 +64,7 @@ export default function ComingSoonCard({ title, desc, color = 'emerald', planned
       <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
         <span className="sticker -rotate-2 bg-amber-500/10 text-amber-600 border-amber-500/30">Meanwhile...</span>
         {LIVE_CONVERSIONS.map((c) => (
-          <Link key={c.id} to={c.path} className="btn bg-white border border-stone-900/5 px-3 py-2 font-mono text-sm !normal-case dark:bg-bugbusters-card dark:border-white/10 dark:text-white">
+          <Link key={c.id} to={c.path} className="btn bg-white border border-stone-900/5 px-3 py-2 font-mono text-sm !normal-case dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)] dark:text-white dark:hover:border-[rgba(255,255,255,0.12)]">
             {c.title}
           </Link>
         ))}

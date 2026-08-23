@@ -46,7 +46,7 @@ export function PlainExplanation() {
             encoded silently becomes explicit brackets.
           </p>
 
-          <div className="mt-6 rounded-2xl border border-dashed border-stone-900/10 bg-cream p-4 dark:border-white/10 dark:bg-[#0a0a0a]">
+          <div className="mt-6 rounded-2xl border border-dashed border-stone-900/10 bg-cream p-4 dark:border-[rgba(255,255,255,0.06)] dark:bg-[#0a0a0a]">
             <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-stone-500 dark:text-gray-400">
               Why full brackets? Safety.
             </p>
@@ -67,7 +67,7 @@ export function PlainExplanation() {
           <Center><FiArrowDown className="text-rose-500" /></Center>
           <Stage label="+ marries A & (B*C)" expr="(A+(B*C))" tint="bg-emerald-500/10" note="fully parenthesized infix" rotate="-rotate-1" />
 
-          <div className="rounded-2xl border border-dashed border-stone-900/10 bg-cream p-3 text-center font-mono text-sm font-bold text-stone-900 dark:border-white/10 dark:bg-[#0a0a0a] dark:text-white">
+          <div className="rounded-2xl border border-dashed border-stone-900/10 bg-cream p-3 text-center font-mono text-sm font-bold text-stone-900 dark:border-[rgba(255,255,255,0.06)] dark:bg-[#0a0a0a] dark:text-white">
             AB+C* <FiArrowRight className="inline" /> ((A+B)*C)
           </div>
         </div>
@@ -86,7 +86,7 @@ export function StackExplanation({ steps, input, result }) {
         {RULES_P2I.map((r, i) => (
           <div
             key={r.title}
-            className={`rounded-2xl border border-stone-900/5 p-4 ${r.tone} ${i % 2 ? 'rotate-[0.5deg]' : '-rotate-[0.5deg]'} dark:border-white/10`}
+            className={`rounded-2xl border border-stone-900/5 p-4 ${r.tone} ${i % 2 ? 'rotate-[0.5deg]' : '-rotate-[0.5deg]'} dark:border-[rgba(255,255,255,0.06)]`}
             style={{ boxShadow: '0 1px 2px rgb(28 25 23 / 0.05), 0 4px 12px -2px rgb(28 25 23 / 0.08)' }}
           >
             <p className="font-extrabold text-sm text-stone-900 dark:text-white">{r.title}</p>
@@ -95,14 +95,14 @@ export function StackExplanation({ steps, input, result }) {
         ))}
       </div>
 
-      <div className="mt-7 grid gap-7 rounded-2xl border border-stone-900/5 bg-cream p-5 sm:p-7 lg:grid-cols-[auto_1fr] dark:border-white/10 dark:bg-[#0a0a0a]" style={{ boxShadow: '0 1px 2px rgb(28 25 23 / 0.05), 0 4px 12px -2px rgb(28 25 23 / 0.08)' }}>
+      <div className="mt-7 grid gap-7 rounded-2xl border border-stone-900/5 bg-cream p-5 sm:p-7 lg:grid-cols-[auto_1fr] dark:border-[rgba(255,255,255,0.06)] dark:bg-[#0a0a0a]" style={{ boxShadow: '0 1px 2px rgb(28 25 23 / 0.05), 0 4px 12px -2px rgb(28 25 23 / 0.08)' }}>
         <div>
           <span className="sticker inline-block -rotate-2 bg-rose-500 text-white border-transparent">THE ORDER MATTERS</span>
 
           <div className="mt-5 flex w-fit flex-col-reverse items-center gap-2">
             {[
-              { v: 'A', c: 'bg-white border-stone-900/5 dark:bg-white/5 dark:border-white/10' },
-              { v: 'B', c: 'bg-white border-stone-900/5 dark:bg-white/5 dark:border-white/10' },
+              { v: 'A', c: 'bg-white border-stone-900/5 dark:bg-[rgba(255,255,255,0.04)] dark:border-[rgba(255,255,255,0.06)]' },
+              { v: 'B', c: 'bg-white border-stone-900/5 dark:bg-[rgba(255,255,255,0.04)] dark:border-[rgba(255,255,255,0.06)]' },
               { v: 'C', c: 'bg-rose-500 text-white border-rose-500' },
             ].map((b, i) => (
               <span key={i} className={`tile w-24 px-4 py-2.5 text-lg ${b.c}`}>
@@ -141,7 +141,7 @@ export function StackExplanation({ steps, input, result }) {
       </p>
       <ol className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
         {replay.map((s, i) => (
-          <li key={i} className="panel-flat flex flex-col gap-2 p-3.5 dark:bg-bugbusters-card dark:border-white/10">
+          <li key={i} className="panel-flat flex flex-col gap-2 p-3.5 dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)]">
             <div className="flex items-center gap-2.5">
               <span
                 className={`grid size-9 shrink-0 place-items-center rounded-xl border font-mono font-extrabold ${
@@ -158,7 +158,7 @@ export function StackExplanation({ steps, input, result }) {
               </span>
               <span className="text-xs font-bold leading-tight text-stone-700 dark:text-gray-300">{s.action}</span>
             </div>
-            <div className="flex flex-wrap gap-x-4 gap-y-1 border-t border-dashed border-stone-900/10 pt-2 font-mono text-[11px] font-bold dark:border-white/10">
+            <div className="flex flex-wrap gap-x-4 gap-y-1 border-t border-dashed border-stone-900/10 pt-2 font-mono text-[11px] font-bold dark:border-[rgba(255,255,255,0.06)]">
               <span className="text-stone-500 dark:text-gray-400">
                 stack: <b className="text-indigo-600">[{s.stack.join(', ') || ' '}]</b>
               </span>
@@ -168,7 +168,7 @@ export function StackExplanation({ steps, input, result }) {
       </ol>
 
       {!steps && (
-        <p className="mt-6 border-t border-dashed border-stone-900/10 pt-4 text-xs font-semibold italic text-stone-500 dark:border-white/10 dark:text-gray-400">
+        <p className="mt-6 border-t border-dashed border-stone-900/10 pt-4 text-xs font-semibold italic text-stone-500 dark:border-[rgba(255,255,255,0.06)] dark:text-[#6b7280]">
           Run your own expression above and this replay rewires itself to show{' '}
           <b className="text-stone-900 dark:text-white">your</b> steps{result ? ` (yours would end in ${result})` : ''}.
         </p>
@@ -182,7 +182,7 @@ function OrderStep({ n, what, role, why, tone }) {
     <li className={`flex flex-wrap items-center gap-x-3 gap-y-1 rounded-xl border-l-[3px] px-4 py-3 ${tone}`}>
       <span className="sticker !px-1.5 !py-0 !text-[9px]">{n}</span>
       <code className="font-mono text-lg font-extrabold text-stone-900 dark:text-white">{what}</code>
-      <span className="chip !border-0 !bg-white !py-0 !text-[9px] !shadow-none dark:!bg-white/10 dark:!text-white">{role}</span>
+      <span className="chip !border-0 !bg-white !py-0 !text-[9px] !shadow-none dark:!bg-[rgba(255,255,255,0.06)] dark:!text-white">{role}</span>
       <p className="w-full text-xs font-semibold text-stone-600 dark:text-bugbusters-soft">{why}</p>
     </li>
   );

@@ -40,13 +40,13 @@ export default function ResultCard({ input, result, color = 'orange', onAgain })
       </h3>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <div className="rounded-2xl border border-stone-900/5 bg-white p-4 dark:border-white/10 dark:bg-[#0a0a0a]" style={{ boxShadow: '0 1px 2px rgb(28 25 23 / 0.05)' }}>
+        <div className="rounded-2xl border border-stone-900/5 bg-white p-4 dark:border-[rgba(255,255,255,0.06)] dark:bg-[#0a0a0a]" style={{ boxShadow: '0 1px 2px rgb(28 25 23 / 0.05)' }}>
           <span className="mb-1 block text-[10px] font-bold uppercase tracking-widest text-stone-400 dark:text-gray-500">
             Input
           </span>
           <span className="font-mono text-xl font-bold tracking-wider text-stone-900 dark:text-white">{input}</span>
         </div>
-        <div className="rounded-2xl border border-stone-900/5 bg-white p-4 dark:border-white/10 dark:bg-[#0a0a0a]" style={{ boxShadow: '0 1px 2px rgb(28 25 23 / 0.05), 0 4px 12px -2px rgb(28 25 23 / 0.08)' }}>
+        <div className="rounded-2xl border border-stone-900/5 bg-white p-4 dark:border-[rgba(255,255,255,0.06)] dark:bg-[#0a0a0a]" style={{ boxShadow: '0 1px 2px rgb(28 25 23 / 0.05), 0 4px 12px -2px rgb(28 25 23 / 0.08)' }}>
           <span className="mb-1 block text-[10px] font-bold uppercase tracking-widest text-stone-400 dark:text-gray-500">
             Output
           </span>
@@ -55,12 +55,12 @@ export default function ResultCard({ input, result, color = 'orange', onAgain })
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2">
-        <button onClick={handleCopy} className="btn border border-stone-900/5 bg-white dark:border-white/10 dark:bg-bugbusters-card dark:text-white">
+        <button onClick={handleCopy} className="btn border border-stone-900/5 bg-white dark:border-[rgba(255,255,255,0.06)] dark:bg-[#0f172a] dark:text-white dark:hover:border-[rgba(255,255,255,0.12)]">
           <FaCopy size={14} />
           {copied ? 'Copied!' : 'Copy Result'}
         </button>
         {onAgain && (
-          <button onClick={onAgain} className="btn border border-stone-900/5 bg-white dark:border-white/10 dark:bg-bugbusters-card dark:text-white">
+          <button onClick={onAgain} className="btn border border-stone-900/5 bg-white dark:border-[rgba(255,255,255,0.06)] dark:bg-[#0f172a] dark:text-white dark:hover:border-[rgba(255,255,255,0.12)]">
             <FaRedo size={14} />
             Visualize Again
           </button>

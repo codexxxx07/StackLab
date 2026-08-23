@@ -10,14 +10,14 @@ const charStyle = (c) => {
   if (isOperandChar(c)) return 'bg-emerald-500/10 border-emerald-500/30 text-emerald-500';
   if (isOperatorChar(c)) return 'bg-orange-500/10 border-orange-500/30 text-orange-500';
   if (isOpenParen(c) || isCloseParen(c)) return 'bg-amber-500/10 border-amber-500/30 text-amber-600';
-  return 'bg-white border-stone-900/5 dark:bg-white/5 dark:border-white/10 dark:text-white';
+  return 'bg-white border-stone-900/5 dark:bg-[rgba(255,255,255,0.04)] dark:border-[rgba(255,255,255,0.06)] dark:text-white';
 };
 
 export default function ExpressionVisualizer({ expression, charIndex = -1, done = false, output = null }) {
   if (!expression) return null;
 
   return (
-    <section className="card p-5 sm:p-6 dark:bg-bugbusters-card dark:border-white/10" aria-label="Input stream">
+    <section className="card p-5 sm:p-6 dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)]" aria-label="Input stream">
       <div className="flex items-center justify-between gap-2">
         <span className="sticker bg-stone-900 text-white border-transparent dark:bg-white dark:text-stone-900">Input Stream</span>
         {done && <span className="chip !border-emerald-500/30 bg-emerald-500/10 text-emerald-500">All read ✓</span>}
@@ -85,7 +85,7 @@ export default function ExpressionVisualizer({ expression, charIndex = -1, done 
             {[...output].map((ch, i) => (
               <span
                 key={`${i}-${ch}`}
-                className="tile animate-pop-in size-9 bg-white text-lg dark:bg-white/5 dark:border-white/10 dark:text-white"
+                className="tile animate-pop-in size-9 bg-white text-lg dark:bg-[rgba(255,255,255,0.04)] dark:border-[rgba(255,255,255,0.06)] dark:text-white"
               >
                 {ch}
               </span>
