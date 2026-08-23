@@ -1,13 +1,9 @@
-/**
- * Titled wrapper for the explanation sections.
- * Gives every explainer the same numbered, sticker-headed frame.
- */
-export default function ExplanationCard({ number, title, tint = 'bg-grape', children }) {
+export default function ExplanationCard({ number, title, tint = 'bg-orange-500', children }) {
   return (
-    <section className="panel overflow-hidden rounded-2xl" aria-label={title}>
-      <div className={`flex flex-wrap items-center gap-3 border-b border-gray-100 ${tint} px-5 py-4`}>
-        <span className="sticker bg-white border-transparent">{number}</span>
-        <h3 className="font-display text-lg uppercase tracking-wide text-white">
+    <section className="card overflow-hidden rounded-2xl dark:bg-bugbusters-card dark:border-white/10" aria-label={title}>
+      <div className={`flex flex-wrap items-center gap-3 border-b border-stone-900/5 ${tint} px-5 py-4 dark:border-white/10`}>
+        <span className="sticker bg-white/90 border-transparent dark:bg-white/10">{number}</span>
+        <h3 className="font-extrabold text-lg uppercase tracking-wide text-white">
           {title}
         </h3>
       </div>

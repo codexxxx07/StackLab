@@ -4,7 +4,7 @@ export default function PostfixToPrefix() {
   return (
     <ComingSoonCard
       title="Postfix → Prefix"
-      color="flamingo"
+      color="pink"
       desc="Same pop-pop-build dance you know from Postfix → Infix — but the operator lands in front instead of between."
       planned={[
         'String stack with operator-first building',

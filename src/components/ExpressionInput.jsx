@@ -1,16 +1,17 @@
 import { useState } from 'react';
 
-export default function ExpressionInput({ label, placeholder, buttonText, onSubmit, validator, color = 'grape' }) {
+export default function ExpressionInput({ label, placeholder, buttonText, onSubmit, validator, color = 'orange', examples, error: externalError }) {
   const [value, setValue] = useState('');
   const [error, setError] = useState(null);
 
+  const displayError = externalError || error;
+
   const colorMap = {
-    grape: 'bg-grape hover:bg-grape/90',
-    sky: 'bg-sky hover:bg-sky/90',
-    mint: 'bg-mint hover:bg-mint/90',
-    coral: 'bg-coral hover:bg-coral/90',
-    flamingo: 'bg-flamingo hover:bg-flamingo/90',
-    lemon: 'bg-lemon hover:bg-lemon/90 text-ink',
+    orange: 'bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 shadow-glow',
+    indigo: 'bg-gradient-to-r from-indigo-600 to-violet-500 hover:from-indigo-700 hover:to-violet-600 shadow-glow-indigo',
+    emerald: 'bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-600 hover:to-teal-500',
+    rose: 'bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600',
+    cyan: 'bg-gradient-to-r from-cyan-400 to-sky-500 hover:from-cyan-500 hover:to-sky-600',
   };
 
   const handleSubmit = (e) => {
@@ -26,9 +27,15 @@ export default function ExpressionInput({ label, placeholder, buttonText, onSubm
     onSubmit(value);
   };
 
+  const handleExampleClick = (ex) => {
+    setValue(ex);
+    setError(null);
+    onSubmit(ex);
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="panel p-5">
-      <label className="mb-2 block font-display text-sm uppercase tracking-wider">
+    <form onSubmit={handleSubmit} id="input" className="card p-5 dark:bg-bugbusters-card dark:border-white/10">
+      <label className="mb-2 block font-extrabold text-sm uppercase tracking-wider text-stone-900 dark:text-white">
         {label}
       </label>
       <div className="flex flex-col gap-3 sm:flex-row">
@@ -40,19 +47,37 @@ export default function ExpressionInput({ label, placeholder, buttonText, onSubm
             setError(null);
           }}
           placeholder={placeholder}
-          className="flex-1 rounded-xl border border-gray-200 bg-white px-4 py-3 font-mono text-lg font-bold tracking-widest outline-none transition-all focus:border-grape focus:ring-2 focus:ring-grape/20 placeholder:font-sans placeholder:text-sm placeholder:font-normal placeholder:tracking-normal placeholder:text-ink-soft"
-          style={{ boxShadow: 'var(--shadow-soft-xs)' }}
+          className="flex-1 rounded-2xl border border-stone-900/10 bg-white px-4 py-3 font-mono text-lg font-bold tracking-widest outline-none transition-all focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 placeholder:font-sans placeholder:text-sm placeholder:font-normal placeholder:tracking-normal placeholder:text-stone-400 dark:border-white/10 dark:bg-[#0a0a0a] dark:text-white dark:focus:border-cyan-400 dark:focus:ring-cyan-400/20 dark:placeholder:text-gray-500"
+          style={{ boxShadow: '0 1px 2px rgb(28 25 23 / 0.05)' }}
         />
         <button
           type="submit"
-          className={`btn text-white ${colorMap[color] || colorMap.grape}`}
+          className={`btn text-white ${colorMap[color] || colorMap.orange}`}
         >
-          {buttonText || 'Visualize'}
+          {buttonText || 'Visualize →'}
         </button>
       </div>
-      {error && (
-        <div className="mt-3 rounded-xl border border-coral/30 bg-coral-soft px-4 py-2.5 text-sm font-medium text-coral">
-          {error}
+
+      {/* Example chips */}
+      {examples && examples.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-2">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-stone-400 dark:text-gray-500">Try:</span>
+          {examples.map((ex) => (
+            <button
+              key={ex}
+              type="button"
+              onClick={() => handleExampleClick(ex)}
+              className="rounded-lg border border-stone-900/5 bg-cream px-2.5 py-1 font-mono text-xs font-bold text-stone-600 transition-all hover:border-orange-500/30 hover:bg-orange-500/10 hover:text-orange-500 dark:border-white/10 dark:bg-white/5 dark:text-gray-400 dark:hover:border-cyan-400/30 dark:hover:bg-cyan-400/10 dark:hover:text-cyan-300"
+            >
+              {ex}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {displayError && (
+        <div className="mt-3 rounded-2xl border border-rose-500/30 bg-rose-500/10 px-4 py-2.5 text-sm font-medium text-rose-500">
+          {displayError}
         </div>
       )}
     </form>

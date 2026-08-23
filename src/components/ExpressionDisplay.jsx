@@ -1,7 +1,7 @@
 export default function ExpressionDisplay({ expression, currentIndex, label = 'Expression' }) {
   return (
-    <div className="panel-flat p-4">
-      <h3 className="mb-2 font-display text-xs uppercase tracking-wider text-ink-soft">{label}</h3>
+    <div className="panel-flat p-4 dark:bg-bugbusters-card dark:border-white/10">
+      <h3 className="mb-2 font-extrabold text-xs uppercase tracking-wider text-stone-500 dark:text-gray-400">{label}</h3>
       <div className="flex flex-wrap items-center gap-1">
         {[...expression].map((char, i) => {
           const isCurrent = i === currentIndex;
@@ -10,10 +10,10 @@ export default function ExpressionDisplay({ expression, currentIndex, label = 'E
             <span
               key={i}
               className={`
-                tile h-10 w-10 border-gray-100
+                tile h-10 w-10
                 font-mono text-lg font-bold transition-all duration-200
-                ${isCurrent ? 'bg-lemon border-lemon/30 animate-pop-in scale-110' : ''}
-                ${isDone ? 'bg-mint-soft border-mint/30 text-ink' : 'bg-white'}
+                ${isCurrent ? 'bg-amber-500 text-stone-900 border-amber-500 animate-pop-in scale-110' : ''}
+                ${isDone ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-500' : 'bg-white dark:bg-white/5 dark:border-white/10 dark:text-white'}
               `}
             >
               {char}
@@ -23,8 +23,8 @@ export default function ExpressionDisplay({ expression, currentIndex, label = 'E
       </div>
       {currentIndex >= 0 && currentIndex < expression.length && (
         <div className="mt-2 flex items-center gap-1">
-          <span className="text-ink-soft">Reading:</span>
-          <span className="animate-blink font-mono text-lg font-bold text-coral">&darr;</span>
+          <span className="text-stone-500 dark:text-gray-400">Reading:</span>
+          <span className="animate-blink font-mono text-lg font-bold text-rose-500">&darr;</span>
         </div>
       )}
     </div>

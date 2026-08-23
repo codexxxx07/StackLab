@@ -54,13 +54,13 @@ export default function InfixToPostfix() {
       <PageHeader
         title={
           <>
-            Infix <span className="text-coral">\u2192</span>{' '}
-            <span className="border-b-8 border-grape">Postfix</span>
+            Infix <span className="text-rose-500">\u2192</span>{' '}
+            <span className="border-b-8 border-orange-500">Postfix</span>
           </>
         }
         subtitle="Operators get impatient \u2014 the stack decides who prints first. Scan left to right and watch precedence do the sorting."
         algo="INFIX \u2192 POSTFIX"
-        accent="bg-grape"
+        accent="bg-orange-500"
       />
 
       <div className="mx-auto max-w-6xl space-y-8 px-4 py-10 sm:px-6">
@@ -68,7 +68,7 @@ export default function InfixToPostfix() {
           label="Enter Infix Expression"
           placeholder="e.g. A+B*C"
           examples={EXAMPLES}
-          color="grape"
+          color="orange"
           onSubmit={handleVisualize}
           error={data?.error ?? null}
         />
@@ -76,8 +76,11 @@ export default function InfixToPostfix() {
         {cur && !data.error && (
           <div id="visualizer" className="scroll-mt-28 animate-pop-in space-y-6">
             <div className="flex flex-wrap items-center gap-3">
-              <span className="sticker -rotate-1 bg-coral text-white border-transparent">Step 02</span>
-              <h2 className="heading-skew text-xl sm:text-2xl">Watch the algorithm run</h2>
+              <span className="section-eyebrow -rotate-1">
+                <span className="inline-block size-1.5 rounded-full bg-rose-500" />
+                Step 02
+              </span>
+              <h2 className="heading-skew text-xl font-extrabold text-stone-900 sm:text-2xl dark:text-white">Watch the algorithm run</h2>
               <span className="chip ml-auto hidden sm:inline-flex">Input &middot; Stack &middot; Output stay in sync</span>
             </div>
 
@@ -95,10 +98,10 @@ export default function InfixToPostfix() {
                 stepKey={player.index}
                 hint="operators wait here"
               />
-              <OperationPanel step={cur} accent="grape" />
+              <OperationPanel step={cur} accent="orange" />
             </div>
 
-            <ControlPanel player={player} color="grape" />
+            <ControlPanel player={player} color="orange" total={total} />
 
             <StepTable
               steps={data.steps}
@@ -133,49 +136,49 @@ export default function InfixToPostfix() {
 
 function PlainExplanation() {
   return (
-    <ExplanationCard number="Explanation 01" title="The plain-English idea" tint="bg-grape">
+    <ExplanationCard number="Explanation 01" title="The plain-English idea" tint="bg-orange-500">
       <div className="grid gap-8 lg:grid-cols-[1.2fr_1fr]">
         <div>
-          <p className="text-sm leading-relaxed text-ink-soft sm:text-base">
-            <b className="text-ink">Infix</b> writes operators <i>between</i> operands &mdash; it&apos;s what
-            humans like to read. But a computer evaluating <code className="font-mono font-bold">A+B*C</code>{' '}
+          <p className="text-sm leading-relaxed text-stone-600 sm:text-base dark:text-bugbusters-soft">
+            <b className="text-stone-900 dark:text-white">Infix</b> writes operators <i>between</i> operands &mdash; it&apos;s what
+            humans like to read. But a computer evaluating <code className="font-mono font-bold text-stone-900 dark:text-white">A+B*C</code>{' '}
             must constantly ask: &ldquo;which operation comes first?&rdquo;.{' '}
-            <b className="text-ink">Postfix</b> removes that question forever: the operator appears{' '}
+            <b className="text-stone-900 dark:text-white">Postfix</b> removes that question forever: the operator appears{' '}
             <i>after</i> its operands, so no parentheses and no precedence rules are needed at run time.
           </p>
 
-          <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.25em] text-ink-soft">
+          <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.25em] text-stone-500 dark:text-gray-400">
             The pecking order
           </p>
           <div className="mt-3 space-y-2">
             {[
-              { ops: '^', p: 3, w: 'w-full', c: 'bg-coral text-white border-coral' },
-              { ops: '*  /', p: 2, w: 'w-3/4', c: 'bg-lemon border-lemon/30' },
-              { ops: '+  -', p: 1, w: 'w-1/2', c: 'bg-sky text-white border-sky' },
+              { ops: '^', p: 3, w: 'w-full', c: 'bg-rose-500 text-white border-rose-500' },
+              { ops: '*  /', p: 2, w: 'w-3/4', c: 'bg-amber-500/10 border-amber-500/30 text-amber-600' },
+              { ops: '+  -', p: 1, w: 'w-1/2', c: 'bg-indigo-600 text-white border-indigo-600' },
             ].map((r) => (
               <div key={r.ops} className="flex items-center gap-3">
                 <code className={`tile w-24 justify-center px-3 py-2 text-base ${r.c}`}>{r.ops}</code>
                 <div className={`h-5 rounded-full ${r.w} ${r.c.split(' ')[0]}`} />
-                <span className="font-mono text-xs font-bold text-ink-soft">P:{r.p}</span>
+                <span className="font-mono text-xs font-bold text-stone-500 dark:text-gray-400">P:{r.p}</span>
               </div>
             ))}
           </div>
-          <p className="mt-3 text-xs font-semibold text-ink-soft">
+          <p className="mt-3 text-xs font-semibold text-stone-500 dark:text-gray-400">
             Higher priority = applied first. Equal priority = left one first.
           </p>
         </div>
 
         <div className="space-y-3">
-          <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-ink-soft">
+          <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-stone-500 dark:text-gray-400">
             Same expression, three outfits
           </p>
-          <Stage label="What you wrote" expr="A + B * C" tint="bg-sky-soft" note="ambiguous without rules" rotate="-rotate-1" />
-          <Center><FiArrowDown className="text-coral" /></Center>
-          <Stage label="Brackets force clarity" expr="A + (B * C)" tint="bg-lemon-soft" note="B*C is one unit" rotate="rotate-1" />
-          <Center><FiArrowDown className="text-coral" /></Center>
-          <Stage label="Drop the brackets" expr="A B C * +" tint="bg-mint-soft" note="order alone encodes grouping" rotate="-rotate-1" />
+          <Stage label="What you wrote" expr="A + B * C" tint="bg-indigo-600/5" note="ambiguous without rules" rotate="-rotate-1" />
+          <Center><FiArrowDown className="text-rose-500" /></Center>
+          <Stage label="Brackets force clarity" expr="A + (B * C)" tint="bg-amber-500/10" note="B*C is one unit" rotate="rotate-1" />
+          <Center><FiArrowDown className="text-rose-500" /></Center>
+          <Stage label="Drop the brackets" expr="A B C * +" tint="bg-emerald-500/10" note="order alone encodes grouping" rotate="-rotate-1" />
 
-          <div className="rounded-xl border border-dashed border-gray-300 bg-paper p-3 text-center font-mono text-sm font-bold">
+          <div className="rounded-2xl border border-dashed border-stone-900/10 bg-cream p-3 text-center font-mono text-sm font-bold text-stone-900 dark:border-white/10 dark:bg-[#0a0a0a] dark:text-white">
             (A+B)*C <FiArrowRight className="inline" /> A B + C *
           </div>
         </div>
@@ -186,10 +189,10 @@ function PlainExplanation() {
 
 function Stage({ label, expr, note, tint, rotate }) {
   return (
-    <div className={`rounded-xl border border-gray-100 p-3 ${tint} ${rotate}`} style={{ boxShadow: 'var(--shadow-soft-xs)' }}>
-      <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-ink-soft">{label}</p>
-      <code className="mt-1 block break-all font-mono text-xl font-extrabold">{expr}</code>
-      <p className="mt-0.5 text-[11px] font-semibold italic text-ink-soft">{note}</p>
+    <div className={`rounded-2xl border border-stone-900/5 p-3 ${tint} ${rotate} dark:border-white/10`} style={{ boxShadow: '0 1px 2px rgb(28 25 23 / 0.05)' }}>
+      <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-stone-500 dark:text-gray-400">{label}</p>
+      <code className="mt-1 block break-all font-mono text-xl font-extrabold text-stone-900 dark:text-white">{expr}</code>
+      <p className="mt-0.5 text-[11px] font-semibold italic text-stone-500 dark:text-gray-400">{note}</p>
     </div>
   );
 }
@@ -201,10 +204,10 @@ function Center({ children }) {
 /* =================== EXPLANATION 2 =================== */
 
 const RULES = [
-  { title: 'Operand?', tone: 'bg-mint-soft', body: 'Straight to the OUTPUT. Operands never touch the stack.' },
-  { title: 'Operator?', tone: 'bg-grape-soft', body: 'Pop every stacked operator with priority \u2265 yours, then push yourself.' },
-  { title: '( ?', tone: 'bg-lemon-soft', body: 'Push it as a floor. Nothing underneath may leave until its ) arrives.' },
-  { title: ' ) ?', tone: 'bg-coral-soft', body: 'Pop everything back to the ( \u2014 print each one \u2014 discard both brackets.' },
+  { title: 'Operand?', tone: 'bg-emerald-500/10', body: 'Straight to the OUTPUT. Operands never touch the stack.' },
+  { title: 'Operator?', tone: 'bg-orange-500/10', body: 'Pop every stacked operator with priority \u2265 yours, then push yourself.' },
+  { title: '( ?', tone: 'bg-amber-500/10', body: 'Push it as a floor. Nothing underneath may leave until its ) arrives.' },
+  { title: ' ) ?', tone: 'bg-rose-500/10', body: 'Pop everything back to the ( \u2014 print each one \u2014 discard both brackets.' },
 ];
 
 function StackExplanation({ steps }) {
@@ -212,44 +215,44 @@ function StackExplanation({ steps }) {
   const replay = source.filter((s) => !['init', 'done'].includes(s.type));
 
   return (
-    <ExplanationCard number="Explanation 02" title="How the stack actually does it" tint="bg-sky">
+    <ExplanationCard number="Explanation 02" title="How the stack actually does it" tint="bg-indigo-600">
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {RULES.map((r, i) => (
-          <div key={r.title} className={`rounded-xl border border-gray-100 p-4 ${r.tone} ${i % 2 ? 'rotate-[0.5deg]' : '-rotate-[0.5deg]'}`} style={{ boxShadow: 'var(--shadow-soft-sm)' }}>
-            <p className="font-display text-sm">{r.title}</p>
-            <p className="mt-2 text-xs leading-relaxed font-semibold text-ink-soft">{r.body}</p>
+          <div key={r.title} className={`rounded-2xl border border-stone-900/5 p-4 ${r.tone} ${i % 2 ? 'rotate-[0.5deg]' : '-rotate-[0.5deg]'} dark:border-white/10`} style={{ boxShadow: '0 1px 2px rgb(28 25 23 / 0.05), 0 4px 12px -2px rgb(28 25 23 / 0.08)' }}>
+            <p className="font-extrabold text-sm text-stone-900 dark:text-white">{r.title}</p>
+            <p className="mt-2 text-xs leading-relaxed font-semibold text-stone-600 dark:text-bugbusters-soft">{r.body}</p>
           </div>
         ))}
       </div>
 
-      <div className="mt-6 flex flex-col items-start gap-3 rounded-xl border border-dashed border-gray-300 bg-paper p-4 sm:flex-row sm:items-center">
-        <span className="sticker -rotate-2 bg-flamingo text-white border-transparent shrink-0">ENDGAME</span>
-        <p className="text-sm font-semibold leading-relaxed">
+      <div className="mt-6 flex flex-col items-start gap-3 rounded-2xl border border-dashed border-stone-900/10 bg-cream p-4 sm:flex-row sm:items-center dark:border-white/10 dark:bg-[#0a0a0a]">
+        <span className="sticker -rotate-2 bg-pink-500 text-white border-transparent shrink-0">ENDGAME</span>
+        <p className="text-sm font-semibold leading-relaxed text-stone-700 dark:text-gray-300">
           Input finished? Flush the stack: pop every leftover operator straight to the output. When
-          the stack hits empty, the output <b>is</b> your postfix expression.
+          the stack hits empty, the output <b className="text-stone-900 dark:text-white">is</b> your postfix expression.
         </p>
       </div>
 
-      <p className="mt-8 text-[11px] font-bold uppercase tracking-[0.25em] text-ink-soft">
+      <p className="mt-8 text-[11px] font-bold uppercase tracking-[0.25em] text-stone-500 dark:text-gray-400">
         Replay &mdash; {steps ? 'your expression' : 'example A+B*C'} &middot; every move
       </p>
       <ol className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
         {replay.map((s, i) => (
-          <li key={i} className="panel-flat flex flex-col gap-2 p-3.5">
+          <li key={i} className="panel-flat flex flex-col gap-2 p-3.5 dark:bg-bugbusters-card dark:border-white/10">
             <div className="flex items-center gap-2.5">
-              <span className={`grid size-9 shrink-0 place-items-center rounded-lg border font-mono font-extrabold ${
-                s.symbol === 'END' ? 'bg-coral text-white border-coral' : /[A-Z]/.test(s.symbol) && s.symbol.length === 1 && !'+-*/^'.includes(s.symbol) ? 'bg-mint-soft border-mint/30' : s.symbol.includes('(') || s.symbol === ')' ? 'bg-lemon-soft border-lemon/30' : 'bg-grape-soft border-grape/30'
+              <span className={`grid size-9 shrink-0 place-items-center rounded-xl border font-mono font-extrabold ${
+                s.symbol === 'END' ? 'bg-rose-500 text-white border-rose-500' : /[A-Z]/.test(s.symbol) && s.symbol.length === 1 && !'+-*/^'.includes(s.symbol) ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-500' : s.symbol.includes('(') || s.symbol === ')' ? 'bg-amber-500/10 border-amber-500/30 text-amber-600' : 'bg-orange-500/10 border-orange-500/30 text-orange-500'
               }`}>
                 {s.symbol}
               </span>
-              <span className="text-xs font-bold leading-tight">{s.action}</span>
+              <span className="text-xs font-bold leading-tight text-stone-700 dark:text-gray-300">{s.action}</span>
             </div>
-            <div className="flex flex-wrap gap-x-4 gap-y-1 border-t border-dashed border-gray-200 pt-2 font-mono text-[11px] font-bold">
-              <span>
-                stack: <b className="text-sky">[{s.stack.join(' ') || ' '}]</b>
+            <div className="flex flex-wrap gap-x-4 gap-y-1 border-t border-dashed border-stone-900/10 pt-2 font-mono text-[11px] font-bold dark:border-white/10">
+              <span className="text-stone-500 dark:text-gray-400">
+                stack: <b className="text-indigo-600">[{s.stack.join(' ') || ' '}]</b>
               </span>
-              <span>
-                out: <b className="text-flamingo">{s.output}</b>
+              <span className="text-stone-500 dark:text-gray-400">
+                out: <b className="text-pink-500">{s.output}</b>
               </span>
             </div>
           </li>

@@ -1,44 +1,45 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   /* ---------- Typography ---------- */
-  --font-display: "Archivo Black", "Arial Black", ui-sans-serif, sans-serif;
-  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", monospace;
 
-  /* ---------- Ink & Paper ---------- */
-  --color-ink: #171717;
-  --color-ink-soft: #6B7280;
-  --color-paper: #F8F7F2;
-  --color-cream: #FFF9F0;
+  /* ---------- Colors: Light Mode ---------- */
+  --color-cream: #f7f5f0;
+  --color-cream-dark: #efede6;
+  --color-orange-500: #f97316;
+  --color-orange-400: #fb923c;
+  --color-orange-600: #ea580c;
+  --color-amber-500: #f59e0b;
+  --color-amber-400: #fbbf24;
+  --color-indigo-600: #4f46e5;
+  --color-indigo-500: #6366f1;
+  --color-violet-500: #8b5cf6;
+  --color-violet-400: #a78bfa;
+  --color-emerald-500: #10b981;
+  --color-teal-400: #2dd4bf;
+  --color-rose-500: #f43f5e;
+  --color-pink-500: #ec4899;
+  --color-sky-500: #0ea5e9;
+  --color-cyan-400: #22d3ee;
+  --color-cyan-300: #67e8f9;
 
-  /* ---------- Funk palette ---------- */
-  --color-grape: #6846FF;
-  --color-grape-soft: #EDE9FF;
-  --color-sky: #4C6FFF;
-  --color-sky-soft: #E0E7FF;
-  --color-mint: #00C99A;
-  --color-mint-soft: #D1FAE5;
-  --color-coral: #FF7A00;
-  --color-coral-soft: #FFF3E0;
-  --color-lemon: #FFC83D;
-  --color-lemon-soft: #FFF8E1;
-  --color-flamingo: #FF4F8B;
-  --color-flamingo-soft: #FFE4EF;
-  --color-turq: #00C99A;
-  --color-turq-soft: #E0F7FA;
+  /* ---------- Colors: Dark Mode (BugBusters) ---------- */
+  --color-bugbusters-blue: #2d5daa;
+  --color-bugbusters-cyan: #00c6d7;
+  --color-bugbusters-purple: #6a5cff;
+  --color-bugbusters-soft: #a0aec0;
+  --color-bugbusters-card: #0f172a;
 
-  /* ---------- Soft layered shadows ---------- */
-  --shadow-soft-xs: 0 2px 8px rgba(0,0,0,0.04);
-  --shadow-soft-sm: 0 4px 12px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
-  --shadow-soft: 0 8px 24px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.03);
-  --shadow-soft-lg: 0 16px 40px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.04);
-  --shadow-soft-xl: 0 24px 56px rgba(0,0,0,0.12), 0 6px 16px rgba(0,0,0,0.05);
-  --shadow-glow-grape: 0 8px 32px rgba(104,70,255,0.15), 0 2px 8px rgba(104,70,255,0.08);
-  --shadow-glow-coral: 0 8px 32px rgba(255,122,0,0.15), 0 2px 8px rgba(255,122,0,0.08);
-  --shadow-glow-mint: 0 8px 32px rgba(0,201,154,0.15), 0 2px 8px rgba(0,201,154,0.08);
-  --shadow-glow-sky: 0 8px 32px rgba(76,111,255,0.15), 0 2px 8px rgba(76,111,255,0.08);
-  --shadow-glow-flamingo: 0 8px 32px rgba(255,79,139,0.15), 0 2px 8px rgba(255,79,139,0.08);
+  /* ---------- Shadows ---------- */
+  --shadow-soft: 0 1px 2px rgb(28 25 23 / 0.05), 0 8px 20px -6px rgb(28 25 23 / 0.10);
+  --shadow-lift: 0 2px 6px rgb(28 25 23 / 0.06), 0 24px 48px -12px rgb(28 25 23 / 0.18);
+  --shadow-glow: 0 10px 32px -8px rgb(249 115 22 / 0.50), 0 24px 48px -12px rgb(28 25 23 / 0.14);
+  --shadow-glow-indigo: 0 10px 32px -8px rgb(99 102 241 / 0.50), 0 24px 48px -12px rgb(28 25 23 / 0.14);
+  --shadow-bugbusters: 0 10px 32px -8px rgb(0 198 215 / 0.45), 0 24px 48px -12px rgb(45 93 170 / 0.40);
 
   /* ---------- Animations ---------- */
   --animate-pop-in: pop-in 0.45s cubic-bezier(0.2, 1.4, 0.4, 1) both;
@@ -49,6 +50,7 @@
   --animate-arrow-drop: arrow-drop 0.9s ease-in-out infinite;
   --animate-spin-slow: spin 9s linear infinite;
   --animate-blink: blink 1s steps(2, start) infinite;
+  --animate-shimmer: shimmer 2s ease-in-out infinite;
 
   @keyframes pop-in {
     0% { transform: translateY(-110%) scale(0.5); opacity: 0; }
@@ -72,6 +74,10 @@
   @keyframes blink {
     50% { opacity: 0; }
   }
+  @keyframes shimmer {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+  }
 }
 
 @layer base {
@@ -80,12 +86,22 @@
   }
 
   body {
-    @apply bg-paper text-ink font-sans antialiased;
+    @apply bg-cream text-stone-900 font-sans antialiased;
+  }
+
+  .dark body,
+  .dark {
+    @apply bg-black text-white;
   }
 
   ::selection {
-    background: var(--color-lemon);
-    color: var(--color-ink);
+    background: rgb(251 146 60 / 0.35);
+    color: #1c1917;
+  }
+
+  .dark ::selection {
+    background: rgb(0 198 215 / 0.35);
+    color: #ffffff;
   }
 
   ::-webkit-scrollbar {
@@ -93,7 +109,10 @@
     height: 8px;
   }
   ::-webkit-scrollbar-track {
-    background: var(--color-paper);
+    background: var(--color-cream);
+  }
+  .dark ::-webkit-scrollbar-track {
+    background: #050505;
   }
   ::-webkit-scrollbar-thumb {
     background: #D1D5DB;
@@ -114,23 +133,65 @@
 }
 
 @layer components {
-  /* Soft skewmorphic panel */
-  .panel {
-    @apply relative bg-white rounded-2xl border border-gray-100;
+  /* Card component with skewmorphic tilt */
+  .card {
+    @apply relative bg-white rounded-2xl border border-stone-900/5 overflow-hidden;
     box-shadow: var(--shadow-soft);
   }
+  .dark .card {
+    @apply bg-bugbusters-card border-white/10;
+  }
 
-  .panel-flat {
-    @apply relative bg-white rounded-xl border border-gray-100;
-    box-shadow: var(--shadow-soft-sm);
+  .card-hover {
+    @apply transition-all duration-300 hover:-translate-y-1.5 hover:shadow-lift hover:rotate-0;
+  }
+
+  /* Section heading pattern */
+  .section-eyebrow {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-stone-900/5 bg-white px-3.5 py-1
+      text-xs font-bold uppercase tracking-[0.18em] text-stone-600;
+    box-shadow: 0 1px 2px rgb(28 25 23 / 0.05);
+  }
+  .dark .section-eyebrow {
+    @apply border-white/10 bg-white/5 text-gray-400;
+  }
+
+  /* Soft pill sticker / tag */
+  .sticker {
+    @apply inline-block rounded-full border border-stone-900/5 bg-white px-3.5 py-1
+      text-[11px] font-bold uppercase tracking-[0.15em];
+    box-shadow: 0 1px 2px rgb(28 25 23 / 0.05);
+  }
+  .dark .sticker {
+    @apply border-white/10 bg-white/5;
+  }
+
+  /* Soft label chip */
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-lg border border-stone-900/5
+      bg-white px-2.5 py-1 text-[11px] font-bold uppercase tracking-widest;
+    box-shadow: 0 1px 2px rgb(28 25 23 / 0.05);
+  }
+  .dark .chip {
+    @apply border-white/10 bg-white/5;
+  }
+
+  /* Soft mono expression tile */
+  .tile {
+    @apply inline-flex items-center justify-center rounded-xl border border-stone-900/5
+      font-mono font-bold leading-none bg-white;
+    box-shadow: 0 1px 2px rgb(28 25 23 / 0.05);
+  }
+  .dark .tile {
+    @apply border-white/10 bg-white/5;
   }
 
   /* Soft button with hover lift */
   .btn {
-    @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-2xl
       px-5 py-2.5 font-bold tracking-wide select-none
-      transition-all duration-200;
-    box-shadow: var(--shadow-soft-sm);
+      transition-all duration-300;
+    box-shadow: 0 1px 2px rgb(28 25 23 / 0.05), 0 4px 12px -2px rgb(28 25 23 / 0.08);
   }
   .btn:hover:not(:disabled) {
     @apply -translate-y-0.5;
@@ -138,36 +199,58 @@
   }
   .btn:active:not(:disabled) {
     @apply translate-y-0;
-    box-shadow: var(--shadow-soft-xs);
+    box-shadow: 0 1px 2px rgb(28 25 23 / 0.05);
   }
   .btn:disabled {
     @apply cursor-not-allowed opacity-50;
   }
 
-  /* Soft pill sticker / tag */
-  .sticker {
-    @apply inline-block rounded-full border border-gray-200 bg-white px-3.5 py-1
-      font-display text-[11px] uppercase tracking-[0.15em];
-    box-shadow: var(--shadow-soft-xs);
-  }
-
-  /* Soft label chip */
-  .chip {
-    @apply inline-flex items-center gap-1.5 rounded-lg border border-gray-100
-      bg-white px-2.5 py-1 text-[11px] font-bold uppercase tracking-widest;
-    box-shadow: var(--shadow-soft-xs);
-  }
-
-  /* Soft mono expression tile */
-  .tile {
-    @apply inline-flex items-center justify-center rounded-xl border border-gray-100
-      font-mono font-bold leading-none;
-    box-shadow: var(--shadow-soft-xs);
-  }
-
   /* Skewed section title */
   .heading-skew {
-    @apply font-display uppercase tracking-tight;
-    transform: skewX(-4deg);
+    @apply font-extrabold tracking-tight;
+    transform: skewX(-2deg);
+  }
+
+  /* Card shimmer effect */
+  .card-shimmer {
+    @apply relative overflow-hidden;
+  }
+  .card-shimmer::after {
+    content: '';
+    @apply absolute inset-0 pointer-events-none;
+    background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .card-shimmer:hover::after {
+    opacity: 1;
+  }
+
+  /* Decorative gradient bar */
+  .deco-bar {
+    @apply h-1.5 rounded-full;
+  }
+
+  /* Panel (card wrapper) */
+  .panel {
+    @apply relative bg-white rounded-2xl border border-stone-900/5;
+    box-shadow: var(--shadow-soft);
+  }
+  .dark .panel {
+    @apply bg-bugbusters-card border-white/10;
+  }
+
+  .panel-flat {
+    @apply relative bg-white rounded-xl border border-stone-900/5;
+    box-shadow: 0 1px 2px rgb(28 25 23 / 0.05), 0 4px 12px -2px rgb(28 25 23 / 0.08);
+  }
+  .dark .panel-flat {
+    @apply bg-bugbusters-card border-white/10;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
   }
 }

@@ -4,7 +4,7 @@ export default function PrefixToPostfix() {
   return (
     <ComingSoonCard
       title="Prefix → Postfix"
-      color="lemon"
+      color="cyan"
       desc="The final boss: complete the conversion cycle and close the notation loop for good."
       planned={[
         'Mirrored scanning engine',

@@ -7,19 +7,19 @@ const NOTATIONS = [
   {
     name: 'Infix',
     example: 'A + B',
-    tone: 'bg-grape text-white border-grape',
+    tone: 'bg-orange-500 text-white border-orange-500',
     desc: 'Operator between operands. Human-friendly, machine-ambiguous without precedence rules.',
   },
   {
     name: 'Postfix (Reverse Polish)',
     example: 'A B +',
-    tone: 'bg-sky text-white border-sky',
+    tone: 'bg-indigo-600 text-white border-indigo-600',
     desc: 'Operator after operands. No brackets ever needed \u2014 perfect for stack evaluation.',
   },
   {
     name: 'Prefix (Polish)',
     example: '+ A B',
-    tone: 'bg-lemon border-lemon/30',
+    tone: 'bg-amber-500/10 border-amber-500/30 text-amber-600',
     desc: 'Operator before operands. Same bracket-free superpower, mirrored scanning.',
   },
 ];
@@ -28,25 +28,25 @@ export default function About() {
   return (
     <div>
       <PageHeader
-        title={<>About this <span className="border-b-8 border-flamingo">Stack Lab</span></>}
+        title={<>About this <span className="border-b-8 border-pink-500">Stack Lab</span></>}
         subtitle="An academic Data Structures project that turns invisible stack operations into something you can literally watch."
         algo="LEARN BY SEEING"
-        accent="bg-flamingo"
+        accent="bg-pink-500"
       />
 
       <div className="mx-auto max-w-6xl space-y-8 px-4 py-10 sm:px-6">
         {/* Mission */}
-        <section className="panel -rotate-[0.3deg] p-6 sm:p-8">
+        <section className="card -rotate-[0.3deg] p-6 transition-all duration-300 hover:rotate-0 sm:p-8 dark:bg-bugbusters-card dark:border-white/10">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="grid size-11 place-items-center rounded-xl bg-grape text-white" style={{ boxShadow: 'var(--shadow-glow-grape)' }}>
+            <span className="grid size-11 place-items-center rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 text-white" style={{ boxShadow: '0 8px 24px rgba(249,115,22,0.2)' }}>
               <FiTarget />
             </span>
-            <h2 className="heading-skew text-xl sm:text-2xl">The mission</h2>
+            <h2 className="heading-skew text-xl font-extrabold text-stone-900 sm:text-2xl dark:text-white">The mission</h2>
           </div>
-          <p className="mt-4 max-w-3xl text-sm leading-relaxed text-ink-soft sm:text-base">
+          <p className="mt-4 max-w-3xl text-sm leading-relaxed text-stone-600 sm:text-base dark:text-bugbusters-soft">
             Expression conversion is where most students first meet a stack doing real work &mdash; and
             it&apos;s usually taught as a wall of trace tables. This project flips that: the{' '}
-            <b className="text-ink">algorithm generates steps, the UI plays them</b>. Push a block,
+            <b className="text-stone-900 dark:text-white">algorithm generates steps, the UI plays them</b>. Push a block,
             pop a block, watch the output tape grow &mdash; with every decision narrated in plain
             language. If you can watch it, you can trace it on paper in your exam.
           </p>
@@ -55,25 +55,28 @@ export default function About() {
         {/* Notations */}
         <section>
           <div className="flex items-center gap-3">
-            <span className="sticker rotate-1 bg-turq border-turq/30">Theory corner</span>
-            <h2 className="heading-skew text-xl sm:text-2xl">Three ways to write A+B</h2>
+            <span className="section-eyebrow rotate-1">
+              <span className="inline-block size-1.5 rounded-full bg-cyan-400" />
+              Theory corner
+            </span>
+            <h2 className="heading-skew text-xl font-extrabold text-stone-900 sm:text-2xl dark:text-white">Three ways to write A+B</h2>
           </div>
           <div className="mt-5 grid gap-5 md:grid-cols-3">
             {NOTATIONS.map((n, i) => (
-              <div key={n.name} className={`panel p-5 ${['-rotate-1', 'rotate-1', '-rotate-1'][i]} hover:rotate-0 transition-all duration-300 hover:shadow-soft-lg`}>
+              <div key={n.name} className={`card card-hover p-5 ${['-rotate-1', 'rotate-1', '-rotate-1'][i]}`}>
                 <span className={`tile w-full px-3 py-2.5 font-mono text-lg ${n.tone}`}>{n.example}</span>
-                <h3 className="mt-3 font-display text-sm uppercase tracking-wide">{n.name}</h3>
-                <p className="mt-2 text-xs leading-relaxed font-semibold text-ink-soft">{n.desc}</p>
+                <h3 className="mt-3 font-extrabold text-sm uppercase tracking-wide text-stone-900 dark:text-white">{n.name}</h3>
+                <p className="mt-2 text-xs leading-relaxed font-semibold text-stone-600 dark:text-bugbusters-soft">{n.desc}</p>
               </div>
             ))}
           </div>
 
           {/* Precedence table */}
-          <div className="panel mt-6 overflow-hidden">
-            <div className="border-b border-gray-100 bg-cream/60 px-5 py-3">
-              <h3 className="font-display text-sm uppercase tracking-wide">Precedence used by the algorithms</h3>
+          <div className="card mt-6 overflow-hidden dark:bg-bugbusters-card dark:border-white/10">
+            <div className="border-b border-stone-900/5 bg-cream-dark px-5 py-3 dark:border-white/10 dark:bg-[#050505]">
+              <h3 className="font-extrabold text-sm uppercase tracking-wide text-stone-900 dark:text-white">Precedence used by the algorithms</h3>
             </div>
-            <div className="grid grid-cols-2 divide-x divide-gray-100 sm:grid-cols-4">
+            <div className="grid grid-cols-2 divide-x divide-stone-900/5 sm:grid-cols-4 dark:divide-white/10">
               {[
                 { op: '^', p: 3, note: 'highest' },
                 { op: '* /', p: 2, note: 'multiplicative' },
@@ -81,11 +84,11 @@ export default function About() {
                 { op: '( )', p: '\u2014', note: 'grouping floor' },
               ].map((row) => (
                 <div key={row.op} className="p-4 text-center">
-                  <code className={`tile mx-auto px-3 py-1.5 text-base ${row.p === 3 ? 'bg-coral text-white border-coral' : row.p === 2 ? 'bg-lemon border-lemon/30' : row.p === 1 ? 'bg-sky text-white border-sky' : 'bg-paper border-gray-200'}`}>
+                  <code className={`tile mx-auto px-3 py-1.5 text-base ${row.p === 3 ? 'bg-rose-500 text-white border-rose-500' : row.p === 2 ? 'bg-amber-500/10 border-amber-500/30 text-amber-600' : row.p === 1 ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-cream border-stone-900/5 dark:bg-[#0a0a0a] dark:border-white/10 dark:text-white'}`}>
                     {row.op}
                   </code>
-                  <p className="mt-2 font-mono text-xs font-bold">P:{row.p}</p>
-                  <p className="text-[10px] font-semibold uppercase tracking-widest text-ink-soft">{row.note}</p>
+                  <p className="mt-2 font-mono text-xs font-bold text-stone-900 dark:text-white">P:{row.p}</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-500 dark:text-gray-400">{row.note}</p>
                 </div>
               ))}
             </div>
@@ -95,8 +98,11 @@ export default function About() {
         {/* How to use */}
         <section>
           <div className="flex items-center gap-3">
-            <span className="sticker -rotate-1 bg-mint text-white border-transparent">Field guide</span>
-            <h2 className="heading-skew text-xl sm:text-2xl">How to use a lab</h2>
+            <span className="section-eyebrow -rotate-1">
+              <span className="inline-block size-1.5 rounded-full bg-emerald-500" />
+              Field guide
+            </span>
+            <h2 className="heading-skew text-xl font-extrabold text-stone-900 sm:text-2xl dark:text-white">How to use a lab</h2>
           </div>
           <div className="mt-5 grid gap-5 md:grid-cols-3">
             {[
@@ -104,13 +110,13 @@ export default function About() {
               { icon: FiEye, t: 'Scrub the timeline', d: 'Play, pause, step \u00b1, jump via the table rows, or drag the speed slider from Slow to Fast.' },
               { icon: FiBookOpen, t: 'Read both explainers', d: 'Every lab ends with a plain-language idea and the full stack mechanics replay of YOUR expression.' },
             ].map((s, i) => (
-              <div key={s.t} className="panel-flat flex gap-4 p-5">
-                <span className={`grid size-11 shrink-0 place-items-center rounded-xl text-white ${['bg-grape', 'bg-coral', 'bg-mint'][i]}`} style={{ boxShadow: 'var(--shadow-soft-sm)' }}>
+              <div key={s.t} className="panel-flat flex gap-4 p-5 dark:bg-bugbusters-card dark:border-white/10">
+                <span className={`grid size-11 shrink-0 place-items-center rounded-2xl text-white ${['bg-gradient-to-br from-orange-500 to-amber-500', 'bg-gradient-to-br from-rose-500 to-pink-500', 'bg-gradient-to-br from-emerald-500 to-teal-400'][i]}`} style={{ boxShadow: '0 1px 2px rgb(28 25 23 / 0.05), 0 4px 12px -2px rgb(28 25 23 / 0.08)' }}>
                   <s.icon />
                 </span>
                 <div>
-                  <h3 className="font-display text-sm">{s.t}</h3>
-                  <p className="mt-1.5 text-xs leading-relaxed font-semibold text-ink-soft">{s.d}</p>
+                  <h3 className="font-extrabold text-sm text-stone-900 dark:text-white">{s.t}</h3>
+                  <p className="mt-1.5 text-xs leading-relaxed font-semibold text-stone-600 dark:text-bugbusters-soft">{s.d}</p>
                 </div>
               </div>
             ))}
@@ -119,40 +125,42 @@ export default function About() {
 
         {/* Tech + roadmap */}
         <section className="grid gap-6 lg:grid-cols-2">
-          <div className="panel p-6">
+          <div className="card p-6 dark:bg-bugbusters-card dark:border-white/10">
             <div className="flex items-center gap-3">
-              <span className="grid size-10 place-items-center rounded-xl bg-ink text-white" style={{ boxShadow: 'var(--shadow-soft-sm)' }}>
+              <span className="grid size-10 place-items-center rounded-2xl bg-stone-900 text-white" style={{ boxShadow: '0 1px 2px rgb(28 25 23 / 0.05), 0 4px 12px -2px rgb(28 25 23 / 0.08)' }}>
                 <FiGitBranch />
               </span>
-              <h2 className="heading-skew text-lg">Built with</h2>
+              <h2 className="heading-skew text-lg font-extrabold text-stone-900 dark:text-white">Built with</h2>
             </div>
             <div className="mt-4 flex flex-wrap gap-2.5">
               {['React 19', 'React Router', 'Tailwind CSS v4', 'Vite', 'react-icons'].map((t) => (
-                <span key={t} className="chip bg-lemon-soft border-lemon/30">{t}</span>
+                <span key={t} className="chip bg-amber-500/10 text-amber-600 border-amber-500/30">{t}</span>
               ))}
             </div>
-            <p className="mt-4 text-xs leading-relaxed font-semibold text-ink-soft">
+            <p className="mt-4 text-xs leading-relaxed font-semibold text-stone-600 dark:text-bugbusters-soft">
               Algorithms live in pure util modules that emit step lists &mdash; the UI is just a player.
               That&apos;s what makes the four upcoming conversions plug-and-play.
             </p>
           </div>
 
-          <div className="panel rotate-[0.4deg] p-6">
+          <div className="card rotate-[0.4deg] p-6 transition-all duration-300 hover:rotate-0 dark:bg-bugbusters-card dark:border-white/10">
             <div className="flex items-center gap-3">
-              <span className="grid size-10 place-items-center rounded-xl bg-flamingo text-white" style={{ boxShadow: 'var(--shadow-glow-flamingo)' }}>
+              <span className="grid size-10 place-items-center rounded-2xl bg-gradient-to-br from-pink-500 to-rose-500 text-white" style={{ boxShadow: '0 8px 24px rgba(236,72,153,0.2)' }}>
                 <FiArrowRight />
               </span>
-              <h2 className="heading-skew text-lg">On the roadmap</h2>
+              <h2 className="heading-skew text-lg font-extrabold text-stone-900 dark:text-white">On the roadmap</h2>
             </div>
             <ul className="mt-4 space-y-2 font-mono text-sm font-bold">
-              <li className="flex justify-between border-b border-dashed border-gray-200 pb-1.5"><span>Infix \u2192 Prefix</span><span className="text-ink/30">soon</span></li>
-              <li className="flex justify-between border-b border-dashed border-gray-200 pb-1.5"><span>Prefix \u2192 Infix</span><span className="text-ink/30">soon</span></li>
-              <li className="flex justify-between border-b border-dashed border-gray-200 pb-1.5"><span>Postfix \u2192 Prefix</span><span className="text-ink/30">soon</span></li>
-              <li className="flex justify-between"><span>Prefix \u2192 Postfix</span><span className="text-ink/30">soon</span></li>
+              {['Infix \u2192 Prefix', 'Prefix \u2192 Infix', 'Postfix \u2192 Prefix', 'Prefix \u2192 Postfix'].map((item) => (
+                <li key={item} className="flex justify-between border-b border-dashed border-stone-900/10 pb-1.5 text-stone-700 dark:border-white/10 dark:text-gray-300">
+                  <span>{item}</span>
+                  <span className="text-stone-300 dark:text-gray-600">soon</span>
+                </li>
+              ))}
             </ul>
             <div className="mt-5 flex flex-wrap gap-2">
               {LIVE_CONVERSIONS.map((c) => (
-                <Link key={c.id} to={c.path} className="btn bg-white border border-gray-200 px-3 py-2 text-xs">
+                <Link key={c.id} to={c.path} className="btn bg-white border border-stone-900/5 px-3 py-2 text-xs dark:bg-bugbusters-card dark:border-white/10 dark:text-white">
                   Open {c.title}
                 </Link>
               ))}

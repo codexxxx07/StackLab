@@ -35,42 +35,74 @@ export default function Home() {
 
 function Hero() {
   return (
-    <section className="relative mx-auto max-w-6xl px-4 pb-16 pt-12 sm:px-6 sm:pt-16">
-      {/* Floating deco shapes — soft rounded, no hard borders */}
-      <span aria-hidden className="absolute -left-2 top-24 hidden size-16 -rotate-12 rounded-2xl bg-lemon animate-bob md:block" style={{ boxShadow: '0 8px 24px rgba(255,200,61,0.2)' }} />
-      <span aria-hidden className="absolute right-4 top-40 hidden size-12 rotate-12 rounded-full bg-sky animate-bob-slow md:block" style={{ boxShadow: '0 8px 24px rgba(76,111,255,0.2)' }} />
-      <span aria-hidden className="absolute bottom-10 left-10 hidden size-9 rotate-45 rounded-xl bg-flamingo animate-bob lg:block" style={{ boxShadow: '0 8px 24px rgba(255,79,139,0.2)' }} />
-      <span aria-hidden className="absolute -right-1 bottom-20 hidden size-14 -rotate-6 rounded-2xl bg-mint animate-bob-slow lg:block" style={{ boxShadow: '0 8px 24px rgba(0,201,154,0.2)' }} />
+    <section className="relative mx-auto max-w-6xl px-4 pb-28 pt-36 sm:px-6 sm:pt-44">
+      {/* Background grid pattern */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-30 dark:opacity-20"
+        style={{
+          backgroundImage: 'linear-gradient(rgb(28 25 23 / 0.05) 1px, transparent 1px), linear-gradient(90deg, rgb(28 25 23 / 0.05) 1px, transparent 1px)',
+          backgroundSize: '56px 56px',
+          maskImage: 'radial-gradient(ellipse 80% 60% at 50% 20%, black, transparent)',
+        }}
+      />
 
-      <div className="text-center">
-        <div className="flex flex-wrap items-center justify-center gap-2">
-          <span className="sticker -rotate-2 bg-grape text-white border-transparent">Data Structures</span>
-          <span className="sticker rotate-1">Stack Algorithm</span>
-          <span className="sticker -rotate-1 bg-lemon border-lemon/30">Step-by-step</span>
+      {/* Blurred decorative blobs */}
+      <span aria-hidden className="absolute -left-32 top-20 size-96 rounded-full bg-orange-500/20 blur-3xl dark:bg-orange-500/10" />
+      <span aria-hidden className="absolute -right-32 top-40 size-80 rounded-full bg-indigo-600/20 blur-3xl dark:bg-indigo-600/10" />
+      <span aria-hidden className="absolute bottom-0 left-1/3 size-72 rounded-full bg-amber-500/15 blur-3xl dark:bg-amber-500/5" />
+
+      {/* Floating deco shapes */}
+      <span aria-hidden className="absolute -left-2 top-24 hidden size-16 -rotate-12 rounded-2xl bg-amber-500 animate-bob md:block" style={{ boxShadow: '0 8px 24px rgba(245,158,11,0.2)' }} />
+      <span aria-hidden className="absolute right-4 top-40 hidden size-12 rotate-12 rounded-full bg-indigo-600 animate-bob-slow md:block" style={{ boxShadow: '0 8px 24px rgba(79,70,229,0.2)' }} />
+      <span aria-hidden className="absolute bottom-10 left-10 hidden size-9 rotate-45 rounded-xl bg-pink-500 animate-bob lg:block" style={{ boxShadow: '0 8px 24px rgba(236,72,153,0.2)' }} />
+      <span aria-hidden className="absolute -right-1 bottom-20 hidden size-14 -rotate-6 rounded-2xl bg-emerald-500 animate-bob-slow lg:block" style={{ boxShadow: '0 8px 24px rgba(16,185,129,0.2)' }} />
+
+      <div className="relative text-center">
+        {/* Eyebrow badge */}
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <span className="section-eyebrow -rotate-1">
+            <span className="inline-block size-1.5 rounded-full bg-orange-500" />
+            Data Structures &middot; Stack Algorithm
+          </span>
         </div>
 
-        <h1 className="heading-skew mt-7 text-[42px] leading-[0.95] sm:text-7xl">
-          EXPRESSION
-          <span className="mt-1 block text-grape">VISUALIZED.</span>
+        <h1 className="mt-7 text-5xl font-extrabold leading-[0.95] tracking-tight text-stone-900 sm:text-6xl lg:text-7xl dark:text-white">
+          DSA Expression
+          <span className="mt-1 block bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 bg-clip-text text-transparent dark:from-cyan-300 dark:via-bugbusters-blue dark:to-bugbusters-purple">
+            Visualizer
+          </span>
         </h1>
 
-        <p className="mx-auto mt-6 max-w-2xl text-lg font-semibold leading-relaxed text-ink-soft sm:text-xl">
+        {/* Skewed accent bar under title */}
+        <div className="mx-auto mt-4 flex items-center justify-center gap-2">
+          <span className="h-1.5 w-16 -rotate-2 rounded-full bg-gradient-to-r from-orange-500 to-amber-500" />
+          <span className="h-1.5 w-8 rotate-1 rounded-full bg-gradient-to-r from-indigo-600 to-violet-500" />
+          <span className="h-1.5 w-4 -rotate-1 rounded-full bg-gradient-to-r from-emerald-500 to-teal-400" />
+        </div>
+
+        <p className="mx-auto mt-6 max-w-2xl text-lg font-normal leading-relaxed text-stone-600 sm:text-xl dark:text-bugbusters-soft">
           Understand expression conversion by{' '}
-          <mark className="rounded-md bg-lemon/60 px-1.5 py-0.5">seeing every step happen</mark> &mdash; watch operands
+          <mark className="rounded-lg bg-amber-500/20 px-1.5 py-0.5 font-semibold text-stone-900 dark:bg-cyan-400/20 dark:text-white">seeing every step happen</mark> &mdash; watch operands
           sprint to the output while operators wait their turn on the stack.
         </p>
 
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <Link to="/infix-to-postfix" className="btn bg-grape px-7 py-3.5 text-base text-white border-transparent">
-            Start Visualizing <FiArrowRight />
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <Link
+            to="/infix-to-postfix"
+            className="btn -rotate-1 bg-gradient-to-r from-orange-500 to-amber-500 px-8 py-3.5 text-base text-white shadow-glow hover:rotate-0 hover:shadow-lift dark:from-bugbusters-cyan dark:via-bugbusters-blue dark:to-bugbusters-purple dark:shadow-bugbusters"
+          >
+            Start Visualizing <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
           </Link>
-          <a href="#conversions" className="btn bg-white px-7 py-3.5 text-base border border-gray-200">
+          <a
+            href="#conversions"
+            className="btn rotate-1 bg-white px-8 py-3.5 text-base border border-stone-900/5 hover:rotate-0 dark:bg-bugbusters-card dark:border-white/10 dark:text-white"
+          >
             Explore Conversions
           </a>
         </div>
       </div>
 
-      <div className="mt-14">
+      <div className="relative mt-14">
         <HeroDemo />
       </div>
     </section>
@@ -92,62 +124,62 @@ function HeroDemo() {
   const step = steps[Math.min(tick, steps.length - 1)];
 
   return (
-    <div className="panel mx-auto max-w-3xl rotate-1 p-5 sm:p-7">
+    <div className="panel mx-auto max-w-3xl -rotate-1 p-5 transition-all duration-300 hover:rotate-0 sm:p-7 dark:bg-bugbusters-card dark:border-white/10">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className="sticker -rotate-1 bg-coral text-white border-transparent">Live demo &middot; looping</span>
-        <code className="font-mono text-xs font-bold uppercase tracking-widest text-ink-soft">
+        <span className="sticker -rotate-1 bg-orange-500 text-white border-transparent">Live demo &middot; looping</span>
+        <code className="font-mono text-xs font-bold uppercase tracking-widest text-stone-600 dark:text-gray-400">
           A+B*C &rarr; ABC*+
         </code>
       </div>
 
       <div className="mt-5 grid gap-4 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1.2fr)]">
         {/* Input stream */}
-        <div className="rounded-xl border border-dashed border-gray-200 bg-paper p-3">
-          <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-ink-soft">Input</p>
+        <div className="rounded-2xl border border-dashed border-stone-900/10 bg-cream p-3 dark:border-white/10 dark:bg-[#0a0a0a]">
+          <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-stone-500 dark:text-gray-500">Input</p>
           <div className="mt-2 flex flex-wrap gap-1.5">
             {[...'A+B*C'].map((c, i) => (
               <span
                 key={i}
-                className={`tile size-8 text-base ${
-                  i === step.charIndex ? 'z-10 scale-110 bg-coral text-white border-coral' : i < step.charIndex ? 'opacity-30' : 'bg-white'
+                className={`tile size-8 text-base transition-all duration-200 ${
+                  i === step.charIndex ? 'z-10 scale-110 bg-rose-500 text-white border-rose-500' : i < step.charIndex ? 'opacity-30' : 'bg-white dark:bg-white/5 dark:border-white/10'
                 }`}
               >
                 {c}
               </span>
             ))}
           </div>
-          <p className="mt-2 text-[9px] font-bold uppercase tracking-[0.25em] text-ink-soft">Output tape</p>
-          <p className="mt-1 min-h-7 break-all font-mono text-xl font-extrabold text-flamingo">
+          <p className="mt-2 text-[9px] font-bold uppercase tracking-[0.25em] text-stone-500 dark:text-gray-500">Output tape</p>
+          <p className="mt-1 min-h-7 break-all font-mono text-xl font-extrabold text-pink-500">
             {step.output}
-            <span className="ml-0.5 inline-block h-5 w-1.5 animate-blink bg-ink align-middle" />
+            <span className="ml-0.5 inline-block h-5 w-1.5 animate-blink bg-stone-900 align-middle dark:bg-white" />
           </p>
         </div>
 
         {/* Arrow */}
         <div className="hidden items-center justify-center sm:flex">
-          <FiArrowDown className="-rotate-90 size-8 text-coral" strokeWidth={3} />
+          <FiArrowDown className="-rotate-90 size-8 text-rose-500" strokeWidth={3} />
         </div>
 
         {/* Stack */}
-        <div className="rounded-xl border border-dashed border-gray-200 bg-sky-soft/50 p-3">
-          <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-ink-soft">
+        <div className="rounded-2xl border border-dashed border-stone-900/10 bg-indigo-600/5 p-3 dark:border-white/10 dark:bg-indigo-600/10">
+          <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-stone-500 dark:text-gray-500">
             Stack &middot; {step.stack.length === 0 ? 'empty' : `top = ${step.stack[step.stack.length - 1]}`}
           </p>
           <div className="mt-2 flex min-h-20 flex-col-reverse items-start gap-1.5">
             {step.stack.map((v, i) => (
-              <span key={`${i}-${v}`} className="tile min-w-10 bg-white px-2 py-1 text-base">
+              <span key={`${i}-${v}`} className="tile min-w-10 bg-white px-2 py-1 text-base dark:bg-white/5 dark:border-white/10">
                 {v}
               </span>
             ))}
             {step.stack.length === 0 && (
-              <span className="font-mono text-[11px] uppercase tracking-widest text-ink/30">&mdash;</span>
+              <span className="font-mono text-[11px] uppercase tracking-widest text-stone-400 dark:text-gray-500">&mdash;</span>
             )}
           </div>
         </div>
       </div>
 
-      <p className="mt-4 flex items-center gap-2 border-t border-dashed border-gray-200 pt-3 text-sm font-bold">
-        <FiZap className="shrink-0 text-coral" />
+      <p className="mt-4 flex items-center gap-2 border-t border-dashed border-stone-900/10 pt-3 text-sm font-bold dark:border-white/10">
+        <FiZap className="shrink-0 text-rose-500" />
         {step.reason?.[0]?.text}
       </p>
     </div>
@@ -158,13 +190,14 @@ function HeroDemo() {
 
 function Marquee() {
   const row = [...MARQUEE_WORDS, ...MARQUEE_WORDS];
+  const dotColors = ['bg-amber-500', 'bg-orange-500', 'bg-emerald-500', 'bg-indigo-600'];
   return (
-    <div className="bg-ink py-3.5 text-paper" aria-hidden>
+    <div className="bg-stone-900 py-3.5 text-cream dark:bg-bugbusters-card" aria-hidden>
       <div className="flex w-max animate-marquee gap-8 whitespace-nowrap pr-8">
         {row.map((w, i) => (
-          <span key={i} className="flex items-center gap-8 font-display text-sm tracking-[0.2em]">
+          <span key={i} className="flex items-center gap-8 font-extrabold text-sm tracking-[0.2em] uppercase text-cream dark:text-bugbusters-soft">
             {w}
-            <span className={`size-2 rounded-full ${['bg-lemon', 'bg-coral', 'bg-mint', 'bg-sky'][i % 4]}`} />
+            <span className={`size-2 rounded-full ${dotColors[i % 4]}`} />
           </span>
         ))}
       </div>
@@ -177,19 +210,22 @@ function Marquee() {
 const STEPS_INFO = [
   {
     icon: FiMousePointer,
-    color: 'bg-grape',
+    gradient: 'from-orange-500 to-amber-500',
+    shadow: 'shadow-glow',
     title: 'Type an expression',
     desc: 'Any infix like A+B*C or postfix like ABC*+. Friendly validation keeps mistakes out.',
   },
   {
     icon: FiSliders,
-    color: 'bg-coral',
+    gradient: 'from-indigo-600 to-violet-500',
+    shadow: 'shadow-glow-indigo',
     title: 'Drive the machine',
     desc: 'Play, pause, scrub step-by-step or crank the speed. You are in full control.',
   },
   {
     icon: FiEye,
-    color: 'bg-mint',
+    gradient: 'from-emerald-500 to-teal-400',
+    shadow: '',
     title: 'Watch it click',
     desc: 'Stack, output tape and a narrated operation panel update together. It finally makes sense.',
   },
@@ -197,23 +233,21 @@ const STEPS_INFO = [
 
 function HowItWorks() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <section className="mx-auto max-w-6xl px-4 py-24 sm:px-6">
       <div className="grid gap-6 md:grid-cols-3">
         {STEPS_INFO.map((s, i) => (
           <div
             key={s.title}
-            className={`panel p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-soft-lg ${
-              i % 2 === 0 ? '-rotate-1' : 'rotate-1'
-            } hover:rotate-0`}
+            className={`card card-hover card-shimmer p-6 ${i % 2 === 0 ? '-rotate-1' : 'rotate-1'}`}
           >
             <div className="flex items-center justify-between">
-              <span className={`grid size-12 place-items-center rounded-xl text-white ${s.color}`} style={{ boxShadow: 'var(--shadow-soft-sm)' }}>
+              <span className={`grid size-12 place-items-center rounded-2xl bg-gradient-to-br ${s.gradient} text-white ${s.shadow}`}>
                 <s.icon className="size-6" />
               </span>
-              <span className="font-display text-4xl text-ink/10">0{i + 1}</span>
+              <span className="font-extrabold text-4xl text-stone-900/5 dark:text-white/5">0{i + 1}</span>
             </div>
-            <h3 className="heading-skew mt-4 text-lg">{s.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-ink-soft">{s.desc}</p>
+            <h3 className="heading-skew mt-4 text-lg text-stone-900 dark:text-white">{s.title}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-stone-600 dark:text-bugbusters-soft">{s.desc}</p>
           </div>
         ))}
       </div>
@@ -230,8 +264,11 @@ function ConversionsGrid() {
   return (
     <section id="conversions" className="mx-auto max-w-6xl scroll-mt-28 px-4 pb-8 sm:px-6">
       <div className="text-center">
-        <span className="sticker rotate-1 bg-mint text-white border-transparent">Pick your lab</span>
-        <h2 className="heading-skew mt-4 text-3xl sm:text-5xl">Available Now</h2>
+        <span className="section-eyebrow rotate-1">
+          <span className="inline-block size-1.5 rounded-full bg-emerald-500" />
+          Pick your lab
+        </span>
+        <h2 className="heading-skew mt-4 text-3xl font-extrabold text-stone-900 sm:text-5xl dark:text-white">Available Now</h2>
       </div>
 
       <div className="mt-10 grid gap-8 md:grid-cols-2">
@@ -241,9 +278,12 @@ function ConversionsGrid() {
       </div>
 
       <div className="mt-16 text-center">
-        <span className="sticker -rotate-1">Locked</span>
-        <h2 className="heading-skew mt-4 text-3xl sm:text-4xl">Coming Soon</h2>
-        <p className="mt-3 text-sm font-semibold uppercase tracking-[0.2em] text-ink-soft">
+        <span className="section-eyebrow -rotate-1">
+          <span className="inline-block size-1.5 rounded-full bg-stone-400" />
+          Locked
+        </span>
+        <h2 className="heading-skew mt-4 text-3xl font-extrabold text-stone-900 sm:text-4xl dark:text-white">Coming Soon</h2>
+        <p className="mt-3 text-sm font-semibold uppercase tracking-[0.2em] text-stone-500 dark:text-gray-500">
           Same labs, new algorithms &mdash; currently being wired up
         </p>
       </div>
@@ -265,55 +305,58 @@ function ConversionsGrid() {
 
 function WhyStacks() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-      <div className="panel overflow-hidden p-0">
+    <section className="mx-auto max-w-6xl px-4 py-24 sm:px-6">
+      <div className="card overflow-hidden p-0 dark:bg-bugbusters-card dark:border-white/10">
         <div className="grid md:grid-cols-[1.3fr_1fr]">
           <div className="p-7 sm:p-10">
-            <span className="sticker -rotate-1 bg-flamingo text-white border-transparent">Why stacks?</span>
-            <h2 className="heading-skew mt-4 text-2xl sm:text-4xl">
+            <span className="section-eyebrow -rotate-1">
+              <span className="inline-block size-1.5 rounded-full bg-pink-500" />
+              Why stacks?
+            </span>
+            <h2 className="heading-skew mt-4 text-2xl font-extrabold text-stone-900 sm:text-4xl dark:text-white">
               Operators need patience.<br />Stacks give them memory.
             </h2>
-            <p className="mt-4 max-w-lg text-sm leading-relaxed text-ink-soft sm:text-base">
+            <p className="mt-4 max-w-lg text-sm leading-relaxed text-stone-600 sm:text-base dark:text-bugbusters-soft">
               While scanning an expression, an operator often arrives{' '}
-              <b className="text-ink">before</b> it can be applied &mdash; its second operand hasn&apos;t
+              <b className="text-stone-900 dark:text-white">before</b> it can be applied &mdash; its second operand hasn&apos;t
               been read yet. A stack parks those waiting operators in exactly the right order
               (Last-In-First-Out) so higher-priority work finishes first.
             </p>
             <ul className="mt-5 space-y-2 text-sm font-semibold">
-              <li className="flex items-start gap-2">
-                <span className="chip !py-0.5 bg-mint-soft border-mint/30">push()</span> drop an operator onto the pile
+              <li className="flex items-start gap-2 text-stone-700 dark:text-gray-300">
+                <span className="chip !py-0.5 bg-emerald-500/10 text-emerald-500">push()</span> drop an operator onto the pile
               </li>
-              <li className="flex items-start gap-2">
-                <span className="chip !py-0.5 bg-coral-soft border-coral/30">pop()</span> take the most recent one back
+              <li className="flex items-start gap-2 text-stone-700 dark:text-gray-300">
+                <span className="chip !py-0.5 bg-rose-500/10 text-rose-500">pop()</span> take the most recent one back
               </li>
-              <li className="flex items-start gap-2">
-                <span className="chip !py-0.5 bg-lemon-soft border-lemon/30">peek()</span> check who&apos;s on top before deciding
+              <li className="flex items-start gap-2 text-stone-700 dark:text-gray-300">
+                <span className="chip !py-0.5 bg-amber-500/10 text-amber-500">peek()</span> check who&apos;s on top before deciding
               </li>
             </ul>
-            <Link to="/about" className="btn mt-7 bg-white border border-gray-200">
+            <Link to="/about" className="btn mt-7 bg-white border border-stone-900/5 dark:bg-bugbusters-card dark:border-white/10 dark:text-white">
               Learn more <FiArrowRight />
             </Link>
           </div>
 
           {/* Plate stack illustration */}
-          <div className="relative border-t border-gray-100 bg-cream p-7 sm:p-10 md:border-l md:border-t-0">
+          <div className="relative border-t border-stone-900/5 bg-cream p-7 sm:p-10 md:border-l md:border-t-0 dark:border-white/10 dark:bg-[#050505]">
             <div className="mx-auto flex w-fit flex-col-reverse items-center gap-2">
               {[
-                { v: '+', c: 'bg-grape-soft border-grape/30' },
-                { v: '*', c: 'bg-lemon border-lemon/30' },
-                { v: 'C', c: 'bg-mint-soft border-mint/30' },
-                { v: 'B', c: 'bg-mint-soft border-mint/30' },
+                { v: '+', c: 'bg-orange-500/10 border-orange-500/30 text-orange-500' },
+                { v: '*', c: 'bg-amber-500/10 border-amber-500/30 text-amber-500' },
+                { v: 'C', c: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-500' },
+                { v: 'B', c: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-500' },
               ].map((b, i) => (
                 <span key={i} className={`tile w-28 px-4 py-3 text-xl ${b.c}`}>
                   {b.v}
                 </span>
               ))}
-              <span className="mt-3 h-2 w-36 rounded-full bg-gray-300" />
+              <span className="mt-3 h-2 w-36 rounded-full bg-stone-300 dark:bg-gray-700" />
             </div>
-            <span className="sticker absolute right-6 top-8 rotate-3 bg-coral text-white border-transparent sm:right-10">
+            <span className="sticker absolute right-6 top-8 rotate-3 bg-rose-500 text-white border-transparent sm:right-10">
               TOP &rsaquo;
             </span>
-            <p className="mt-6 text-center font-mono text-[11px] uppercase tracking-[0.25em] text-ink-soft">
+            <p className="mt-6 text-center font-mono text-[11px] uppercase tracking-[0.25em] text-stone-500 dark:text-gray-500">
               LIFO &mdash; last in, first out
             </p>
           </div>
@@ -328,11 +371,11 @@ function WhyStacks() {
 function FinalCta() {
   return (
     <section className="mx-auto max-w-6xl px-4 pb-6 sm:px-6">
-      <div className="panel relative -rotate-1 overflow-hidden bg-grape p-8 text-center text-white sm:p-12" style={{ boxShadow: 'var(--shadow-glow-grape)' }}>
-        <span aria-hidden className="absolute -left-6 -top-6 size-24 rotate-12 rounded-2xl bg-lemon opacity-90" />
-        <span aria-hidden className="absolute -bottom-8 -right-6 size-28 -rotate-6 rounded-2xl bg-mint opacity-90" />
+      <div className="card relative -rotate-1 overflow-hidden bg-gradient-to-br from-orange-500 to-amber-500 p-8 text-center text-white sm:p-12 shadow-glow dark:from-bugbusters-cyan dark:via-bugbusters-blue dark:to-bugbusters-purple dark:shadow-bugbusters">
+        <span aria-hidden className="absolute -left-6 -top-6 size-24 rotate-12 rounded-2xl bg-white opacity-20" />
+        <span aria-hidden className="absolute -bottom-8 -right-6 size-28 -rotate-6 rounded-2xl bg-white opacity-20" />
 
-        <h2 className="heading-skew relative text-3xl sm:text-5xl">
+        <h2 className="heading-skew relative text-3xl font-extrabold sm:text-5xl">
           Ready to see stacks<br className="hidden sm:block" /> do real work?
         </h2>
         <p className="relative mx-auto mt-4 max-w-xl text-sm font-semibold text-white/85 sm:text-base">
@@ -340,7 +383,7 @@ function FinalCta() {
         </p>
         <div className="relative mt-8 flex flex-wrap justify-center gap-3">
           {LIVE_CONVERSIONS.map((c) => (
-            <Link key={c.id} to={c.path} className="btn bg-white px-6 py-3.5 text-base text-ink border-transparent">
+            <Link key={c.id} to={c.path} className="btn bg-white px-6 py-3.5 text-base text-stone-900 border-transparent shadow-soft hover:shadow-lift">
               {c.title} <FiPlay />
             </Link>
           ))}

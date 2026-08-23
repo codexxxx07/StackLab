@@ -4,7 +4,7 @@ export default function InfixToPrefix() {
   return (
     <ComingSoonCard
       title="Infix → Prefix"
-      color="mint"
+      color="emerald"
       desc="The shunting-yard's mirror twin: scan right-to-left, flip the brackets, and operators jump in front of their operands."
       planned={[
         'Reversed scanning with bracket swapping',
