@@ -82,7 +82,7 @@ export default function TwoMethodExplanation({
                 ) : (
                   <span>
                     <span className="text-stone-400 dark:text-gray-500">=</span>
-                    {step}
+                    {step.startsWith('=') ? step.slice(1) : step}
                   </span>
                 )}
               </div>
