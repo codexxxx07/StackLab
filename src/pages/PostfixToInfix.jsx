@@ -1,33 +1,18 @@
 import { useState } from 'react';
-import ControlPanel from '../components/ControlPanel';
 import ExpressionInput from '../components/ExpressionInput';
-import ExpressionVisualizer from '../components/ExpressionVisualizer';
-import OperationPanel from '../components/OperationPanel';
 import PageHeader from '../components/PageHeader';
-import ResultCard from '../components/ResultCard';
-import StackVisualizer from '../components/StackVisualizer';
-import StepTable from '../components/StepTable';
-import { PlainExplanation, StackExplanation } from '../components/PostfixInfixExplanations';
-import { usePlayer } from '../hooks/usePlayer';
+import TwoMethodExplanation from '../components/TwoMethodExplanation';
 import { postfixToInfix } from '../utils/postfixToInfix';
+import {
+  postfixToInfixNormalSteps,
+  postfixToInfixStackRows,
+} from '../utils/explanations';
 import { validatePostfix } from '../utils/expressionValidator';
 
 const EXAMPLES = ['ABC*+', 'AB+C*', 'AB*C+', 'ABC+-', 'ABCDE^*-'];
 
-const TABLE_COLUMNS = [
-  { label: 'Step', accessor: (s) => s.step, mono: false },
-  { label: 'Symbol', accessor: (s) => s.symbol },
-  { label: 'Operation', accessor: (s) => s.action, mono: false },
-  { label: 'Stack (bottom\u2192top)', accessor: (s) => s.stack.join(', ') },
-];
-
 export default function PostfixToInfix() {
   const [data, setData] = useState(null);
-  const total = data?.steps?.length ?? 0;
-  const player = usePlayer(total);
-
-  const cur = data?.steps?.[Math.min(player.index, Math.max(total - 1, 0))];
-  const finished = cur?.type === 'done';
 
   const handleVisualize = (raw) => {
     const verdict = validatePostfix(raw);
@@ -37,10 +22,23 @@ export default function PostfixToInfix() {
     }
     const clean = raw.replace(/\s+/g, '').toUpperCase();
     const { result, steps } = postfixToInfix(clean);
-    setData({ input: clean, steps, result });
-    player.reset();
+    const normalData = postfixToInfixNormalSteps(clean);
+    const stackRows = postfixToInfixStackRows(steps);
+
+    setData({
+      input: clean,
+      result,
+      steps,
+      normalSteps: normalData.steps,
+      normalFinal: normalData.finalResult,
+      stackRows,
+    });
+
     setTimeout(
-      () => document.getElementById('visualizer')?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
+      () =>
+        document
+          .getElementById('result')
+          ?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
       60
     );
   };
@@ -69,57 +67,35 @@ export default function PostfixToInfix() {
           error={data?.error ?? null}
         />
 
-        {cur && !data.error && (
-          <div id="visualizer" className="scroll-mt-28 animate-pop-in space-y-6">
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="section-eyebrow -rotate-1">
-                <span className="inline-block size-1.5 rounded-full bg-rose-500" />
-                Step 02
-              </span>
-              <h2 className="heading-skew text-xl font-extrabold text-stone-900 sm:text-2xl dark:text-white">Watch the strings merge</h2>
-              <span className="chip ml-auto hidden sm:inline-flex">Stack holds partial expressions</span>
-            </div>
-
-            <ExpressionVisualizer expression={data.input} charIndex={cur.charIndex} done={finished} />
-
-            <div className="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
-              <StackVisualizer
-                stack={cur.stack}
-                event={cur.event}
-                stepKey={player.index}
-                hint="partial expressions pile up here"
-                color="indigo"
-              />
-              <OperationPanel step={cur} accent="indigo" />
-            </div>
-
-            <ControlPanel player={player} color="indigo" total={total} />
-
-            <StepTable
-              steps={data.steps}
-              current={player.index}
-              onRowClick={player.goTo}
-              columns={TABLE_COLUMNS}
+        {data && !data.error && (
+          <div
+            id="result"
+            className="scroll-mt-28 animate-pop-in"
+          >
+            <TwoMethodExplanation
+              input={data.input}
+              finalAnswer={data.result}
+              accent="indigo"
+              method1={{
+                title: 'Normal Method',
+                subtitle: 'Without Using Stack',
+                steps: data.normalSteps,
+                finalResult: data.normalFinal,
+                note: 'Postfix is decoded by progressively grouping operands with their operators.',
+              }}
+              method2={{
+                title: 'Stack Method',
+                subtitle: 'Using Stack',
+                columns: [
+                  { label: 'Expression', accessorKey: 'expression' },
+                  { label: 'Stack', accessorKey: 'stack' },
+                  { label: 'Operation', accessorKey: 'operation' },
+                ],
+                rows: data.stackRows,
+              }}
             />
-
-            {finished && (
-              <ResultCard
-                input={data.input}
-                result={data.result}
-                color="indigo"
-                onAgain={() => {
-                  player.reset();
-                  document.getElementById('input')?.scrollIntoView({ behavior: 'smooth' });
-                }}
-              />
-            )}
           </div>
         )}
-
-        <div className="space-y-8 pt-6">
-          <PlainExplanation />
-          <StackExplanation steps={data?.steps} input={data?.input} result={data?.result} />
-        </div>
       </div>
     </div>
   );
