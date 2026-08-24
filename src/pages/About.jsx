@@ -36,9 +36,9 @@ export default function About() {
 
       <div className="mx-auto max-w-6xl space-y-8 px-4 py-10 sm:px-6">
         {/* Mission */}
-        <section className="card -rotate-[0.3deg] p-6 transition-all duration-300 hover:rotate-0 sm:p-8 dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)]">
+        <section className="card rotate-[-0.3deg] p-6 transition-all duration-300 hover:rotate-0 sm:p-8 dark:bg-bugbusters-card dark:border-[rgba(255,255,255,0.06)]">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="grid size-11 place-items-center rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 text-white" style={{ boxShadow: '0 8px 24px rgba(249,115,22,0.2)' }}>
+            <span className="grid size-11 place-items-center rounded-2xl bg-linear-to-br from-orange-500 to-amber-500 text-white" style={{ boxShadow: '0 8px 24px rgba(249,115,22,0.2)' }}>
               <FiTarget />
             </span>
             <h2 className="heading-skew text-xl font-extrabold text-stone-900 sm:text-2xl dark:text-white">The mission</h2>
@@ -72,7 +72,7 @@ export default function About() {
           </div>
 
           {/* Precedence table */}
-          <div className="card mt-6 overflow-hidden dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)]">
+          <div className="card mt-6 overflow-hidden dark:bg-bugbusters-card dark:border-[rgba(255,255,255,0.06)]">
             <div className="border-b border-stone-900/5 bg-cream-dark px-5 py-3 dark:border-[rgba(255,255,255,0.06)] dark:bg-[#050505]">
               <h3 className="font-extrabold text-sm uppercase tracking-wide text-stone-900 dark:text-white">Precedence used by the algorithms</h3>
             </div>
@@ -110,8 +110,8 @@ export default function About() {
               { icon: FiEye, t: 'Scrub the timeline', d: 'Play, pause, step \u00b1, jump via the table rows, or drag the speed slider from Slow to Fast.' },
               { icon: FiBookOpen, t: 'Read both explainers', d: 'Every lab ends with a plain-language idea and the full stack mechanics replay of YOUR expression.' },
             ].map((s, i) => (
-              <div key={s.t} className="panel-flat flex gap-4 p-5 dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)]">
-                <span className={`grid size-11 shrink-0 place-items-center rounded-2xl text-white ${['bg-gradient-to-br from-orange-500 to-amber-500', 'bg-gradient-to-br from-rose-500 to-pink-500', 'bg-gradient-to-br from-emerald-500 to-teal-400'][i]}`} style={{ boxShadow: '0 1px 2px rgb(28 25 23 / 0.05), 0 4px 12px -2px rgb(28 25 23 / 0.08)' }}>
+              <div key={s.t} className="panel-flat flex gap-4 p-5 dark:bg-bugbusters-card dark:border-[rgba(255,255,255,0.06)]">
+                <span className={`grid size-11 shrink-0 place-items-center rounded-2xl text-white ${['bg-linear-to-br from-orange-500 to-amber-500', 'bg-linear-to-br from-rose-500 to-pink-500', 'bg-linear-to-br from-emerald-500 to-teal-400'][i]}`} style={{ boxShadow: '0 1px 2px rgb(28 25 23 / 0.05), 0 4px 12px -2px rgb(28 25 23 / 0.08)' }}>
                   <s.icon />
                 </span>
                 <div>
@@ -125,7 +125,7 @@ export default function About() {
 
         {/* Tech + roadmap */}
         <section className="grid gap-6 lg:grid-cols-2">
-          <div className="card p-6 dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)]">
+          <div className="card p-6 dark:bg-bugbusters-card dark:border-[rgba(255,255,255,0.06)]">
             <div className="flex items-center gap-3">
               <span className="grid size-10 place-items-center rounded-2xl bg-stone-900 text-white" style={{ boxShadow: '0 1px 2px rgb(28 25 23 / 0.05), 0 4px 12px -2px rgb(28 25 23 / 0.08)' }}>
                 <FiGitBranch />
@@ -143,9 +143,9 @@ export default function About() {
             </p>
           </div>
 
-          <div className="card rotate-[0.4deg] p-6 transition-all duration-300 hover:rotate-0 dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)]">
+          <div className="card rotate-[0.4deg] p-6 transition-all duration-300 hover:rotate-0 dark:bg-bugbusters-card dark:border-[rgba(255,255,255,0.06)]">
             <div className="flex items-center gap-3">
-              <span className="grid size-10 place-items-center rounded-2xl bg-gradient-to-br from-pink-500 to-rose-500 text-white" style={{ boxShadow: '0 8px 24px rgba(236,72,153,0.2)' }}>
+              <span className="grid size-10 place-items-center rounded-2xl bg-linear-to-br from-pink-500 to-rose-500 text-white" style={{ boxShadow: '0 8px 24px rgba(236,72,153,0.2)' }}>
                 <FiArrowRight />
               </span>
               <h2 className="heading-skew text-lg font-extrabold text-stone-900 dark:text-white">On the roadmap</h2>
@@ -160,7 +160,7 @@ export default function About() {
             </ul>
             <div className="mt-5 flex flex-wrap gap-2">
               {LIVE_CONVERSIONS.map((c) => (
-                <Link key={c.id} to={c.path} className="btn bg-white border border-stone-900/5 px-3 py-2 text-xs dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)] dark:text-white dark:hover:border-[rgba(255,255,255,0.12)]">
+                <Link key={c.id} to={c.path} className="btn bg-white border border-stone-900/5 px-3 py-2 text-xs dark:bg-bugbusters-card dark:border-[rgba(255,255,255,0.06)] dark:text-white dark:hover:border-[rgba(255,255,255,0.12)]">
                   Open {c.title}
                 </Link>
               ))}

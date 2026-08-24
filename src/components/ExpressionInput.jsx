@@ -34,7 +34,7 @@ export default function ExpressionInput({ label, placeholder, buttonText, onSubm
   };
 
   return (
-    <form onSubmit={handleSubmit} id="input" className="card p-5 dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)]">
+    <form onSubmit={handleSubmit} id="input" className="card p-5 dark:bg-bugbusters-card dark:border-[rgba(255,255,255,0.06)]">
       <label className="mb-2 block font-extrabold text-sm uppercase tracking-wider text-stone-900 dark:text-white">
         {label}
       </label>

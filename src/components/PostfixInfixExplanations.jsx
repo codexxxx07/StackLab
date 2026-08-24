@@ -86,7 +86,7 @@ export function StackExplanation({ steps, input, result }) {
         {RULES_P2I.map((r, i) => (
           <div
             key={r.title}
-            className={`rounded-2xl border border-stone-900/5 p-4 ${r.tone} ${i % 2 ? 'rotate-[0.5deg]' : '-rotate-[0.5deg]'} dark:border-[rgba(255,255,255,0.06)]`}
+            className={`rounded-2xl border border-stone-900/5 p-4 ${r.tone} ${i % 2 ? 'rotate-[0.5deg]' : 'rotate-[-0.5deg]'} dark:border-[rgba(255,255,255,0.06)]`}
             style={{ boxShadow: '0 1px 2px rgb(28 25 23 / 0.05), 0 4px 12px -2px rgb(28 25 23 / 0.08)' }}
           >
             <p className="font-extrabold text-sm text-stone-900 dark:text-white">{r.title}</p>
@@ -141,7 +141,7 @@ export function StackExplanation({ steps, input, result }) {
       </p>
       <ol className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
         {replay.map((s, i) => (
-          <li key={i} className="panel-flat flex flex-col gap-2 p-3.5 dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)]">
+          <li key={i} className="panel-flat flex flex-col gap-2 p-3.5 dark:bg-bugbusters-card dark:border-[rgba(255,255,255,0.06)]">
             <div className="flex items-center gap-2.5">
               <span
                 className={`grid size-9 shrink-0 place-items-center rounded-xl border font-mono font-extrabold ${
@@ -180,9 +180,9 @@ export function StackExplanation({ steps, input, result }) {
 function OrderStep({ n, what, role, why, tone }) {
   return (
     <li className={`flex flex-wrap items-center gap-x-3 gap-y-1 rounded-xl border-l-[3px] px-4 py-3 ${tone}`}>
-      <span className="sticker !px-1.5 !py-0 !text-[9px]">{n}</span>
+      <span className="sticker px-1.5! py-0! text-[9px]!">{n}</span>
       <code className="font-mono text-lg font-extrabold text-stone-900 dark:text-white">{what}</code>
-      <span className="chip !border-0 !bg-white !py-0 !text-[9px] !shadow-none dark:!bg-[rgba(255,255,255,0.06)] dark:!text-white">{role}</span>
+      <span className="chip border-0! bg-white! py-0! text-[9px]! shadow-none! dark:bg-[rgba(255,255,255,0.06)]! dark:text-white!">{role}</span>
       <p className="w-full text-xs font-semibold text-stone-600 dark:text-bugbusters-soft">{why}</p>
     </li>
   );

@@ -1,6 +1,6 @@
 export default function OutputDisplay({ output, label = 'Output' }) {
   return (
-    <div className="panel-flat p-4 dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)]">
+    <div className="panel-flat p-4 dark:bg-bugbusters-card dark:border-[rgba(255,255,255,0.06)]">
       <h3 className="mb-2 font-extrabold text-xs uppercase tracking-wider text-stone-500 dark:text-gray-400">{label}</h3>
       <div className="flex flex-wrap items-center gap-1">
         {output.length > 0 ? (

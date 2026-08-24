@@ -24,7 +24,7 @@ export default function StackVisualizer({ stack, event, label = 'Stack', color =
   const toneColor = event ? TONE_COLORS[event.kind] || 'bg-white border-stone-900/5 dark:bg-[rgba(255,255,255,0.04)] dark:border-[rgba(255,255,255,0.06)]' : 'bg-white border-stone-900/5 dark:bg-[rgba(255,255,255,0.04)] dark:border-[rgba(255,255,255,0.06)]';
 
   return (
-    <div className="panel-flat p-4 dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)]">
+    <div className="panel-flat p-4 dark:bg-bugbusters-card dark:border-[rgba(255,255,255,0.06)]">
       <div className="mb-3 flex items-center justify-between">
         <h3 className="font-extrabold text-xs uppercase tracking-wider text-stone-500 dark:text-gray-400">{label}</h3>
         {event && (
@@ -36,7 +36,7 @@ export default function StackVisualizer({ stack, event, label = 'Stack', color =
         )}
       </div>
 
-      <div className="relative min-h-[200px] w-full max-w-[220px] mx-auto">
+      <div className="relative min-h-50 w-full max-w-55 mx-auto">
         {/* Stack base */}
         <div className="absolute bottom-0 left-0 right-0 h-2 rounded-b-2xl bg-stone-200 dark:bg-gray-700" />
         {/* Stack walls */}

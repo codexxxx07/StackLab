@@ -65,7 +65,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between rounded-2xl border border-stone-900/5 bg-white/90 px-4 py-2.5 shadow-soft backdrop-blur-xl sm:px-6 lg:px-8 dark:border-[rgba(255,255,255,0.06)] dark:bg-[rgba(15,23,42,0.85)]">
           {/* Logo */}
           <Link to="/" className="group flex items-center gap-2.5">
-            <div className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 text-white transition-all duration-300 group-hover:-rotate-3 group-hover:scale-110" style={{ boxShadow: 'var(--shadow-glow)' }}>
+            <div className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-orange-500 to-amber-500 text-white transition-all duration-300 group-hover:-rotate-3 group-hover:scale-110" style={{ boxShadow: 'var(--shadow-glow)' }}>
               <span className="font-extrabold text-sm leading-none">S</span>
             </div>
             <span className="hidden font-extrabold text-base tracking-tight text-stone-900 sm:block dark:text-white">
@@ -81,15 +81,15 @@ export default function Navbar() {
               className={({ isActive }) =>
                 `group relative rounded-xl px-4 py-2 text-sm font-semibold tracking-tight transition-all duration-300 ${
                   isActive
-                    ? 'bg-orange-500/10 text-orange-600 -rotate-1 dark:bg-white/[0.06] dark:text-white'
-                    : 'text-stone-600 hover:bg-stone-900/5 hover:text-stone-900 hover:-translate-y-0.5 dark:text-[#9ca3af] dark:hover:bg-white/[0.04] dark:hover:text-white'
+                    ? 'bg-orange-500/10 text-orange-600 -rotate-1 dark:bg-white/6 dark:text-white'
+                    : 'text-stone-600 hover:bg-stone-900/5 hover:text-stone-900 hover:-translate-y-0.5 dark:text-[#9ca3af] dark:hover:bg-white/4 dark:hover:text-white'
                 }`
               }
             >
               {({ isActive }) => (
                 <>
                   {isActive && (
-                    <span className="absolute -bottom-1 left-1/2 h-[3px] w-5 -translate-x-1/2 rounded-full bg-orange-500 dark:bg-white" />
+                    <span className="absolute -bottom-1 left-1/2 h-0.75 w-5 -translate-x-1/2 rounded-full bg-orange-500 dark:bg-white" />
                   )}
                   Home
                 </>
@@ -102,8 +102,8 @@ export default function Navbar() {
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 className={`group flex items-center gap-1 rounded-xl px-4 py-2 text-sm font-semibold tracking-tight transition-all duration-300 ${
                   isVisualizerActive()
-                    ? 'bg-orange-500/10 text-orange-600 -rotate-1 dark:bg-white/[0.06] dark:text-white'
-                    : 'text-stone-600 hover:bg-stone-900/5 hover:text-stone-900 hover:-translate-y-0.5 dark:text-[#9ca3af] dark:hover:bg-white/[0.04] dark:hover:text-white'
+                    ? 'bg-orange-500/10 text-orange-600 -rotate-1 dark:bg-white/6 dark:text-white'
+                    : 'text-stone-600 hover:bg-stone-900/5 hover:text-stone-900 hover:-translate-y-0.5 dark:text-[#9ca3af] dark:hover:bg-white/4 dark:hover:text-white'
                 }`}
               >
                 Visualizers
@@ -115,7 +115,7 @@ export default function Navbar() {
 
               {dropdownOpen && (
                 <div className="absolute left-1/2 top-full mt-2 -translate-x-1/2">
-                <div className="w-72 rounded-2xl border border-stone-900/5 bg-white p-2 shadow-lift backdrop-blur-xl animate-dropdown-in dark:border-[rgba(255,255,255,0.06)] dark:bg-[#0f172a]">
+                <div className="w-72 rounded-2xl border border-stone-900/5 bg-white p-2 shadow-lift backdrop-blur-xl animate-dropdown-in dark:border-[rgba(255,255,255,0.06)] dark:bg-bugbusters-card">
                   {/* Available */}
                   <div className="px-3 py-1.5">
                     <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-stone-400 dark:text-[#6b7280]">
@@ -129,8 +129,8 @@ export default function Navbar() {
                       onClick={() => setDropdownOpen(false)}
                       className={`group/item flex items-center gap-3 rounded-xl px-3 py-2.5 transition-all duration-200 ${
                         location.pathname === conv.path
-                          ? 'bg-orange-500/10 text-orange-600 dark:bg-white/[0.06] dark:text-white'
-                          : 'text-stone-700 hover:bg-stone-900/5 hover:text-stone-900 dark:text-[#9ca3af] dark:hover:bg-white/[0.04] dark:hover:text-white'
+                          ? 'bg-orange-500/10 text-orange-600 dark:bg-white/6 dark:text-white'
+                          : 'text-stone-700 hover:bg-stone-900/5 hover:text-stone-900 dark:text-[#9ca3af] dark:hover:bg-white/4 dark:hover:text-white'
                       }`}
                     >
                       <span className={`h-2 w-2 rounded-full ${COLOR_DOT[conv.color]}`} />
@@ -140,7 +140,7 @@ export default function Navbar() {
                   ))}
 
                   {/* Divider */}
-                  <div className="mx-3 my-1 h-px bg-stone-900/5 dark:bg-white/[0.06]" />
+                  <div className="mx-3 my-1 h-px bg-stone-900/5 dark:bg-white/6" />
 
                   {/* Coming Soon */}
                   <div className="px-3 py-1.5">
@@ -170,15 +170,15 @@ export default function Navbar() {
               className={({ isActive }) =>
                 `group relative rounded-xl px-4 py-2 text-sm font-semibold tracking-tight transition-all duration-300 ${
                   isActive
-                    ? 'bg-orange-500/10 text-orange-600 -rotate-1 dark:bg-white/[0.06] dark:text-white'
-                    : 'text-stone-600 hover:bg-stone-900/5 hover:text-stone-900 hover:-translate-y-0.5 dark:text-[#9ca3af] dark:hover:bg-white/[0.04] dark:hover:text-white'
+                    ? 'bg-orange-500/10 text-orange-600 -rotate-1 dark:bg-white/6 dark:text-white'
+                    : 'text-stone-600 hover:bg-stone-900/5 hover:text-stone-900 hover:-translate-y-0.5 dark:text-[#9ca3af] dark:hover:bg-white/4 dark:hover:text-white'
                 }`
               }
             >
               {({ isActive }) => (
                 <>
                   {isActive && (
-                    <span className="absolute -bottom-1 left-1/2 h-[3px] w-5 -translate-x-1/2 rounded-full bg-orange-500 dark:bg-white" />
+                    <span className="absolute -bottom-1 left-1/2 h-0.75 w-5 -translate-x-1/2 rounded-full bg-orange-500 dark:bg-white" />
                   )}
                   About
                 </>
@@ -190,7 +190,7 @@ export default function Navbar() {
           <div className="flex items-center gap-2">
             <button
               onClick={toggleDark}
-              className="group rounded-xl border border-stone-900/5 bg-white p-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-soft dark:border-[rgba(255,255,255,0.06)] dark:bg-[#0f172a]"
+              className="group rounded-xl border border-stone-900/5 bg-white p-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-soft dark:border-[rgba(255,255,255,0.06)] dark:bg-bugbusters-card"
               aria-label="Toggle theme"
             >
               {dark ? (
@@ -203,7 +203,7 @@ export default function Navbar() {
             {/* Mobile hamburger */}
             <button
               onClick={() => setOpen(!open)}
-              className="group rounded-xl border border-stone-900/5 bg-white p-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-soft lg:hidden dark:border-[rgba(255,255,255,0.06)] dark:bg-[#0f172a]"
+              className="group rounded-xl border border-stone-900/5 bg-white p-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-soft lg:hidden dark:border-[rgba(255,255,255,0.06)] dark:bg-bugbusters-card"
               aria-label="Toggle menu"
             >
               {open ? (
@@ -217,7 +217,7 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {open && (
-          <div className="mx-auto mt-2 w-full max-w-5xl rounded-2xl border border-stone-900/5 bg-white p-3 shadow-lift backdrop-blur-xl lg:hidden dark:border-[rgba(255,255,255,0.06)] dark:bg-[#0f172a]">
+          <div className="mx-auto mt-2 w-full max-w-5xl rounded-2xl border border-stone-900/5 bg-white p-3 shadow-lift backdrop-blur-xl lg:hidden dark:border-[rgba(255,255,255,0.06)] dark:bg-bugbusters-card">
             <div className="flex flex-col gap-1">
               <NavLink
                 to="/"
@@ -226,8 +226,8 @@ export default function Navbar() {
                 className={({ isActive }) =>
                   `rounded-xl px-4 py-2.5 text-sm font-semibold tracking-tight transition-all duration-300 ${
                     isActive
-                      ? 'bg-orange-500/10 text-orange-600 -rotate-1 dark:bg-white/[0.06] dark:text-white'
-                      : 'text-stone-600 hover:bg-stone-900/5 hover:text-stone-900 dark:text-[#9ca3af] dark:hover:bg-white/[0.04] dark:hover:text-white'
+                      ? 'bg-orange-500/10 text-orange-600 -rotate-1 dark:bg-white/6 dark:text-white'
+                      : 'text-stone-600 hover:bg-stone-900/5 hover:text-stone-900 dark:text-[#9ca3af] dark:hover:bg-white/4 dark:hover:text-white'
                   }`
                 }
               >
@@ -240,8 +240,8 @@ export default function Navbar() {
                   onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
                   className={`flex w-full items-center justify-between rounded-xl px-4 py-2.5 text-sm font-semibold tracking-tight transition-all duration-300 ${
                     isVisualizerActive()
-                      ? 'bg-orange-500/10 text-orange-600 -rotate-1 dark:bg-white/[0.06] dark:text-white'
-                      : 'text-stone-600 hover:bg-stone-900/5 hover:text-stone-900 dark:text-[#9ca3af] dark:hover:bg-white/[0.04] dark:hover:text-white'
+                      ? 'bg-orange-500/10 text-orange-600 -rotate-1 dark:bg-white/6 dark:text-white'
+                      : 'text-stone-600 hover:bg-stone-900/5 hover:text-stone-900 dark:text-[#9ca3af] dark:hover:bg-white/4 dark:hover:text-white'
                   }`}
                 >
                   Visualizers
@@ -252,7 +252,7 @@ export default function Navbar() {
                 </button>
 
                 {mobileDropdownOpen && (
-                  <div className="ml-3 mt-1 rounded-xl border border-stone-900/5 bg-stone-900/[0.02] p-2 dark:border-[rgba(255,255,255,0.06)] dark:bg-white/[0.02]">
+                  <div className="ml-3 mt-1 rounded-xl border border-stone-900/5 bg-stone-900/2 p-2 dark:border-[rgba(255,255,255,0.06)] dark:bg-white/2">
                     <div className="px-3 py-1.5">
                       <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-stone-400 dark:text-[#6b7280]">
                         Available
@@ -265,8 +265,8 @@ export default function Navbar() {
                         onClick={() => setOpen(false)}
                         className={`flex items-center gap-3 rounded-xl px-3 py-2.5 transition-all duration-200 ${
                           location.pathname === conv.path
-                            ? 'bg-orange-500/10 text-orange-600 dark:bg-white/[0.06] dark:text-white'
-                            : 'text-stone-600 hover:bg-stone-900/5 hover:text-stone-900 dark:text-[#9ca3af] dark:hover:bg-white/[0.04] dark:hover:text-white'
+                            ? 'bg-orange-500/10 text-orange-600 dark:bg-white/6 dark:text-white'
+                            : 'text-stone-600 hover:bg-stone-900/5 hover:text-stone-900 dark:text-[#9ca3af] dark:hover:bg-white/4 dark:hover:text-white'
                         }`}
                       >
                         <span className={`h-2 w-2 rounded-full ${COLOR_DOT[conv.color]}`} />
@@ -274,7 +274,7 @@ export default function Navbar() {
                       </NavLink>
                     ))}
 
-                    <div className="mx-3 my-1 h-px bg-stone-900/5 dark:bg-white/[0.06]" />
+                    <div className="mx-3 my-1 h-px bg-stone-900/5 dark:bg-white/6" />
 
                     <div className="px-3 py-1.5">
                       <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-stone-400 dark:text-[#6b7280]">
@@ -300,8 +300,8 @@ export default function Navbar() {
                 className={({ isActive }) =>
                   `rounded-xl px-4 py-2.5 text-sm font-semibold tracking-tight transition-all duration-300 ${
                     isActive
-                      ? 'bg-orange-500/10 text-orange-600 -rotate-1 dark:bg-white/[0.06] dark:text-white'
-                      : 'text-stone-600 hover:bg-stone-900/5 hover:text-stone-900 dark:text-[#9ca3af] dark:hover:bg-white/[0.04] dark:hover:text-white'
+                      ? 'bg-orange-500/10 text-orange-600 -rotate-1 dark:bg-white/6 dark:text-white'
+                      : 'text-stone-600 hover:bg-stone-900/5 hover:text-stone-900 dark:text-[#9ca3af] dark:hover:bg-white/4 dark:hover:text-white'
                   }`
                 }
               >

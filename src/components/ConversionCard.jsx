@@ -53,7 +53,7 @@ export default function ConversionCard({ conversion, conv, rotate }) {
           <Link
           to={path}
           className={`
-            btn w-full text-xs ${isLive ? `${colors.solid}` : 'bg-white text-stone-900 border border-stone-900/5 cursor-default pointer-events-none opacity-60 dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)] dark:text-white'}
+            btn w-full text-xs ${isLive ? `${colors.solid}` : 'bg-white text-stone-900 border border-stone-900/5 cursor-default pointer-events-none opacity-60 dark:bg-bugbusters-card dark:border-[rgba(255,255,255,0.06)] dark:text-white'}
           `}
         >
           {isLive ? 'Visualize Now' : 'Coming Soon'}

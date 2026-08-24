@@ -4,7 +4,7 @@ const SkeletonBlock = ({ className = '', rounded = 'rounded-xl' }) => (
   <div
     className={`relative overflow-hidden bg-stone-200/80 dark:bg-[rgba(255,255,255,0.04)] ${rounded} ${className}`}
   >
-    <div className="absolute inset-0 -translate-x-full animate-shimmer-bg bg-gradient-to-r from-transparent via-white/40 dark:via-white/[0.04] to-transparent" />
+    <div className="absolute inset-0 -translate-x-full animate-shimmer-bg bg-linear-to-r from-transparent via-white/40 dark:via-white/4 to-transparent" />
   </div>
 );
 
@@ -42,9 +42,9 @@ const HeroSkeleton = () => (
       }}
     />
 
-    <span aria-hidden className="absolute -left-32 top-20 size-96 rounded-full bg-orange-500/20 blur-3xl dark:bg-orange-500/[0.04]" />
-    <span aria-hidden className="absolute -right-32 top-40 size-80 rounded-full bg-indigo-600/20 blur-3xl dark:bg-indigo-600/[0.04]" />
-    <span aria-hidden className="absolute bottom-0 left-1/3 size-72 rounded-full bg-amber-500/15 blur-3xl dark:bg-amber-500/[0.03]" />
+    <span aria-hidden className="absolute -left-32 top-20 size-96 rounded-full bg-orange-500/20 blur-3xl dark:bg-orange-500/4" />
+    <span aria-hidden className="absolute -right-32 top-40 size-80 rounded-full bg-indigo-600/20 blur-3xl dark:bg-indigo-600/4" />
+    <span aria-hidden className="absolute bottom-0 left-1/3 size-72 rounded-full bg-amber-500/15 blur-3xl dark:bg-amber-500/3" />
 
     <div className="relative text-center">
       <div className="flex flex-wrap items-center justify-center gap-3">
@@ -74,7 +74,7 @@ const HeroSkeleton = () => (
     </div>
 
     <div className="relative mt-14">
-      <div className="panel mx-auto max-w-3xl -rotate-1 p-5 sm:p-7 dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)]">
+      <div className="panel mx-auto max-w-3xl -rotate-1 p-5 sm:p-7 dark:bg-bugbusters-card dark:border-[rgba(255,255,255,0.06)]">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <SkeletonBlock className="h-6 w-32" rounded="rounded-full" />
           <SkeletonBlock className="h-4 w-28" rounded="rounded-lg" />
@@ -96,7 +96,7 @@ const HeroSkeleton = () => (
             <SkeletonBlock className="h-8 w-8" rounded="rounded-full" />
           </div>
 
-          <div className="rounded-2xl border border-dashed border-stone-900/10 bg-indigo-600/5 p-3 dark:border-[rgba(255,255,255,0.06)] dark:bg-indigo-600/[0.06]">
+          <div className="rounded-2xl border border-dashed border-stone-900/10 bg-indigo-600/5 p-3 dark:border-[rgba(255,255,255,0.06)] dark:bg-indigo-600/6">
             <SkeletonBlock className="h-2.5 w-20" rounded="rounded-sm" />
             <div className="mt-2 flex min-h-20 flex-col-reverse items-start gap-1.5">
               {[...Array(3)].map((_, i) => (

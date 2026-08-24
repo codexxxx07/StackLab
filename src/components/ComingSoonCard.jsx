@@ -52,7 +52,7 @@ export default function ComingSoonCard({ title, desc, color = 'emerald', planned
         )}
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-          <Link to="/" className="btn bg-white border border-stone-900/5 dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)] dark:text-white dark:hover:border-[rgba(255,255,255,0.12)]">
+          <Link to="/" className="btn bg-white border border-stone-900/5 dark:bg-bugbusters-card dark:border-[rgba(255,255,255,0.06)] dark:text-white dark:hover:border-[rgba(255,255,255,0.12)]">
             <FiArrowLeft /> Back Home
           </Link>
           <Link to="/infix-to-postfix" className={`btn ${styles.solid} border-transparent`}>
@@ -64,7 +64,7 @@ export default function ComingSoonCard({ title, desc, color = 'emerald', planned
       <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
         <span className="sticker -rotate-2 bg-amber-500/10 text-amber-600 border-amber-500/30">Meanwhile...</span>
         {LIVE_CONVERSIONS.map((c) => (
-          <Link key={c.id} to={c.path} className="btn bg-white border border-stone-900/5 px-3 py-2 font-mono text-sm !normal-case dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)] dark:text-white dark:hover:border-[rgba(255,255,255,0.12)]">
+          <Link key={c.id} to={c.path} className="btn bg-white border border-stone-900/5 px-3 py-2 font-mono text-sm normal-case! dark:bg-bugbusters-card dark:border-[rgba(255,255,255,0.06)] dark:text-white dark:hover:border-[rgba(255,255,255,0.12)]">
             {c.title}
           </Link>
         ))}

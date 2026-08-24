@@ -13,12 +13,12 @@ export default function OperationPanel({ step, accent = 'orange' }) {
   if (!step) return null;
 
   return (
-    <section className="card flex flex-col p-5 sm:p-6 dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)]" aria-label="Current operation">
+    <section className="card flex flex-col p-5 sm:p-6 dark:bg-bugbusters-card dark:border-[rgba(255,255,255,0.06)]" aria-label="Current operation">
       <div className="flex items-center justify-between gap-2">
         <span className="flex items-center gap-2">
           <span
             className={`grid size-9 place-items-center rounded-2xl text-white ${
-              accent === 'indigo' ? 'bg-gradient-to-br from-rose-500 to-pink-500' : 'bg-gradient-to-br from-orange-500 to-amber-500'
+              accent === 'indigo' ? 'bg-linear-to-br from-rose-500 to-pink-500' : 'bg-linear-to-br from-orange-500 to-amber-500'
             }`}
             style={{ boxShadow: accent === 'indigo' ? '0 8px 24px rgba(244,63,94,0.2)' : '0 8px 24px rgba(249,115,22,0.2)' }}
           >
@@ -92,7 +92,7 @@ function DuelChip({ label, score, tone, reversed = false }) {
   return (
     <span className={`flex items-center gap-2 rounded-xl border px-3 py-1.5 ${cls}`} style={{ boxShadow: '0 1px 2px rgb(28 25 23 / 0.05)' }}>
       {!reversed && <b className="font-extrabold text-lg text-stone-900 dark:text-white">{label}</b>}
-      <span className="chip !border-0 !bg-white !px-1.5 !py-0 !text-[10px] !shadow-none dark:!bg-[rgba(255,255,255,0.06)] dark:!text-white">
+      <span className="chip border-0! bg-white! px-1.5! py-0! text-[10px]! shadow-none! dark:bg-[rgba(255,255,255,0.06)]! dark:text-white!">
         P:{score}
       </span>
       {reversed && <b className="font-extrabold text-lg text-stone-900 dark:text-white">{label}</b>}

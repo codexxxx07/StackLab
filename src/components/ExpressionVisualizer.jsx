@@ -17,10 +17,10 @@ export default function ExpressionVisualizer({ expression, charIndex = -1, done 
   if (!expression) return null;
 
   return (
-    <section className="card p-5 sm:p-6 dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)]" aria-label="Input stream">
+    <section className="card p-5 sm:p-6 dark:bg-bugbusters-card dark:border-[rgba(255,255,255,0.06)]" aria-label="Input stream">
       <div className="flex items-center justify-between gap-2">
         <span className="sticker bg-stone-900 text-white border-transparent dark:bg-white dark:text-stone-900">Input Stream</span>
-        {done && <span className="chip !border-emerald-500/30 bg-emerald-500/10 text-emerald-500">All read ✓</span>}
+        {done && <span className="chip border-emerald-500/30! bg-emerald-500/10 text-emerald-500">All read ✓</span>}
       </div>
 
       <div className="mt-6 flex flex-wrap justify-center gap-x-2.5 gap-y-8 px-1 py-2 sm:gap-x-3">
@@ -36,7 +36,7 @@ export default function ExpressionVisualizer({ expression, charIndex = -1, done 
                   isCurrent ? 'opacity-100' : 'opacity-0'
                 }`}
               >
-                <span className="rounded-full !px-2 !py-0.5 !text-[9px] bg-rose-500 text-white animate-arrow-drop border-transparent sticker">
+                <span className="rounded-full px-2! py-0.5! text-[9px]! bg-rose-500 text-white animate-arrow-drop border-transparent sticker">
                   READ
                 </span>
                 <FiArrowDown className="text-rose-500" strokeWidth={3} />
@@ -67,9 +67,9 @@ export default function ExpressionVisualizer({ expression, charIndex = -1, done 
 
       {/* Legend */}
       <div className="mt-4 flex flex-wrap justify-center gap-2 border-t border-dashed border-stone-900/10 pt-4 dark:border-white/10">
-        <span className="chip !border-emerald-500/20 !shadow-none bg-emerald-500/10 text-emerald-500">Operand</span>
-        <span className="chip !border-orange-500/20 !shadow-none bg-orange-500/10 text-orange-500">Operator</span>
-        <span className="chip !border-amber-500/20 !shadow-none bg-amber-500/10 text-amber-600">Parenthesis</span>
+        <span className="chip border-emerald-500/20! shadow-none! bg-emerald-500/10 text-emerald-500">Operand</span>
+        <span className="chip border-orange-500/20! shadow-none! bg-orange-500/10 text-orange-500">Operator</span>
+        <span className="chip border-amber-500/20! shadow-none! bg-amber-500/10 text-amber-600">Parenthesis</span>
       </div>
 
       {/* Output tape */}

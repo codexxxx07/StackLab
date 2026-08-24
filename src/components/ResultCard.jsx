@@ -55,12 +55,12 @@ export default function ResultCard({ input, result, color = 'orange', onAgain })
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2">
-        <button onClick={handleCopy} className="btn border border-stone-900/5 bg-white dark:border-[rgba(255,255,255,0.06)] dark:bg-[#0f172a] dark:text-white dark:hover:border-[rgba(255,255,255,0.12)]">
+        <button onClick={handleCopy} className="btn border border-stone-900/5 bg-white dark:border-[rgba(255,255,255,0.06)] dark:bg-bugbusters-card dark:text-white dark:hover:border-[rgba(255,255,255,0.12)]">
           <FaCopy size={14} />
           {copied ? 'Copied!' : 'Copy Result'}
         </button>
         {onAgain && (
-          <button onClick={onAgain} className="btn border border-stone-900/5 bg-white dark:border-[rgba(255,255,255,0.06)] dark:bg-[#0f172a] dark:text-white dark:hover:border-[rgba(255,255,255,0.12)]">
+          <button onClick={onAgain} className="btn border border-stone-900/5 bg-white dark:border-[rgba(255,255,255,0.06)] dark:bg-bugbusters-card dark:text-white dark:hover:border-[rgba(255,255,255,0.12)]">
             <FaRedo size={14} />
             Visualize Again
           </button>
