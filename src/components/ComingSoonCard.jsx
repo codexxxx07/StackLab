@@ -4,11 +4,11 @@ import { COLOR_STYLES, LIVE_CONVERSIONS } from '../data/conversions';
 
 export default function ComingSoonCard({ title, desc, color = 'emerald', planned = [], example }) {
   const styles = COLOR_STYLES[color] ?? COLOR_STYLES.emerald;
-  const [from, to] = title.split('\u2192').map((s) => s.trim());
+  const [from, to] = title.split(' to ').map((s) => s.trim());
 
   return (
     <section className="mx-auto max-w-4xl px-4 py-14 sm:px-6 sm:py-20">
-      <div className="card relative rotate-1 p-8 pt-12 text-center sm:p-12 dark:bg-[#0f172a] dark:border-[rgba(255,255,255,0.06)]">
+      <div className="card relative rotate-1 p-8 pt-12 text-center sm:p-12 dark:bg-bugbusters-card dark:border-[rgba(255,255,255,0.06)]">
         <span className={`sticker absolute -top-4 left-1/2 -translate-x-1/2 ${styles.solid} border-transparent`}>
           UNDER CONSTRUCTION
         </span>

@@ -48,12 +48,12 @@ export default function InfixToPostfix() {
       <PageHeader
         title={
           <>
-            Infix <span className="text-rose-500">\u2192</span>{' '}
+            Infix <span className="text-rose-500">to</span>{' '}
             <span className="border-b-8 border-orange-500">Postfix</span>
           </>
         }
         subtitle="Operators get impatient \u2014 the stack decides who prints first. Scan left to right and watch precedence do the sorting."
-        algo="INFIX \u2192 POSTFIX"
+        algo="INFIX -> POSTFIX"
         accent="bg-orange-500"
       />
 
