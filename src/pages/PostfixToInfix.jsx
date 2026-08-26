@@ -7,6 +7,10 @@ import {
   postfixToInfixNormalSteps,
   postfixToInfixStackRows,
 } from '../utils/explanations';
+import {
+  postfixToInfixNormalLiveSteps,
+  postfixToInfixStackLiveSteps,
+} from '../utils/liveExplanationSteps';
 import { validatePostfix } from '../utils/expressionValidator';
 
 const EXAMPLES = ['ABC*+', 'AB+C*', 'AB*C+', 'ABC+-', 'ABCDE^*-'];
@@ -24,6 +28,8 @@ export default function PostfixToInfix() {
     const { result, steps } = postfixToInfix(clean);
     const normalData = postfixToInfixNormalSteps(clean);
     const stackRows = postfixToInfixStackRows(steps);
+    const liveNormalSteps = postfixToInfixNormalLiveSteps(clean);
+    const liveStackSteps = postfixToInfixStackLiveSteps(clean);
 
     setData({
       input: clean,
@@ -32,6 +38,8 @@ export default function PostfixToInfix() {
       normalSteps: normalData.steps,
       normalFinal: normalData.finalResult,
       stackRows,
+      liveNormalSteps,
+      liveStackSteps,
     });
 
     setTimeout(
@@ -76,6 +84,8 @@ export default function PostfixToInfix() {
               input={data.input}
               finalAnswer={data.result}
               accent="indigo"
+              liveSteps1={data.liveNormalSteps}
+              liveSteps2={data.liveStackSteps}
               method1={{
                 title: 'Normal Method',
                 subtitle: 'Without Using Stack',

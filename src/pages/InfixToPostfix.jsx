@@ -7,6 +7,10 @@ import {
   infixToPostfixNormalSteps,
   infixToPostfixStackRows,
 } from '../utils/explanations';
+import {
+  infixToPostfixNormalLiveSteps,
+  infixToPostfixStackLiveSteps,
+} from '../utils/liveExplanationSteps';
 import { validateInfix } from '../utils/expressionValidator';
 
 const EXAMPLES = ['A+B*C', '(A+B)*C', 'A*B+C/D', 'A^B^C', 'A+(B*C-(D/E)^F)*G'];
@@ -24,6 +28,8 @@ export default function InfixToPostfix() {
     const { result, steps } = infixToPostfix(clean);
     const normalData = infixToPostfixNormalSteps(clean);
     const stackRows = infixToPostfixStackRows(steps);
+    const liveNormalSteps = infixToPostfixNormalLiveSteps(clean);
+    const liveStackSteps = infixToPostfixStackLiveSteps(clean);
 
     setData({
       input: clean,
@@ -32,6 +38,8 @@ export default function InfixToPostfix() {
       normalSteps: normalData.steps,
       normalFinal: normalData.finalResult,
       stackRows,
+      liveNormalSteps,
+      liveStackSteps,
     });
 
     setTimeout(
@@ -76,6 +84,8 @@ export default function InfixToPostfix() {
               input={data.input}
               finalAnswer={data.result}
               accent="orange"
+              liveSteps1={data.liveNormalSteps}
+              liveSteps2={data.liveStackSteps}
               method1={{
                 title: 'Normal Method',
                 subtitle: 'Without Using Stack',

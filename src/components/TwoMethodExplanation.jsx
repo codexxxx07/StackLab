@@ -1,16 +1,19 @@
 import ExplanationCard from './ExplanationCard';
+import LiveExplanationCard from './LiveExplanationCard';
 
 /**
  * Reusable two-method explanation layout.
  *
  * Shows:
  * - Final Answer at the top
- * - Method 1: Normal Method (= transformation style)
- * - Method 2: Stack Method (execution table)
+ * - Method 1: Normal Method (= transformation style) + Live Explanation
+ * - Method 2: Stack Method (execution table) + Live Explanation
  *
  * Props:
  *   method1: { title: string, subtitle: string, steps: string[], finalResult: string, note?: string }
  *   method2: { title: string, subtitle: string, columns: {label: string}[], rows: object[], operationKey: string }
+ *   liveSteps1: { expression, explanation }[] — live steps for Normal Method
+ *   liveSteps2: { token, stack, output, operation, explanation }[] — live steps for Stack Method
  *   finalAnswer: string
  *   input: string
  *   accent: 'orange' | 'indigo'
@@ -18,6 +21,8 @@ import ExplanationCard from './ExplanationCard';
 export default function TwoMethodExplanation({
   method1,
   method2,
+  liveSteps1 = [],
+  liveSteps2 = [],
   finalAnswer,
   input,
   accent = 'orange',
@@ -106,6 +111,17 @@ export default function TwoMethodExplanation({
         )}
       </ExplanationCard>
 
+      {/* Live Explanation — Normal Method */}
+      {liveSteps1.length > 0 && (
+        <LiveExplanationCard
+          methodTitle="Normal Method"
+          steps={liveSteps1}
+          methodType="normal"
+          accent={accent}
+          finalAnswer={method1.finalResult}
+        />
+      )}
+
       {/* Method 2: Stack Method */}
       <ExplanationCard
         number="Method 02"
@@ -164,6 +180,17 @@ export default function TwoMethodExplanation({
           </div>
         </div>
       </ExplanationCard>
+
+      {/* Live Explanation — Stack Method */}
+      {liveSteps2.length > 0 && (
+        <LiveExplanationCard
+          methodTitle="Stack Method"
+          steps={liveSteps2}
+          methodType="stack"
+          accent={accent}
+          finalAnswer={finalAnswer}
+        />
+      )}
     </div>
   );
 }
