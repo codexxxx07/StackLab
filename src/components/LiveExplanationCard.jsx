@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useLivePlayer } from '../hooks/useLivePlayer';
 
 /**
@@ -25,23 +24,10 @@ export default function LiveExplanationCard({
     play,
     pause,
     next,
+    prev,
     restart,
     replay,
-    scheduleNext,
   } = useLivePlayer(steps.length);
-
-  // Auto-advance when playing
-  useEffect(() => {
-    if (status === 'playing' && step < total - 1) {
-      const t = setTimeout(() => {
-        next();
-      }, 1600);
-      return () => clearTimeout(t);
-    }
-    if (status === 'playing' && step >= total - 1) {
-      pause();
-    }
-  }, [status, step, total, next, pause]);
 
   const accentMap = {
     orange: {
@@ -75,6 +61,10 @@ export default function LiveExplanationCard({
   const isPaused = status === 'paused';
   const isCompleted = status === 'completed';
   const currentStep = steps[step];
+
+  // Button label logic
+  const playPauseLabel = isPlaying ? '⏸ Pause' : isPaused ? '▶ Resume' : '▶ Play';
+  const playPauseAction = isPlaying ? pause : play;
 
   return (
     <section
@@ -113,7 +103,7 @@ export default function LiveExplanationCard({
             </p>
             <button
               onClick={play}
-              className={`btn ${a.bg} text-white hover:-translate-y-0.5`}
+              className={`btn ${a.bg} text-white hover:-translate-y-0.5 text-base px-6 py-3`}
             >
               <span className="text-lg">▶</span> Play
             </button>
@@ -153,7 +143,7 @@ export default function LiveExplanationCard({
             {isCompleted && (
               <div className="mt-4 flex flex-col items-center gap-3 rounded-2xl border border-dashed border-emerald-500/30 bg-emerald-500/5 p-4 text-center">
                 <span className="text-lg font-bold text-emerald-600 dark:text-emerald-400">
-                  Completed ✓
+                  ✓ Completed
                 </span>
                 {finalAnswer && (
                   <span className={`font-mono text-xl font-extrabold ${a.text}`}>
@@ -174,13 +164,19 @@ export default function LiveExplanationCard({
               <div className="mt-5 flex items-center justify-center gap-2">
                 <ControlButton onClick={restart} label="⏮" title="Restart" />
                 <ControlButton
-                  onClick={isPlaying ? pause : play}
-                  label={isPlaying ? '⏸' : '▶'}
+                  onClick={prev}
+                  label="◀"
+                  title="Previous"
+                  disabled={step <= 0}
+                />
+                <ControlButton
+                  onClick={playPauseAction}
+                  label={playPauseLabel}
                   title={isPlaying ? 'Pause' : 'Play'}
                   primary
                   accent={a}
                 />
-                <ControlButton onClick={next} label="⏭" title="Next" disabled={step >= total - 1} />
+                <ControlButton onClick={next} label="▶" title="Next" disabled={step >= total - 1} />
               </div>
             )}
           </>
@@ -198,7 +194,7 @@ function ControlButton({ onClick, label, title, primary, accent, disabled }) {
       onClick={onClick}
       disabled={disabled}
       title={title}
-      className={`flex size-10 items-center justify-center rounded-xl border border-stone-900/5 bg-white text-sm font-bold transition-all duration-200 hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40 dark:border-[rgba(255,255,255,0.06)] dark:bg-[#0a0a0a] dark:text-white ${
+      className={`flex items-center justify-center gap-1.5 rounded-xl border border-stone-900/5 bg-white px-3 py-2 text-sm font-bold transition-all duration-200 hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40 dark:border-[rgba(255,255,255,0.06)] dark:bg-[#0a0a0a] dark:text-white ${
         primary ? `${accent?.bg || 'bg-orange-500'} text-white border-transparent hover:shadow-lg` : 'text-stone-600 hover:text-stone-900 dark:hover:text-white'
       }`}
     >
@@ -209,7 +205,7 @@ function ControlButton({ onClick, label, title, primary, accent, disabled }) {
 
 /* ── Normal Method Step Display ────────────────────────────────────── */
 
-function NormalStepDisplay({ step, accent }) {
+function NormalStepDisplay({ step }) {
   return (
     <div
       className="rounded-2xl border border-stone-900/5 bg-white p-5 dark:border-[rgba(255,255,255,0.06)] dark:bg-[#0a0a0a]"
