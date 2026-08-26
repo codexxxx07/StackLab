@@ -60,13 +60,45 @@ function findInfixSplitIndex(expr) {
     else if (c === ')') depth--;
     else if (depth === 0 && isOperatorChar(c)) {
       const p = PRECEDENCE[c];
-      if (p < bestPrec || (p === bestPrec && i > bestIdx)) {
-        bestPrec = p;
-        bestIdx = i;
+      if (c === '^') {
+        if (p < bestPrec || (p === bestPrec && i < bestIdx)) { bestPrec = p; bestIdx = i; }
+      } else {
+        if (p < bestPrec || (p === bestPrec && i > bestIdx)) { bestPrec = p; bestIdx = i; }
       }
     }
   }
   return bestIdx;
+}
+
+function isFullyWrapped(s) {
+  if (!s.startsWith('(') || !s.endsWith(')') || s.length <= 2) return false;
+  let d = 0;
+  for (let i = 0; i < s.length; i++) {
+    if (s[i] === '(') d++;
+    else if (s[i] === ')') d--;
+    if (d === 0 && i < s.length - 1) return false;
+  }
+  return true;
+}
+
+function countOpsAtDepth0(s) {
+  let count = 0, d = 0;
+  for (const c of s) {
+    if (c === '(') d++;
+    else if (c === ')') d--;
+    else if (d === 0 && isOperatorChar(c)) count++;
+  }
+  return count;
+}
+
+function hasOpsAtDepth0(s) {
+  let d = 0;
+  for (const c of s) {
+    if (c === '(') d++;
+    else if (c === ')') d--;
+    else if (d === 0 && isOperatorChar(c)) return true;
+  }
+  return false;
 }
 
 function getOperatorName(op) {
@@ -209,7 +241,7 @@ export function infixToPostfixNormalLiveSteps(expr) {
     explanation: `We start with the infix expression <strong>${clean}</strong>. Our goal is to convert it to postfix notation by moving each operator after its operands, following precedence rules.`,
   });
 
-  function collectSteps(currentExpr) {
+  function collectSteps(currentExpr, parentExpr) {
     const tokens = tokenize(currentExpr);
     let hasOp = false, depth = 0;
     for (const t of tokens) {
@@ -217,7 +249,17 @@ export function infixToPostfixNormalLiveSteps(expr) {
       else if (t.type === 'paren' && t.value === ')') depth--;
       else if (depth === 0 && t.type === 'operator') hasOp = true;
     }
-    if (!hasOp) return;
+
+    if (!hasOp) {
+      if (isFullyWrapped(currentExpr)) {
+        const inner = currentExpr.slice(1, -1);
+        if (hasOpsAtDepth0(inner)) {
+          collectSteps(inner, parentExpr);
+          return;
+        }
+      }
+      return;
+    }
 
     const splitIdx = findInfixSplitIndex(currentExpr);
     if (splitIdx === -1) return;
@@ -227,47 +269,162 @@ export function infixToPostfixNormalLiveSteps(expr) {
     const op = currentExpr[splitIdx];
     const prec = PRECEDENCE[op];
 
-    if (left.length > 1 || right.length > 1) {
-      const reasons = [];
-      if (left.length > 1) reasons.push(`The left side "${left}" contains operators that need processing first.`);
-      if (right.length > 1) reasons.push(`The right side "${right}" contains operators that need processing first.`);
+    const leftWrapped = isFullyWrapped(left);
+    const rightWrapped = isFullyWrapped(right);
+
+    const leftConverted = leftWrapped
+      ? { steps: collectStepsHelper(left.slice(1, -1)), finalResult: treeToPostfix(buildTree([...tokenize(left.slice(1, -1))])) }
+      : { steps: collectStepsHelper(left), finalResult: treeToPostfix(buildTree([...tokenize(left)])) };
+    const rightConverted = rightWrapped
+      ? { steps: collectStepsHelper(right.slice(1, -1)), finalResult: treeToPostfix(buildTree([...tokenize(right.slice(1, -1))])) }
+      : { steps: collectStepsHelper(right), finalResult: treeToPostfix(buildTree([...tokenize(right)])) };
+
+    const newExpr = leftConverted.finalResult + rightConverted.finalResult + op;
+
+    const leftHasOps = leftConverted.steps.length > 1;
+    if (leftHasOps) {
+      const innerOpCount = leftWrapped ? countOpsAtDepth0(left.slice(1, -1)) : 0;
+      for (let i = 1; i < leftConverted.steps.length; i++) {
+        const innerStep = leftConverted.steps[i].slice(1);
+        let transformExpr;
+        if (leftWrapped && innerOpCount <= 1) {
+          transformExpr = `=${innerStep}${op}${right}`;
+        } else if (leftWrapped) {
+          transformExpr = `=(${innerStep})${op}${right}`;
+        } else {
+          transformExpr = `=${innerStep}${op}${right}`;
+        }
+        steps.push({
+          expression: transformExpr,
+          explanation: `Processing the left side: operator <strong>${innerStep.slice(-1)}</strong> moves after its operands, transforming "${left}" to <strong>${leftConverted.steps[i].slice(1)}</strong>. The full expression becomes <strong>${transformExpr.slice(1)}</strong>.`,
+        });
+      }
+    } else if (leftWrapped) {
       steps.push({
-        expression: currentExpr,
-        explanation: `Looking at <strong>${currentExpr}</strong>: we identify <strong>${op}</strong> (${getOperatorName(op)}) as the operator with ${getPrecedenceLabel(op)} precedence (level ${prec}). ${reasons.join(' ')}`,
+        expression: `=${left.slice(1, -1)}${op}${right}`,
+        explanation: `The left side <strong>${left}</strong> is parenthesized with no inner operators to process. We strip the parentheses, leaving <strong>${left.slice(1, -1)}</strong>. The expression becomes <strong>${left.slice(1, -1)}${op}${right}</strong>.`,
       });
     }
 
-    const leftTokens = tokenize(left);
-    let leftHasOps = false, ld = 0;
-    for (const t of leftTokens) {
-      if (t.type === 'paren' && t.value === '(') ld++;
-      else if (t.type === 'paren' && t.value === ')') ld--;
-      else if (ld === 0 && t.type === 'operator') leftHasOps = true;
+    const rightHasOps = rightConverted.steps.length > 1;
+    if (rightHasOps) {
+      const innerOpCount = rightWrapped ? countOpsAtDepth0(right.slice(1, -1)) : 0;
+      for (let i = 1; i < rightConverted.steps.length; i++) {
+        const innerStep = rightConverted.steps[i].slice(1);
+        let transformExpr;
+        if (rightWrapped && innerOpCount <= 1) {
+          transformExpr = `=${leftConverted.finalResult}${op}${innerStep}`;
+        } else if (rightWrapped) {
+          transformExpr = `=${leftConverted.finalResult}${op}(${innerStep})`;
+        } else {
+          transformExpr = `=${leftConverted.finalResult}${op}${innerStep}`;
+        }
+        steps.push({
+          expression: transformExpr,
+          explanation: `Processing the right side: operator <strong>${innerStep.slice(-1)}</strong> moves after its operands, transforming "${right}" to <strong>${rightConverted.steps[i].slice(1)}</strong>. The full expression becomes <strong>${transformExpr.slice(1)}</strong>.`,
+        });
+      }
+    } else if (rightWrapped) {
+      steps.push({
+        expression: `=${leftConverted.finalResult}${op}${right.slice(1, -1)}`,
+        explanation: `The right side <strong>${right}</strong> is parenthesized with no inner operators to process. We strip the parentheses, leaving <strong>${right.slice(1, -1)}</strong>. The expression becomes <strong>${leftConverted.finalResult}${op}${right.slice(1, -1)}</strong>.`,
+      });
     }
-    if (leftHasOps) collectSteps(left);
-
-    const rightTokens = tokenize(right);
-    let rightHasOps = false, rd = 0;
-    for (const t of rightTokens) {
-      if (t.type === 'paren' && t.value === '(') rd++;
-      else if (t.type === 'paren' && t.value === ')') rd--;
-      else if (rd === 0 && t.type === 'operator') rightHasOps = true;
-    }
-    if (rightHasOps) collectSteps(right);
-
-    const leftPostfix = treeToPostfix(buildTree([...tokenize(left)]));
-    const rightPostfix = treeToPostfix(buildTree([...tokenize(right)]));
-    const newExpr = leftPostfix + rightPostfix + op;
 
     if (newExpr !== currentExpr) {
       steps.push({
         expression: `=${newExpr}`,
-        explanation: `In postfix, the operator <strong>${op}</strong> moves after both of its operands. "${left}" becomes <strong>${leftPostfix}</strong> and "${right}" becomes <strong>${rightPostfix}</strong>. Placing <strong>${op}</strong> at the end gives us <strong>${newExpr}</strong>.`,
+        explanation: `Operator <strong>${op}</strong> (${getOperatorName(op)}) moves after both of its operands. "<strong>${leftConverted.finalResult}</strong>" (left) and "<strong>${rightConverted.finalResult}</strong>" (right) are now in postfix order. Placing <strong>${op}</strong> at the end gives us <strong>${newExpr}</strong>.`,
       });
     }
   }
 
-  collectSteps(clean);
+  function collectStepsHelper(expr) {
+    const tokens = tokenize(expr);
+    let hasOp = false, depth = 0;
+    for (const t of tokens) {
+      if (t.type === 'paren' && t.value === '(') depth++;
+      else if (t.type === 'paren' && t.value === ')') depth--;
+      else if (depth === 0 && t.type === 'operator') hasOp = true;
+    }
+
+    if (!hasOp) {
+      if (isFullyWrapped(expr)) {
+        const inner = expr.slice(1, -1);
+        const innerResult = collectStepsHelper(inner);
+        if (innerResult.length > 1) {
+          const result = [expr];
+          for (let i = 1; i < innerResult.length; i++) {
+            result.push(`=${innerResult[i].slice(1)}`);
+          }
+          return result;
+        }
+      }
+      return [expr];
+    }
+
+    const tree = buildTree([...tokenize(expr)]);
+    const finalResult = treeToPostfix(tree);
+    const splitIdx = findInfixSplitIndex(expr);
+    if (splitIdx === -1) return [expr];
+
+    const left = expr.slice(0, splitIdx);
+    const right = expr.slice(splitIdx + 1);
+    const op = expr[splitIdx];
+
+    const leftWrapped = isFullyWrapped(left);
+    const rightWrapped = isFullyWrapped(right);
+
+    const leftConverted = leftWrapped
+      ? collectStepsHelper(left.slice(1, -1))
+      : collectStepsHelper(left);
+    const rightConverted = rightWrapped
+      ? collectStepsHelper(right.slice(1, -1))
+      : collectStepsHelper(right);
+
+    const leftPostfix = treeToPostfix(buildTree([...tokenize(leftWrapped ? left.slice(1, -1) : left)]));
+    const rightPostfix = treeToPostfix(buildTree([...tokenize(rightWrapped ? right.slice(1, -1) : right)]));
+    const newExpr = leftPostfix + rightPostfix + op;
+
+    const transformLines = [];
+
+    const leftHasOps = leftConverted.length > 1;
+    if (leftHasOps) {
+      const innerOpCount = leftWrapped ? countOpsAtDepth0(left.slice(1, -1)) : 0;
+      for (let i = 1; i < leftConverted.length; i++) {
+        const innerStep = leftConverted[i].slice(1);
+        if (leftWrapped && innerOpCount <= 1) transformLines.push(`=${innerStep}${op}${right}`);
+        else if (leftWrapped) transformLines.push(`=(${innerStep})${op}${right}`);
+        else transformLines.push(`=${innerStep}${op}${right}`);
+      }
+    } else if (leftWrapped) {
+      transformLines.push(`=${left.slice(1, -1)}${op}${right}`);
+    }
+
+    const rightHasOps = rightConverted.length > 1;
+    if (rightHasOps) {
+      const innerOpCount = rightWrapped ? countOpsAtDepth0(right.slice(1, -1)) : 0;
+      for (let i = 1; i < rightConverted.length; i++) {
+        const innerStep = rightConverted[i].slice(1);
+        if (rightWrapped && innerOpCount <= 1) transformLines.push(`=${leftPostfix}${op}${innerStep}`);
+        else if (rightWrapped) transformLines.push(`=${leftPostfix}${op}(${innerStep})`);
+        else transformLines.push(`=${leftPostfix}${op}${innerStep}`);
+      }
+    } else if (rightWrapped) {
+      transformLines.push(`=${leftPostfix}${op}${right.slice(1, -1)}`);
+    }
+
+    if (newExpr !== expr) transformLines.push(`=${newExpr}`);
+    if (transformLines[transformLines.length - 1] !== `=${finalResult}`) transformLines.push(`=${finalResult}`);
+
+    const unique = [];
+    for (const s of transformLines) {
+      if (unique.length === 0 || s !== unique[unique.length - 1]) unique.push(s);
+    }
+    return [expr, ...unique];
+  }
+
+  collectSteps(clean, clean);
 
   const lastStep = steps[steps.length - 1];
   if (!lastStep || lastStep.expression !== `=${finalResult}`) {

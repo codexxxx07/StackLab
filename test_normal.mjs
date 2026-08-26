@@ -57,10 +57,35 @@ function findInfixSplitIndex(expr) {
     else if (c === ')') depth--;
     else if (depth === 0 && isOperatorChar(c)) {
       const p = PRECEDENCE[c];
-      if (p < bestPrec || (p === bestPrec && i > bestIdx)) { bestPrec = p; bestIdx = i; }
+      if (c === '^') {
+        if (p < bestPrec || (p === bestPrec && i < bestIdx)) { bestPrec = p; bestIdx = i; }
+      } else {
+        if (p < bestPrec || (p === bestPrec && i > bestIdx)) { bestPrec = p; bestIdx = i; }
+      }
     }
   }
   return bestIdx;
+}
+
+function isFullyWrapped(s) {
+  if (!s.startsWith('(') || !s.endsWith(')') || s.length <= 2) return false;
+  let d = 0;
+  for (let i = 0; i < s.length; i++) {
+    if (s[i] === '(') d++;
+    else if (s[i] === ')') d--;
+    if (d === 0 && i < s.length - 1) return false;
+  }
+  return true;
+}
+
+function countOpsAtDepth0(s) {
+  let count = 0, d = 0;
+  for (const c of s) {
+    if (c === '(') d++;
+    else if (c === ')') d--;
+    else if (d === 0 && isOperatorChar(c)) count++;
+  }
+  return count;
 }
 
 function collectInfixSteps(expr) {
@@ -71,10 +96,23 @@ function collectInfixSteps(expr) {
     else if (t.type === 'paren' && t.value === ')') depth--;
     else if (depth === 0 && t.type === 'operator') hasOp = true;
   }
+
   if (!hasOp) {
+    if (isFullyWrapped(expr)) {
+      const inner = expr.slice(1, -1);
+      const innerResult = collectInfixSteps(inner);
+      if (innerResult.steps.length > 1) {
+        const steps = [expr];
+        for (let i = 1; i < innerResult.steps.length; i++) {
+          steps.push(`=${innerResult.steps[i].slice(1)}`);
+        }
+        return { steps, finalResult: innerResult.finalResult };
+      }
+    }
     const tree = buildTree([...tokenize(expr)]);
     return { steps: [expr], finalResult: treeToPostfix(tree) };
   }
+
   const tree = buildTree([...tokenize(expr)]);
   const finalResult = treeToPostfix(tree);
   const splitIdx = findInfixSplitIndex(expr);
@@ -84,32 +122,61 @@ function collectInfixSteps(expr) {
   const right = expr.slice(splitIdx + 1);
   const op = expr[splitIdx];
 
-  const leftConverted = collectInfixSteps(left);
-  const rightConverted = collectInfixSteps(right);
+  const leftWrapped = isFullyWrapped(left);
+  const rightWrapped = isFullyWrapped(right);
+
+  const leftConverted = leftWrapped
+    ? collectInfixSteps(left.slice(1, -1))
+    : collectInfixSteps(left);
+  const rightConverted = rightWrapped
+    ? collectInfixSteps(right.slice(1, -1))
+    : collectInfixSteps(right);
+
   const newExpr = leftConverted.finalResult + rightConverted.finalResult + op;
 
   const transformLines = [];
-  const leftHasOps = leftConverted.steps.length > 1;
-  const rightHasOps = rightConverted.steps.length > 1;
 
+  const leftHasOps = leftConverted.steps.length > 1;
   if (leftHasOps) {
+    const innerOpCount = leftWrapped ? countOpsAtDepth0(left.slice(1, -1)) : 0;
     for (let i = 1; i < leftConverted.steps.length; i++) {
-      const leftStep = leftConverted.steps[i];
-      const mappedLine = leftStep.slice(1) + right + op;
-      transformLines.push(`=${mappedLine}`);
+      const innerStep = leftConverted.steps[i].slice(1);
+      if (leftWrapped && innerOpCount <= 1) {
+        transformLines.push(`=${innerStep}${op}${right}`);
+      } else if (leftWrapped) {
+        transformLines.push(`=(${innerStep})${op}${right}`);
+      } else {
+        transformLines.push(`=${innerStep}${op}${right}`);
+      }
     }
+  } else if (leftWrapped) {
+    transformLines.push(`=${left.slice(1, -1)}${op}${right}`);
   }
+
+  const rightHasOps = rightConverted.steps.length > 1;
   if (rightHasOps) {
+    const innerOpCount = rightWrapped ? countOpsAtDepth0(right.slice(1, -1)) : 0;
     for (let i = 1; i < rightConverted.steps.length; i++) {
-      const rightStep = rightConverted.steps[i];
-      const mappedLine = leftConverted.finalResult + op + rightStep.slice(1);
-      transformLines.push(`=${mappedLine}`);
+      const innerStep = rightConverted.steps[i].slice(1);
+      if (rightWrapped && innerOpCount <= 1) {
+        transformLines.push(`=${leftConverted.finalResult}${op}${innerStep}`);
+      } else if (rightWrapped) {
+        transformLines.push(`=${leftConverted.finalResult}${op}(${innerStep})`);
+      } else {
+        transformLines.push(`=${leftConverted.finalResult}${op}${innerStep}`);
+      }
     }
+  } else if (rightWrapped) {
+    transformLines.push(`=${leftConverted.finalResult}${op}${right.slice(1, -1)}`);
   }
+
   if (newExpr !== expr) transformLines.push(`=${newExpr}`);
   if (transformLines[transformLines.length - 1] !== `=${finalResult}`) transformLines.push(`=${finalResult}`);
+
   const unique = [];
-  for (const s of transformLines) { if (unique.length === 0 || s !== unique[unique.length - 1]) unique.push(s); }
+  for (const s of transformLines) {
+    if (unique.length === 0 || s !== unique[unique.length - 1]) unique.push(s);
+  }
   return { steps: [expr, ...unique], finalResult };
 }
 
@@ -155,8 +222,8 @@ test('A*B+C',
   'AB*C+');
 
 test('A+B*C*D',
-  ['A+B*C*D', '=A+BC*D', '=A+BCD**', '=ABCD**+'],
-  'ABCD**+');
+  ['A+B*C*D', '=A+BC**D', '=A+BC*D*', '=ABC*D*+'],
+  'ABC*D*+');
 
 test('A*B+C*D',
   ['A*B+C*D', '=AB*+C*D', '=AB*+CD*', '=AB*CD*+'],
@@ -164,19 +231,19 @@ test('A*B+C*D',
 
 // ── Left associativity (same precedence) ──
 test('A+B+C',
-  ['A+B+C', '=A+BC+', '=AB+C+'],
+  ['A+B+C', '=AB++C', '=AB+C+'],
   'AB+C+');
 
 test('A+B-C',
-  ['A+B-C', '=A+BC-', '=AB+C-'],
+  ['A+B-C', '=AB+-C', '=AB+C-'],
   'AB+C-');
 
 test('A*B*C',
-  ['A*B*C', '=A*BC*', '=AB*C*'],
+  ['A*B*C', '=AB**C', '=AB*C*'],
   'AB*C*');
 
 test('A/B*C',
-  ['A/B*C', '=A/BC*', '=AB/C*'],
+  ['A/B*C', '=AB/*C', '=AB/C*'],
   'AB/C*');
 
 // ── Right-associativity (^) ──
@@ -186,7 +253,7 @@ test('A^B^C',
 
 // ── Parentheses ──
 test('(A+B)*C',
-  ['(A+B)*C', '=(AB+)*C', '=AB+C*'],
+  ['(A+B)*C', '=AB+*C', '=AB+C*'],
   'AB+C*');
 
 test('A*(B+C)',
@@ -194,20 +261,20 @@ test('A*(B+C)',
   'ABC+*');
 
 test('(A+B)*(C+D)',
-  ['(A+B)*(C+D)', '=(AB+)*C+D', '=(AB+)*CD+', '=AB+CD+*'],
+  ['(A+B)*(C+D)', '=AB+*(C+D)', '=AB+*CD+', '=AB+CD+*'],
   'AB+CD+*');
 
 test('(A+B+C)*D',
-  ['(A+B+C)*D', '=(A+BC+)*D', '=(AB+C+)*D', '=AB+C+D*'],
+  ['(A+B+C)*D', '=(AB++C)*D', '=(AB+C+)*D', '=AB+C+D*'],
   'AB+C+D*');
 
 // ── Nested parentheses ──
 test('((A+B))*C',
-  ['((A+B))*C', '=((AB+))*C', '=(AB+)*C', '=AB+C*'],
+  ['((A+B))*C', '=AB+*C', '=AB+C*'],
   'AB+C*');
 
 test('A+(B*(C+D))',
-  ['A+(B*(C+D))', '=A+(B*CD+)', '=A+(BCD+*)', '=A+BCD+*', '=ABCD+*+'],
+  ['A+(B*(C+D))', '=A+B*CD+', '=A+BCD+*', '=ABCD+*+'],
   'ABCD+*+');
 
 // ── Complex expressions ──
@@ -216,12 +283,12 @@ test('A+B*(C+D)',
   'ABCD+*+');
 
 test('A*B+C*D-E/F',
-  ['A*B+C*D-E/F', '=AB*+C*D-E/F', '=AB*+CD*-E/F', '=AB*+CD*-EF/', '=AB*CD*+EF/-'],
+  ['A*B+C*D-E/F', '=AB*+C*D-E/F', '=AB*+CD*-E/F', '=AB*CD*+-E/F', '=AB*CD*+-EF/', '=AB*CD*+EF/-'],
   'AB*CD*+EF/-');
 
 test('A^B*C+D',
-  ['A^B*C+D', '=A^BC*+D', '=ABC^*+D', '=ABC^*D+'],
-  'ABC^*D+');
+  ['A^B*C+D', '=AB^*C+D', '=AB^C*+D', '=AB^C*D+'],
+  'AB^C*D+');
 
 // ── Single operand ──
 test('A',
@@ -239,21 +306,22 @@ test('A*B',
 
 // ── Deeply nested ──
 test('(A+(B*(C+D)))',
-  ['(A+(B*(C+D)))', '=(A+(B*CD+))', '=(A+(BCD+*))', '=(A+BCD+*)', '=(ABCD+*+)'],
-  '(ABCD+*+)');
+  ['(A+(B*(C+D)))', '=A+B*CD+', '=A+BCD+*', '=ABCD+*+'],
+  'ABCD+*+');
 
 // ── Additional edge cases ──
 test('A+B*C^D',
-  ['A+B*C^D', '=A+BC^D*', '=A+BCD^*', '=ABCD^*+'],
+  ['A+B*C^D', '=A+B*CD^', '=A+BCD^*', '=ABCD^*+'],
   'ABCD^*+');
 
 test('(A+B)^C',
-  ['(A+B)^C', '=(AB+)^C', '=AB+C^'],
+  ['(A+B)^C', '=AB+^C', '=AB+C^'],
   'AB+C^');
 
 test('A*(B+C*D)',
-  ['A*(B+C*D)', '=A*(B+CD*)', '=A*(BCD*+)', '=A+BCD*+', '=ABCD*++'],
-  'ABCD*++');
+  ['A*(B+C*D)', '=A*(B+CD*)', '=A*(BCD*+)', '=ABCD*+*'],
+  'ABCD*+*');
 
+// ── Print results ──
 console.log(`\nResults: ${pass} passed, ${fail} failed out of ${pass + fail} total`);
 if (fail > 0) process.exit(1);

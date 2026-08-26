@@ -101,13 +101,49 @@ function findInfixSplitIndex(expr) {
     else if (c === ')') depth--;
     else if (depth === 0 && isOperatorChar(c)) {
       const p = PRECEDENCE[c];
-      if (p < bestPrec || (p === bestPrec && i > bestIdx)) {
-        bestPrec = p;
-        bestIdx = i;
+      if (c === '^') {
+        // Right-associative: pick the leftmost ^ at same precedence
+        if (p < bestPrec || (p === bestPrec && i < bestIdx)) {
+          bestPrec = p;
+          bestIdx = i;
+        }
+      } else {
+        // Left-associative: pick the rightmost operator at same precedence
+        if (p < bestPrec || (p === bestPrec && i > bestIdx)) {
+          bestPrec = p;
+          bestIdx = i;
+        }
       }
     }
   }
   return bestIdx;
+}
+
+/**
+ * Check whether a string is fully wrapped in matching parentheses,
+ * i.e. the first '(' matches the last ')' and nothing else is at depth 0.
+ */
+function isFullyWrapped(s) {
+  if (!s.startsWith('(') || !s.endsWith(')') || s.length <= 2) return false;
+  let d = 0;
+  for (let i = 0; i < s.length; i++) {
+    if (s[i] === '(') d++;
+    else if (s[i] === ')') d--;
+    if (d === 0 && i < s.length - 1) return false;
+  }
+  return true;
+}
+
+/** Count operators at parenthesis-depth 0 in a string. */
+function countOpsAtDepth0(s) {
+  let count = 0;
+  let d = 0;
+  for (const c of s) {
+    if (c === '(') d++;
+    else if (c === ')') d--;
+    else if (d === 0 && isOperatorChar(c)) count++;
+  }
+  return count;
 }
 
 /**
@@ -118,6 +154,13 @@ function findInfixSplitIndex(expr) {
  *
  * Process: recursively convert left and right sub-expressions, then
  * move the operator to its postfix position.
+ *
+ * For parenthesized sub-expressions:
+ *   - If the inner expression has only 1 operator, parens are stripped
+ *     immediately (e.g. (A+B)*C → AB+*C).
+ *   - If the inner expression has multiple operators, parens stay during
+ *     inner transforms and are removed when the outer operator moves
+ *     (e.g. (A+B+C)*D → (A+BC+)*D → (AB+C+)*D → AB+C+D*).
  *
  * Returns { steps: string[], finalResult: string }
  */
@@ -133,8 +176,21 @@ function collectInfixSteps(expr) {
     else if (depth === 0 && t.type === 'operator') hasOp = true;
   }
 
-  // Pure operand or parenthesised single operand — already postfix-ready.
+  // Pure operand or parenthesized expression without operators at depth 0.
   if (!hasOp) {
+    // If this is a fully wrapped expression with operators inside,
+    // strip the outer parens and process the inner content.
+    if (isFullyWrapped(expr)) {
+      const inner = expr.slice(1, -1);
+      const innerResult = collectInfixSteps(inner);
+      if (innerResult.steps.length > 1) {
+        const steps = [expr];
+        for (let i = 1; i < innerResult.steps.length; i++) {
+          steps.push(`=${innerResult.steps[i].slice(1)}`);
+        }
+        return { steps, finalResult: innerResult.finalResult };
+      }
+    }
     const tree = buildTree([...tokenize(expr)]);
     return { steps: [expr], finalResult: treeToPostfix(tree) };
   }
@@ -152,9 +208,16 @@ function collectInfixSteps(expr) {
   const right = expr.slice(splitIdx + 1);
   const op = expr[splitIdx];
 
-  // Recursively convert BOTH sides.
-  const leftConverted = collectInfixSteps(left);
-  const rightConverted = collectInfixSteps(right);
+  const leftWrapped = isFullyWrapped(left);
+  const rightWrapped = isFullyWrapped(right);
+
+  // For wrapped sides, recurse on the inner content (without parens).
+  const leftConverted = leftWrapped
+    ? collectInfixSteps(left.slice(1, -1))
+    : collectInfixSteps(left);
+  const rightConverted = rightWrapped
+    ? collectInfixSteps(right.slice(1, -1))
+    : collectInfixSteps(right);
 
   // The operator moved to postfix position: leftPostfix + rightPostfix + op
   const newExpr = leftConverted.finalResult + rightConverted.finalResult + op;
@@ -166,37 +229,54 @@ function collectInfixSteps(expr) {
   //   4. Final result of this sub-expression
   const transformLines = [];
 
+  // 1. Left-side sub-expression transformations.
   const leftHasOps = leftConverted.steps.length > 1;
-  const rightHasOps = rightConverted.steps.length > 1;
-
   if (leftHasOps) {
-    // Map left-side recursive steps into full expression context.
-    // Each left step shows the left sub-expression transforming while
-    // the right side and operator remain in their original positions.
+    const innerOpCount = leftWrapped ? countOpsAtDepth0(left.slice(1, -1)) : 0;
     for (let i = 1; i < leftConverted.steps.length; i++) {
-      const leftStep = leftConverted.steps[i]; // e.g. "=AB+"
-      const mappedLine = leftStep.slice(1) + right + op; // e.g. "AB+)*C"
-      transformLines.push(`=${mappedLine}`);
+      const innerStep = leftConverted.steps[i].slice(1); // Remove "=" prefix
+      if (leftWrapped && innerOpCount <= 1) {
+        // Simple inner expression — strip parens immediately.
+        transformLines.push(`=${innerStep}${op}${right}`);
+      } else if (leftWrapped) {
+        // Complex inner expression — keep parens during inner transforms.
+        transformLines.push(`=(${innerStep})${op}${right}`);
+      } else {
+        transformLines.push(`=${innerStep}${op}${right}`);
+      }
     }
+  } else if (leftWrapped) {
+    // Left is wrapped but has no internal transformations — just unwrap.
+    transformLines.push(`=${left.slice(1, -1)}${op}${right}`);
   }
 
+  // 2. Right-side sub-expression transformations.
+  const rightHasOps = rightConverted.steps.length > 1;
   if (rightHasOps) {
-    // Map right-side recursive steps into full expression context.
-    // Each right step shows the right sub-expression transforming while
-    // the left side is in its final postfix form and the operator is in place.
+    const innerOpCount = rightWrapped ? countOpsAtDepth0(right.slice(1, -1)) : 0;
     for (let i = 1; i < rightConverted.steps.length; i++) {
-      const rightStep = rightConverted.steps[i]; // e.g. "=CD*"
-      const mappedLine = leftConverted.finalResult + op + rightStep.slice(1); // e.g. "AB*+CD*"
-      transformLines.push(`=${mappedLine}`);
+      const innerStep = rightConverted.steps[i].slice(1); // Remove "=" prefix
+      if (rightWrapped && innerOpCount <= 1) {
+        // Simple inner expression — strip parens immediately.
+        transformLines.push(`=${leftConverted.finalResult}${op}${innerStep}`);
+      } else if (rightWrapped) {
+        // Complex inner expression — keep parens during inner transforms.
+        transformLines.push(`=${leftConverted.finalResult}${op}(${innerStep})`);
+      } else {
+        transformLines.push(`=${leftConverted.finalResult}${op}${innerStep}`);
+      }
     }
+  } else if (rightWrapped) {
+    // Right is wrapped but has no internal transformations — just unwrap.
+    transformLines.push(`=${leftConverted.finalResult}${op}${right.slice(1, -1)}`);
   }
 
-  // Operator moved to postfix position.
+  // 3. Operator moved to postfix position.
   if (newExpr !== expr) {
     transformLines.push(`=${newExpr}`);
   }
 
-  // Final result of this entire sub-expression.
+  // 4. Final result of this entire sub-expression.
   if (transformLines[transformLines.length - 1] !== `=${finalResult}`) {
     transformLines.push(`=${finalResult}`);
   }
