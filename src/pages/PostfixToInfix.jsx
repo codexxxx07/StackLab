@@ -10,6 +10,8 @@ import {
 import {
   postfixToInfixNormalLiveSteps,
   postfixToInfixStackLiveSteps,
+  postfixToInfixIntroSteps,
+  postfixToInfixStackIntroSteps,
 } from '../utils/liveExplanationSteps';
 import { validatePostfix } from '../utils/expressionValidator';
 
@@ -30,6 +32,8 @@ export default function PostfixToInfix() {
     const stackRows = postfixToInfixStackRows(steps);
     const liveNormalSteps = postfixToInfixNormalLiveSteps(clean);
     const liveStackSteps = postfixToInfixStackLiveSteps(clean);
+    const introNormalSteps = postfixToInfixIntroSteps(clean);
+    const introStackSteps = postfixToInfixStackIntroSteps();
 
     setData({
       input: clean,
@@ -40,6 +44,8 @@ export default function PostfixToInfix() {
       stackRows,
       liveNormalSteps,
       liveStackSteps,
+      introNormalSteps,
+      introStackSteps,
     });
 
     setTimeout(
@@ -86,6 +92,8 @@ export default function PostfixToInfix() {
               accent="indigo"
               liveSteps1={data.liveNormalSteps}
               liveSteps2={data.liveStackSteps}
+              introSteps1={data.introNormalSteps}
+              introSteps2={data.introStackSteps}
               method1={{
                 title: 'Normal Method',
                 subtitle: 'Without Using Stack',

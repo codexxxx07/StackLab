@@ -6,6 +6,7 @@ import { useLivePlayer } from '../hooks/useLivePlayer';
  * Props:
  *   methodTitle: string — e.g. "Normal Method" or "Stack Method"
  *   steps: Array — step data (format depends on method type)
+ *   introSteps: Array — educational introductory steps (type: 'intro')
  *   methodType: 'normal' | 'stack'
  *   accent: 'orange' | 'indigo'
  *   finalAnswer: string
@@ -13,10 +14,13 @@ import { useLivePlayer } from '../hooks/useLivePlayer';
 export default function LiveExplanationCard({
   methodTitle,
   steps = [],
+  introSteps = [],
   methodType = 'normal',
   accent = 'orange',
   finalAnswer = '',
 }) {
+  const allSteps = [...introSteps.map(s => ({ ...s, _isIntro: true })), ...steps];
+
   const {
     step,
     status,
@@ -27,7 +31,7 @@ export default function LiveExplanationCard({
     prev,
     restart,
     replay,
-  } = useLivePlayer(steps.length);
+  } = useLivePlayer(allSteps.length);
 
   const accentMap = {
     orange: {
@@ -60,7 +64,8 @@ export default function LiveExplanationCard({
   const isPlaying = status === 'playing';
   const isPaused = status === 'paused';
   const isCompleted = status === 'completed';
-  const currentStep = steps[step];
+  const currentStep = allSteps[step];
+  const isIntroStep = currentStep?._isIntro;
 
   // Button label logic
   const playPauseLabel = isPlaying ? '⏸ Pause' : isPaused ? '▶ Resume' : '▶ Play';
@@ -93,7 +98,7 @@ export default function LiveExplanationCard({
         </p>
 
         {/* IDLE STATE — Show Play button */}
-        {isIdle && steps.length > 0 && (
+        {isIdle && allSteps.length > 0 && (
           <div className="flex flex-col items-center justify-center py-8 text-center">
             <p className="mb-2 text-sm font-semibold text-stone-600 dark:text-gray-300">
               Ready to explore
@@ -119,24 +124,34 @@ export default function LiveExplanationCard({
                 Step {step + 1} / {total}
               </span>
               <span className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider ${a.badge}`}>
-                {currentStep.operation || (methodType === 'normal' ? 'TRANSFORM' : 'STEP')}
+                {isIntroStep ? 'LEARN' : currentStep.operation || (methodType === 'normal' ? 'TRANSFORM' : 'STEP')}
               </span>
             </div>
 
-            {/* Step content based on method type */}
-            {methodType === 'normal' && (
+            {/* Step content based on type */}
+            {isIntroStep && (
+              <IntroStepDisplay step={currentStep} accent={a} />
+            )}
+            {!isIntroStep && methodType === 'normal' && (
               <NormalStepDisplay step={currentStep} accent={a} />
             )}
-            {methodType === 'stack' && (
+            {!isIntroStep && methodType === 'stack' && (
               <StackStepDisplay step={currentStep} accent={a} />
             )}
 
             {/* Explanation */}
             <div className="mt-4 rounded-2xl border border-stone-900/10 bg-cream/50 p-4 dark:border-[rgba(255,255,255,0.06)] dark:bg-[rgba(255,255,255,0.02)]">
-              <p
-                className="text-sm font-medium leading-relaxed text-stone-700 dark:text-gray-300"
-                dangerouslySetInnerHTML={{ __html: currentStep.explanation }}
-              />
+              {isIntroStep ? (
+                <div
+                  className="text-sm font-medium leading-relaxed text-stone-700 dark:text-gray-300 [&_strong]:text-stone-900 [&_strong]:dark:text-white [&_em]:italic [&_code]:font-mono [&_code]:text-xs [&_code]:font-bold [&_code]:bg-stone-900/5 [&_code]:dark:bg-white/10 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded-lg"
+                  dangerouslySetInnerHTML={{ __html: currentStep.content }}
+                />
+              ) : (
+                <p
+                  className="text-sm font-medium leading-relaxed text-stone-700 dark:text-gray-300"
+                  dangerouslySetInnerHTML={{ __html: currentStep.explanation }}
+                />
+              )}
             </div>
 
             {/* Completed state */}
@@ -203,16 +218,43 @@ function ControlButton({ onClick, label, title, primary, accent, disabled }) {
   );
 }
 
+/* ── Intro Step Display ────────────────────────────────────────────── */
+
+function IntroStepDisplay({ step, accent }) {
+  return (
+    <div
+      className={`rounded-2xl border ${accent.border}/20 bg-cream p-5 dark:bg-[rgba(255,255,255,0.02)]`}
+      style={{ boxShadow: '0 1px 2px rgb(28 25 23 / 0.05)' }}
+    >
+      <div className={`mb-3 text-lg font-extrabold text-stone-900 dark:text-white`}>
+        {step.title}
+      </div>
+      <div
+        className="text-sm font-medium leading-relaxed text-stone-700 dark:text-gray-300 [&_strong]:text-stone-900 [&_strong]:dark:text-white [&_em]:italic [&_code]:font-mono [&_code]:text-xs [&_code]:font-bold [&_code]:bg-stone-900/5 [&_code]:dark:bg-white/10 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded-lg"
+        dangerouslySetInnerHTML={{ __html: step.content }}
+      />
+    </div>
+  );
+}
+
 /* ── Normal Method Step Display ────────────────────────────────────── */
 
-function NormalStepDisplay({ step }) {
+function NormalStepDisplay({ step, accent }) {
+  const isResult = step.expression?.startsWith('=');
   return (
     <div
       className="rounded-2xl border border-stone-900/5 bg-white p-5 dark:border-[rgba(255,255,255,0.06)] dark:bg-[#0a0a0a]"
       style={{ boxShadow: '0 1px 2px rgb(28 25 23 / 0.05)' }}
     >
       <div className="font-mono text-lg font-bold leading-loose text-stone-900 dark:text-white">
-        {step.expression}
+        {isResult ? (
+          <span>
+            <span className="text-stone-400 dark:text-gray-500">=</span>
+            <span className={accent.text}>{step.expression.slice(1)}</span>
+          </span>
+        ) : (
+          step.expression
+        )}
       </div>
     </div>
   );

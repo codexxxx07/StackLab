@@ -14,6 +14,8 @@ import LiveExplanationCard from './LiveExplanationCard';
  *   method2: { title: string, subtitle: string, columns: {label: string}[], rows: object[], operationKey: string }
  *   liveSteps1: { expression, explanation }[] — live steps for Normal Method
  *   liveSteps2: { token, stack, output, operation, explanation }[] — live steps for Stack Method
+ *   introSteps1: { type, title, content }[] — educational intro for Normal Method
+ *   introSteps2: { type, title, content }[] — educational intro for Stack Method
  *   finalAnswer: string
  *   input: string
  *   accent: 'orange' | 'indigo'
@@ -23,6 +25,8 @@ export default function TwoMethodExplanation({
   method2,
   liveSteps1 = [],
   liveSteps2 = [],
+  introSteps1 = [],
+  introSteps2 = [],
   finalAnswer,
   input,
   accent = 'orange',
@@ -116,6 +120,7 @@ export default function TwoMethodExplanation({
         <LiveExplanationCard
           methodTitle="Normal Method"
           steps={liveSteps1}
+          introSteps={introSteps1}
           methodType="normal"
           accent={accent}
           finalAnswer={method1.finalResult}
@@ -186,6 +191,7 @@ export default function TwoMethodExplanation({
         <LiveExplanationCard
           methodTitle="Stack Method"
           steps={liveSteps2}
+          introSteps={introSteps2}
           methodType="stack"
           accent={accent}
           finalAnswer={finalAnswer}
