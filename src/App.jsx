@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ClickSpark from './components/ClickSpark';
 import SkeletonLoader from './components/SkeletonLoader';
+import Antigravity from './components/Antigravity';
 import Home from './pages/Home';
 import InfixToPostfix from './pages/InfixToPostfix';
 import PostfixToInfix from './pages/PostfixToInfix';
@@ -53,7 +54,26 @@ function AppContent() {
           fadeState === 'content' ? 'opacity-100' : fadeState === 'transitioning' ? 'opacity-100' : 'opacity-0'
         }`}
       >
-        <div className="flex min-h-screen flex-col">
+        <div className="pointer-events-none fixed inset-0 z-0 opacity-30 dark:opacity-20">
+          <Antigravity
+            count={250}
+            magnetRadius={8}
+            ringRadius={9}
+            waveSpeed={0.3}
+            waveAmplitude={0.8}
+            particleSize={1.2}
+            lerpSpeed={0.04}
+            color="#f97316"
+            autoAnimate={true}
+            particleVariance={0.8}
+            rotationSpeed={0.1}
+            depthFactor={0.8}
+            pulseSpeed={2}
+            particleShape="sphere"
+            fieldStrength={8}
+          />
+        </div>
+        <div className="relative z-10 flex min-h-screen flex-col">
           <Navbar />
           <main className="grow">
             <Routes>
