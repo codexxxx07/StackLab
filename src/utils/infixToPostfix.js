@@ -189,7 +189,7 @@ export function infixToPostfix(raw) {
   }
 
   record({
-    step: n++,
+    step: n,
     type: 'done',
     symbol: 'DONE',
     charIndex: expr.length,

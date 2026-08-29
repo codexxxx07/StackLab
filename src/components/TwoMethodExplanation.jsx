@@ -18,7 +18,7 @@ import LiveExplanationCard from './LiveExplanationCard';
  *   introSteps2: { type, title, content }[] — educational intro for Stack Method
  *   finalAnswer: string
  *   input: string
- *   accent: 'orange' | 'indigo'
+ *   accent: 'orange' | 'indigo' | 'emerald' | 'rose'
  */
 export default function TwoMethodExplanation({
   method1,
@@ -47,6 +47,22 @@ export default function TwoMethodExplanation({
       headBg: 'bg-indigo-600',
       rowHover: 'hover:bg-indigo-600/5',
       badge: 'bg-indigo-600/10 border-indigo-600/30 text-indigo-600',
+    },
+    emerald: {
+      bg: 'bg-emerald-500',
+      text: 'text-emerald-500',
+      border: 'border-emerald-500',
+      headBg: 'bg-emerald-500',
+      rowHover: 'hover:bg-emerald-500/5',
+      badge: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-500',
+    },
+    rose: {
+      bg: 'bg-rose-500',
+      text: 'text-rose-500',
+      border: 'border-rose-500',
+      headBg: 'bg-rose-500',
+      rowHover: 'hover:bg-rose-500/5',
+      badge: 'bg-rose-500/10 border-rose-500/30 text-rose-500',
     },
   };
 

@@ -401,3 +401,284 @@ export function postfixToInfixStackRows(steps) {
       operation: s.action,
     }));
 }
+
+/* ── Infix → Prefix (Normal Method) ──────────────────────────────── */
+
+/**
+ * For infix→prefix: find the split index of the lowest-precedence
+ * operator at parenthesis-depth 0.  Among operators of equal lowest
+ * precedence pick the rightmost one (this mirrors the reversed-scan
+ * stack so both methods produce identical answers).
+ */
+function findInfixSplitIndexPrefix(expr) {
+  let depth = 0;
+  let bestPrec = Infinity;
+  let bestIdx = -1;
+
+  for (let i = 0; i < expr.length; i++) {
+    const c = expr[i];
+    if (c === '(') depth++;
+    else if (c === ')') depth--;
+    else if (depth === 0 && isOperatorChar(c)) {
+      const p = PRECEDENCE[c];
+      if (p < bestPrec || (p === bestPrec && i > bestIdx)) {
+        bestPrec = p;
+        bestIdx = i;
+      }
+    }
+  }
+  return bestIdx;
+}
+
+/** Strip redundant outer parentheses from an operand-only string, e.g. "(A)" → "A". */
+function peelOperand(s) {
+  let out = s;
+  while (out.length > 1 && out[0] === '(' && out[out.length - 1] === ')') {
+    out = out.slice(1, -1);
+  }
+  return out;
+}
+
+/**
+ * Recursively collect meaningful Prefix transformation steps.
+ *
+ * Each step represents a real expression transformation (operator moved
+ * in FRONT of its operands according to precedence), NOT character-by-
+ * character accumulation.
+ *
+ * Process: recursively convert left and right sub-expressions, then move
+ * the operator to the prefix (front) position.
+ *
+ * Returns { steps: string[], finalResult: string }
+ */
+function collectPrefixSteps(expr) {
+  const tokens = tokenize(expr);
+
+  let hasOp = false;
+  let depth = 0;
+  for (const t of tokens) {
+    if (t.type === 'paren' && t.value === '(') depth++;
+    else if (t.type === 'paren' && t.value === ')') depth--;
+    else if (depth === 0 && t.type === 'operator') hasOp = true;
+  }
+
+  // Pure operand or parenthesized expression without operators at depth 0.
+  if (!hasOp) {
+    if (isFullyWrapped(expr)) {
+      const inner = expr.slice(1, -1);
+      const innerResult = collectPrefixSteps(inner);
+      if (innerResult.steps.length > 1) {
+        const steps = [expr];
+        for (let i = 1; i < innerResult.steps.length; i++) {
+          steps.push(`=${innerResult.steps[i].slice(1)}`);
+        }
+        return { steps, finalResult: innerResult.finalResult };
+      }
+    }
+    // Redundant outer parens (even nested ones) can hide the real content.
+    const peeled = peelOperand(expr);
+    if (peeled !== expr) {
+      const innerResult = collectPrefixSteps(peeled);
+      const steps = [expr];
+      for (let i = 1; i < innerResult.steps.length; i++) {
+        steps.push(`=${innerResult.steps[i].slice(1)}`);
+      }
+      return { steps, finalResult: innerResult.finalResult };
+    }
+    return { steps: [expr], finalResult: expr };
+  }
+
+  const splitIdx = findInfixSplitIndexPrefix(expr);
+  if (splitIdx === -1) {
+    const peeled = peelOperand(expr);
+    if (peeled !== expr) {
+      const innerResult = collectPrefixSteps(peeled);
+      const steps = [expr];
+      for (let i = 1; i < innerResult.steps.length; i++) {
+        steps.push(`=${innerResult.steps[i].slice(1)}`);
+      }
+      return { steps, finalResult: innerResult.finalResult };
+    }
+    return { steps: [expr], finalResult: expr };
+  }
+
+  const left = expr.slice(0, splitIdx);
+  const right = expr.slice(splitIdx + 1);
+  const op = expr[splitIdx];
+
+  const leftWrapped = isFullyWrapped(left);
+  const rightWrapped = isFullyWrapped(right);
+
+  const leftConverted = leftWrapped
+    ? collectPrefixSteps(left.slice(1, -1))
+    : collectPrefixSteps(left);
+  const rightConverted = rightWrapped
+    ? collectPrefixSteps(right.slice(1, -1))
+    : collectPrefixSteps(right);
+
+  // The operator moved to the prefix position: op + leftPrefix + rightPrefix
+  const newExpr = op + leftConverted.finalResult + rightConverted.finalResult;
+
+  const transformLines = [];
+
+  // 1. Left-side sub-expression transformations.
+  const leftHasOps = leftConverted.steps.length > 1;
+  if (leftHasOps) {
+    const innerOpCount = leftWrapped ? countOpsAtDepth0(left.slice(1, -1)) : 0;
+    for (let i = 1; i < leftConverted.steps.length; i++) {
+      const innerStep = leftConverted.steps[i].slice(1);
+      if (leftWrapped && innerOpCount <= 1) {
+        transformLines.push(`=${innerStep}${op}${right}`);
+      } else if (leftWrapped) {
+        transformLines.push(`=(${innerStep})${op}${right}`);
+      } else {
+        transformLines.push(`=${innerStep}${op}${right}`);
+      }
+    }
+  } else if (leftWrapped) {
+    transformLines.push(`=${left.slice(1, -1)}${op}${right}`);
+  }
+
+  // 2. Right-side sub-expression transformations.
+  const rightHasOps = rightConverted.steps.length > 1;
+  if (rightHasOps) {
+    const innerOpCount = rightWrapped ? countOpsAtDepth0(right.slice(1, -1)) : 0;
+    for (let i = 1; i < rightConverted.steps.length; i++) {
+      const innerStep = rightConverted.steps[i].slice(1);
+      if (rightWrapped && innerOpCount <= 1) {
+        transformLines.push(`=${leftConverted.finalResult}${op}${innerStep}`);
+      } else if (rightWrapped) {
+        transformLines.push(`=${leftConverted.finalResult}${op}(${innerStep})`);
+      } else {
+        transformLines.push(`=${leftConverted.finalResult}${op}${innerStep}`);
+      }
+    }
+  } else if (rightWrapped) {
+    transformLines.push(`=${leftConverted.finalResult}${op}${right.slice(1, -1)}`);
+  }
+
+  // 3. Operator moved to the prefix position.
+  if (newExpr !== expr) {
+    transformLines.push(`=${newExpr}`);
+  }
+
+  // 4. Final result of this entire sub-expression.
+  if (transformLines[transformLines.length - 1] !== `=${newExpr}`) {
+    transformLines.push(`=${newExpr}`);
+  }
+
+  // Deduplicate consecutive identical lines.
+  const unique = [];
+  for (const s of transformLines) {
+    if (unique.length === 0 || s !== unique[unique.length - 1]) {
+      unique.push(s);
+    }
+  }
+
+  return { steps: [expr, ...unique], finalResult: newExpr };
+}
+
+/**
+ * Infix → Prefix: Generate the "Normal Method" transformation steps.
+ *
+ * Produces a readable derivation using the = style:
+ *   (A+B)*C
+ *   =+AB*C
+ *   =*+ABC
+ *
+ * Returns { steps: string[], finalResult: string }
+ */
+export function infixToPrefixNormalSteps(expr) {
+  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  if (!clean) return { steps: [], finalResult: '' };
+
+  return collectPrefixSteps(clean);
+}
+
+/**
+ * Infix → Prefix: Generate the "Stack Method" execution table rows.
+ *
+ * Returns { expression: string, stack: string, prefix: string }[]
+ */
+export function infixToPrefixStackRows(steps) {
+  if (!steps || steps.length === 0) return [];
+
+  return steps
+    .filter((s) => s.type !== 'init' && s.type !== 'done')
+    .map((s) => ({
+      expression: s.symbol,
+      stack: s.stack.join(' '),
+      prefix: s.output,
+    }));
+}
+
+/* ── Prefix → Infix (Normal Method) ──────────────────────────────── */
+
+/**
+ * Prefix → Infix: Generate the "Normal Method" transformation steps.
+ *
+ * Scans right → left and progressively re-parenthesises the expression.
+ * Uses the = style:
+ *   *+ABC
+ *   =*(A+B)C
+ *   =((A+B)*C)
+ *
+ * Returns { steps: string[], finalResult: string }
+ */
+export function prefixToInfixNormalSteps(expr) {
+  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  if (!clean) return { steps: [], finalResult: '' };
+
+  const stack = [];
+  const steps = [];
+  steps.push(clean);
+
+  for (let i = clean.length - 1; i >= 0; i--) {
+    const c = clean[i];
+
+    if (/^[A-Z]$/.test(c)) {
+      stack.push(c);
+    } else if ('+-*/^'.includes(c)) {
+      const left = stack.pop();
+      const right = stack.pop();
+      const combined = `(${left}${c}${right})`;
+      stack.push(combined);
+
+      const remaining = clean.slice(0, i);
+      const display = remaining + [...stack].reverse().join('');
+      steps.push(`=${display}`);
+    }
+  }
+
+  const result = stack[0] || '';
+
+  if (steps[steps.length - 1] !== `=${result}`) {
+    steps.push(`=${result}`);
+  }
+
+  const unique = [];
+  for (const s of steps) {
+    if (unique.length === 0 || s !== unique[unique.length - 1]) {
+      unique.push(s);
+    }
+  }
+
+  return { steps: unique, finalResult: result };
+}
+
+/**
+ * Prefix → Infix: Generate the "Stack Method" execution table rows.
+ *
+ * Returns { expression: string, stack: string, operation: string }[]
+ */
+export function prefixToInfixStackRows(steps) {
+  if (!steps || steps.length === 0) return [];
+
+  return steps
+    .filter((s) => s.type !== 'init' && s.type !== 'done')
+    .map((s) => ({
+      expression: s.symbol,
+      stack: s.stack.join(', '),
+      operation: s.action,
+    }));
+}

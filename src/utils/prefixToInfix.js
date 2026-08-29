@@ -1,12 +1,16 @@
 import { cleanExpression, isOperandChar, isOperatorChar } from './visualizationSteps';
 
 /**
- * Postfix → Infix (stack of strings).
+ * Prefix → Infix (stack of strings).
+ * Scan the prefix expression RIGHT → LEFT.
  * Operand  → push.
- * Operator → a = pop() (RIGHT operand), b = pop() (LEFT operand),
- *            push "(" + b + operator + a + ")".
+ * Operator → a = pop() (LEFT operand), b = pop() (RIGHT operand),
+ *            push "(" + a + operator + b + ")".
+ *
+ * The first pop is the LEFT operand because it was pushed most recently
+ * (right-to-left scan means the left-side sub-expression lands on top).
  */
-export function postfixToInfix(raw) {
+export function prefixToInfix(raw) {
   const expr = cleanExpression(raw);
   const steps = [];
   const stack = [];
@@ -24,11 +28,11 @@ export function postfixToInfix(raw) {
     action: 'Initialize string stack',
     reason: [
       { text: 'This stack holds PARTIAL EXPRESSIONS (strings), not single characters.', tone: 'info' },
-      { text: 'Scan the postfix expression left → right.', tone: 'plain' },
+      { text: 'Scan the prefix expression right → left, one symbol at a time.', tone: 'plain' },
     ],
   });
 
-  for (let i = 0; i < expr.length; i++) {
+  for (let i = expr.length - 1; i >= 0; i--) {
     const c = expr[i];
 
     if (isOperandChar(c)) {
@@ -46,37 +50,37 @@ export function postfixToInfix(raw) {
         ],
       });
     } else if (isOperatorChar(c)) {
-      // POP #1 — sits on top → it is the RIGHT operand.
-      const right = stack.pop();
-      record({
-        step: n++,
-        type: 'pop-right',
-        symbol: c,
-        charIndex: i,
-        action: `POP #1 → "${right}"`,
-        popped: right,
-        slot: 'right',
-        event: { kind: 'pop', value: right },
-        reason: [
-          { text: `Operator "${c}" needs two operands.`, tone: 'hot' },
-          { text: `First pop = "${right}" → the RIGHT operand.`, tone: 'warn' },
-          { text: 'It was pushed last, so it belongs on the right side of the operator.', tone: 'info' },
-        ],
-      });
-
-      // POP #2 — below it → LEFT operand.
+      // POP #1 — sits on top → it is the LEFT operand.
       const left = stack.pop();
       record({
         step: n++,
         type: 'pop-left',
         symbol: c,
         charIndex: i,
-        action: `POP #2 → "${left}"`,
+        action: `POP #1 → "${left}"`,
         popped: left,
         slot: 'left',
         event: { kind: 'pop', value: left },
         reason: [
-          { text: `Second pop = "${left}" → the LEFT operand.`, tone: 'warn' },
+          { text: `Operator "${c}" needs two operands.`, tone: 'hot' },
+          { text: `First pop = "${left}" → the LEFT operand.`, tone: 'warn' },
+          { text: 'Scanning right → left it was pushed last, so it belongs on the left side of the operator.', tone: 'info' },
+        ],
+      });
+
+      // POP #2 — below it → RIGHT operand.
+      const right = stack.pop();
+      record({
+        step: n++,
+        type: 'pop-right',
+        symbol: c,
+        charIndex: i,
+        action: `POP #2 → "${right}"`,
+        popped: right,
+        slot: 'right',
+        event: { kind: 'pop', value: right },
+        reason: [
+          { text: `Second pop = "${right}" → the RIGHT operand.`, tone: 'warn' },
           { text: 'Order matters! We will build ( LEFT op RIGHT ) — never ( RIGHT op LEFT ).', tone: 'hot' },
         ],
       });
@@ -106,7 +110,7 @@ export function postfixToInfix(raw) {
     step: n,
     type: 'done',
     symbol: 'DONE',
-    charIndex: expr.length,
+    charIndex: -1,
     action: 'Conversion complete',
     result,
     reason: [

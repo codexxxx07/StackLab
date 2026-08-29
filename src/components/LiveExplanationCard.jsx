@@ -8,7 +8,7 @@ import { useLivePlayer } from '../hooks/useLivePlayer';
  *   steps: Array — step data (format depends on method type)
  *   introSteps: Array — educational introductory steps (type: 'intro')
  *   methodType: 'normal' | 'stack'
- *   accent: 'orange' | 'indigo'
+ *   accent: 'orange' | 'indigo' | 'emerald' | 'rose'
  *   finalAnswer: string
  */
 export default function LiveExplanationCard({
@@ -55,6 +55,28 @@ export default function LiveExplanationCard({
       pill: 'bg-indigo-600/10 text-indigo-600 dark:text-indigo-400',
       stackBg: 'bg-indigo-600/5 border-indigo-600/20',
       activeBg: 'bg-indigo-600/10',
+    },
+    emerald: {
+      bg: 'bg-emerald-500',
+      text: 'text-emerald-500',
+      border: 'border-emerald-500',
+      headBg: 'bg-emerald-500',
+      badge: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-500',
+      glow: 'shadow-[0_10px_32px_-8px_rgb(16,185,129,0.35)]',
+      pill: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
+      stackBg: 'bg-emerald-500/5 border-emerald-500/20',
+      activeBg: 'bg-emerald-500/10',
+    },
+    rose: {
+      bg: 'bg-rose-500',
+      text: 'text-rose-500',
+      border: 'border-rose-500',
+      headBg: 'bg-rose-500',
+      badge: 'bg-rose-500/10 border-rose-500/30 text-rose-500',
+      glow: 'shadow-[0_10px_32px_-8px_rgb(244,63,94,0.35)]',
+      pill: 'bg-rose-500/10 text-rose-600 dark:text-rose-400',
+      stackBg: 'bg-rose-500/5 border-rose-500/20',
+      activeBg: 'bg-rose-500/10',
     },
   };
 
