@@ -6,7 +6,7 @@ const SOCIAL_LINKS = [
   {
     icon: FaLinkedinIn,
     label: 'LinkedIn',
-    href: '#',
+    href: 'https://www.linkedin.com/in/krishanjit-chakraborty-258a5237a',
     hoverColor: 'group-hover:text-[#0A66C2]',
     darkHoverColor: 'dark:group-hover:text-[#0A66C2]',
     hoverBorder: 'hover:border-[#0A66C2]/50',
@@ -17,7 +17,7 @@ const SOCIAL_LINKS = [
   {
     icon: FaGithub,
     label: 'GitHub',
-    href: '#',
+    href: 'https://github.com/codexxxx07',
     hoverColor: 'group-hover:text-gray-900',
     darkHoverColor: 'dark:group-hover:text-white',
     hoverBorder: 'hover:border-gray-900/30',
@@ -28,7 +28,7 @@ const SOCIAL_LINKS = [
   {
     icon: FaInstagram,
     label: 'Instagram',
-    href: '#',
+    href: 'https://www.instagram.com/_k_r_i_s_h_x_',
     hoverColor: 'group-hover:text-[#E1306C]',
     darkHoverColor: 'dark:group-hover:text-[#E1306C]',
     hoverBorder: 'hover:border-[#E1306C]/50',
