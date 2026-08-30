@@ -682,3 +682,153 @@ export function prefixToInfixStackRows(steps) {
       operation: s.action,
     }));
 }
+
+/* ── Postfix → Prefix (Normal Method) ────────────────────────────── */
+
+/**
+ * Postfix → Prefix: Generate the "Normal Method" transformation steps.
+ *
+ * Reads the postfix expression left → right and progressively rebuilds it
+ * as prefix by combining each operator with the two expressions before it.
+ * Uses the = style:
+ *   ABC*+
+ *   =A*BC
+ *   =+A*BC
+ *
+ * Each state is a meaningful transformation (never character-by-character).
+ *
+ * Returns { steps: string[], finalResult: string }
+ */
+export function postfixToPrefixNormalSteps(expr) {
+  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  if (!clean) return { steps: [], finalResult: '' };
+
+  const stack = [];
+  const steps = [];
+  steps.push(clean);
+
+  for (let i = 0; i < clean.length; i++) {
+    const c = clean[i];
+
+    if (isOperandChar(c)) {
+      stack.push(c);
+    } else if (isOperatorChar(c)) {
+      const a = stack.pop();
+      const b = stack.pop();
+      const combined = `${c}${b}${a}`;
+      stack.push(combined);
+
+      const currentStack = [...stack];
+      const lastCombined = currentStack.pop();
+      const prefix = currentStack.join('');
+
+      steps.push(`=${prefix}${lastCombined}`);
+    }
+  }
+
+  const result = stack[0] || '';
+
+  if (steps[steps.length - 1] !== `=${result}`) {
+    steps.push(`=${result}`);
+  }
+
+  const unique = [];
+  for (const s of steps) {
+    if (unique.length === 0 || s !== unique[unique.length - 1]) {
+      unique.push(s);
+    }
+  }
+
+  return { steps: unique, finalResult: result };
+}
+
+/**
+ * Postfix → Prefix: Generate the "Stack Method" execution table rows.
+ *
+ * Returns { expression: string, stack: string, operation: string }[]
+ */
+export function postfixToPrefixStackRows(steps) {
+  if (!steps || steps.length === 0) return [];
+
+  return steps
+    .filter((s) => s.type !== 'init' && s.type !== 'done')
+    .map((s) => ({
+      expression: s.symbol,
+      stack: s.stack.join(', '),
+      operation: s.action,
+    }));
+}
+
+/* ── Prefix → Postfix (Normal Method) ────────────────────────────── */
+
+/**
+ * Prefix → Postfix: Generate the "Normal Method" transformation steps.
+ *
+ * Reads the prefix expression right → left and progressively rebuilds it
+ * as postfix by placing each operator after the two expressions it owns.
+ * Uses the = style:
+ *   +A*BC
+ *   =+ABC*
+ *   =ABC*+
+ *
+ * Each state is a meaningful transformation (never character-by-character).
+ *
+ * Returns { steps: string[], finalResult: string }
+ */
+export function prefixToPostfixNormalSteps(expr) {
+  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  if (!clean) return { steps: [], finalResult: '' };
+
+  const stack = [];
+  const steps = [];
+  steps.push(clean);
+
+  for (let i = clean.length - 1; i >= 0; i--) {
+    const c = clean[i];
+
+    if (isOperandChar(c)) {
+      stack.push(c);
+    } else if (isOperatorChar(c)) {
+      const a = stack.pop();
+      const b = stack.pop();
+      const combined = `${a}${b}${c}`;
+      stack.push(combined);
+
+      const remaining = clean.slice(0, i);
+      const display = remaining + [...stack].reverse().join('');
+      steps.push(`=${display}`);
+    }
+  }
+
+  const result = stack[0] || '';
+
+  if (steps[steps.length - 1] !== `=${result}`) {
+    steps.push(`=${result}`);
+  }
+
+  const unique = [];
+  for (const s of steps) {
+    if (unique.length === 0 || s !== unique[unique.length - 1]) {
+      unique.push(s);
+    }
+  }
+
+  return { steps: unique, finalResult: result };
+}
+
+/**
+ * Prefix → Postfix: Generate the "Stack Method" execution table rows.
+ *
+ * Returns { expression: string, stack: string, operation: string }[]
+ */
+export function prefixToPostfixStackRows(steps) {
+  if (!steps || steps.length === 0) return [];
+
+  return steps
+    .filter((s) => s.type !== 'init' && s.type !== 'done')
+    .map((s) => ({
+      expression: s.symbol,
+      stack: s.stack.join(', '),
+      operation: s.action,
+    }));
+}

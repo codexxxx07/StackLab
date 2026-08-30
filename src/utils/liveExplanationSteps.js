@@ -1700,3 +1700,523 @@ export function prefixToInfixStackLiveSteps(expr) {
 
   return steps;
 }
+
+/* ──────────────────────────────────────────────────────────────────────
+   POSTFIX → PREFIX — Intro Steps
+   ────────────────────────────────────────────────────────────────────── */
+
+export function postfixToPrefixIntroSteps(expr) {
+  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  const operands = extractOperands(clean);
+  const operators = extractOperators(clean);
+  const steps = [];
+
+  // What is Postfix?
+  steps.push({
+    type: 'intro',
+    title: 'What is Postfix?',
+    content: `
+      <p class="mb-3">We are given a <strong>postfix expression</strong>:</p>
+      <p class="font-mono text-lg font-extrabold mb-4">${clean}</p>
+      <p class="mb-2">In <strong>postfix notation</strong> the operator comes <em>AFTER</em> its operands.</p>
+      <div class="grid grid-cols-2 gap-4 my-4">
+        <div class="rounded-xl border border-stone-900/10 bg-cream/50 p-3 dark:border-white/10 dark:bg-white/5">
+          <p class="text-[10px] font-bold uppercase tracking-wider text-stone-500 dark:text-gray-400 mb-1">Infix</p>
+          <p class="font-mono text-lg font-extrabold text-stone-900 dark:text-white">A + B</p>
+        </div>
+        <div class="rounded-xl border border-stone-900/10 bg-cream/50 p-3 dark:border-white/10 dark:bg-white/5">
+          <p class="text-[10px] font-bold uppercase tracking-wider text-stone-500 dark:text-gray-400 mb-1">Postfix</p>
+          <p class="font-mono text-lg font-extrabold text-stone-900 dark:text-white">AB+</p>
+        </div>
+      </div>
+      <p class="mb-2">So <code class="font-mono font-bold">AB+</code> simply means <code class="font-mono font-bold">A + B</code> — the <strong>+</strong> lands after both operands.</p>
+      <p class="mb-2 mt-3">This expression contains:</p>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Operands: <strong>${operands.join(', ')}</strong></li>
+        <li>Operators: <strong>${operators.join(', ')}</strong></li>
+      </ul>
+    `,
+  });
+
+  // What is Prefix?
+  steps.push({
+    type: 'intro',
+    title: 'What is Prefix?',
+    content: `
+      <p class="mb-3">In <strong>prefix notation</strong> (Polish Notation) the operator comes <em>BEFORE</em> its operands.</p>
+      <div class="grid grid-cols-2 gap-4 my-4">
+        <div class="rounded-xl border border-stone-900/10 bg-cream/50 p-3 dark:border-white/10 dark:bg-white/5">
+          <p class="text-[10px] font-bold uppercase tracking-wider text-stone-500 dark:text-gray-400 mb-1">Infix</p>
+          <p class="font-mono text-lg font-extrabold text-stone-900 dark:text-white">A + B</p>
+        </div>
+        <div class="rounded-xl border border-stone-900/10 bg-cream/50 p-3 dark:border-white/10 dark:bg-white/5">
+          <p class="text-[10px] font-bold uppercase tracking-wider text-stone-500 dark:text-gray-400 mb-1">Prefix</p>
+          <p class="font-mono text-lg font-extrabold text-stone-900 dark:text-white">+AB</p>
+        </div>
+      </div>
+      <p class="mb-3">So <code class="font-mono font-bold">+AB</code> also means <code class="font-mono font-bold">A + B</code> — the <strong>+</strong> comes first.</p>
+      <p>Our job: rewrite the postfix <strong>${clean}</strong> so every operator jumps to the <em>front</em> of the two operands it joins.</p>
+    `,
+  });
+
+  // From Postfix to Prefix — the big idea
+  steps.push({
+    type: 'intro',
+    title: 'From Postfix to Prefix',
+    content: `
+      <p class="mb-3">Read the postfix expression left → right. Whenever you see an <strong>operator</strong>, take the two expressions it owns and place the operator <em>in front of both</em>.</p>
+      <div class="space-y-2 mb-3">
+        <div class="flex items-start gap-3 rounded-xl border border-stone-900/10 bg-emerald-500/5 px-3 py-2.5 dark:border-white/10 dark:bg-emerald-500/5">
+          <span class="shrink-0 rounded-lg bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-500">1</span>
+          <p class="text-xs font-semibold text-stone-700 dark:text-gray-300"><strong>Operand?</strong> → Push it as its own mini-expression.</p>
+        </div>
+        <div class="flex items-start gap-3 rounded-xl border border-stone-900/10 bg-orange-500/5 px-3 py-2.5 dark:border-white/10 dark:bg-orange-500/5">
+          <span class="shrink-0 rounded-lg bg-orange-500/10 px-2 py-0.5 text-[10px] font-bold text-orange-500">2</span>
+          <p class="text-xs font-semibold text-stone-700 dark:text-gray-300"><strong>Operator?</strong> → Pop two, put the operator <em>in front</em> of them, push the result.</p>
+        </div>
+      </div>
+      <p class="mb-2">For <code class="font-mono font-bold">${clean}</code>:</p>
+      <p class="rounded-xl border border-stone-900/10 bg-cream/50 p-3 font-mono text-sm font-bold dark:border-white/10 dark:bg-white/5"><code class="font-mono">B * C</code> first, then <code class="font-mono">A + (B*C)</code> — the prefix form puts each operator <em>before</em> the expression it operates on.</p>
+    `,
+  });
+
+  return steps;
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+   POSTFIX → PREFIX — Normal Method Live Steps
+   ────────────────────────────────────────────────────────────────────── */
+
+export function postfixToPrefixNormalLiveSteps(expr) {
+  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  if (!clean) return [];
+
+  const steps = [];
+  const stack = [];
+
+  steps.push({
+    expression: clean,
+    explanation: `We start with the postfix expression <strong>${clean}</strong>. We read it left → right, turning every operand into a prefix sub-expression and combining them the moment an operator arrives.`,
+  });
+
+  for (let i = 0; i < clean.length; i++) {
+    const c = clean[i];
+
+    if (isOperandChar(c)) {
+      stack.push(c);
+      steps.push({
+        expression: stack.join(' '),
+        explanation: `<strong>${c}</strong> is an operand. For now it is its own mini-expression, waiting on the stack to be combined when an operator joins it.`,
+      });
+    } else if (isOperatorChar(c)) {
+      const a = stack.pop();
+      const b = stack.pop();
+      const combined = `${c}${b}${a}`;
+      stack.push(combined);
+
+      steps.push({
+        expression: stack.join(' '),
+        explanation: `Operator <strong>${c}</strong> (${getOperatorName(c)}) wants to come <em>before</em> its two operands. First pop <strong>${a}</strong> must go LAST, second pop <strong>${b}</strong> goes next. Prefix puts the operator first: <strong>${c}</strong> + <strong>${b}</strong> + <strong>${a}</strong> → <strong>${combined}</strong>.`,
+      });
+    }
+  }
+
+  const result = stack[0] || '';
+  steps.push({
+    expression: `=${result}`,
+    explanation: `Only one expression remains on the stack. Every operator has moved in front of its operands — that is our final prefix expression: <strong>${result}</strong>.`,
+  });
+
+  return steps;
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+   POSTFIX → PREFIX — Stack Method Intro Steps
+   ────────────────────────────────────────────────────────────────────── */
+
+export function postfixToPrefixStackIntroSteps() {
+  const steps = [];
+
+  steps.push({
+    type: 'intro',
+    title: 'What is a Stack?',
+    content: `
+      <p class="mb-3">A <strong>stack</strong> is a data structure where the <em>last</em> item added is the <em>first</em> item removed.</p>
+      <p class="mb-3 text-xs font-semibold text-stone-500 dark:text-gray-400 uppercase tracking-wider">Last In, First Out — LIFO</p>
+      <div class="flex justify-center my-4">
+        <div class="inline-flex flex-col items-center">
+          <div class="text-[10px] font-bold uppercase tracking-wider text-stone-400 dark:text-gray-500 mb-1">TOP ↓</div>
+          <div class="rounded-xl border-2 border-emerald-500 bg-emerald-500/10 px-6 py-2.5 font-mono text-sm font-bold text-emerald-500 dark:text-emerald-400">(B*C) ← First removed</div>
+          <div class="h-0.5 w-full bg-emerald-500/20"></div>
+          <div class="rounded-xl border border-stone-900/10 bg-white px-6 py-2.5 font-mono text-sm font-bold text-stone-700 dark:border-white/10 dark:bg-white/5 dark:text-gray-300">A ← Added earlier</div>
+          <div class="mt-3 h-2 w-24 rounded-full bg-stone-300 dark:bg-gray-700"></div>
+        </div>
+      </div>
+      <p class="mb-2">For postfix → prefix, the stack holds <strong>partial expressions</strong> (strings), not single characters.</p>
+      <p>When an operator arrives, we pop two items, build the prefix, and push the result back.</p>
+    `,
+  });
+
+  // Conversion Rules
+  steps.push({
+    type: 'intro',
+    title: 'Conversion Rules',
+    content: `
+      <p class="mb-3">Here are the rules we follow, step by step:</p>
+      <div class="space-y-2">
+        <div class="flex items-start gap-3 rounded-xl border border-stone-900/10 bg-emerald-500/5 px-3 py-2.5 dark:border-white/10 dark:bg-emerald-500/5">
+          <span class="shrink-0 rounded-lg bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-500">1</span>
+          <p class="text-xs font-semibold text-stone-700 dark:text-gray-300"><strong>Operand?</strong> → Push it onto the stack. A single letter is already a valid expression.</p>
+        </div>
+        <div class="flex items-start gap-3 rounded-xl border border-stone-900/10 bg-orange-500/5 px-3 py-2.5 dark:border-white/10 dark:bg-orange-500/5">
+          <span class="shrink-0 rounded-lg bg-orange-500/10 px-2 py-0.5 text-[10px] font-bold text-orange-500">2</span>
+          <p class="text-xs font-semibold text-stone-700 dark:text-gray-300"><strong>Operator?</strong> → Pop the top expression (first pop = <code class="font-mono">a</code>).</p>
+        </div>
+        <div class="flex items-start gap-3 rounded-xl border border-stone-900/10 bg-rose-500/5 px-3 py-2.5 dark:border-white/10 dark:bg-rose-500/5">
+          <span class="shrink-0 rounded-lg bg-rose-500/10 px-2 py-0.5 text-[10px] font-bold text-rose-500">3</span>
+          <p class="text-xs font-semibold text-stone-700 dark:text-gray-300"><strong>Pop again</strong> → Get the next expression (second pop = <code class="font-mono">b</code>).</p>
+        </div>
+        <div class="flex items-start gap-3 rounded-xl border border-stone-900/10 bg-pink-500/5 px-3 py-2.5 dark:border-white/10 dark:bg-pink-500/5">
+          <span class="shrink-0 rounded-lg bg-pink-500/10 px-2 py-0.5 text-[10px] font-bold text-pink-500">4</span>
+          <p class="text-xs font-semibold text-stone-700 dark:text-gray-300"><strong>Build</strong> → Create <code class="font-mono">operator + b + a</code> and push back.</p>
+        </div>
+      </div>
+      <p class="mt-3 text-xs font-semibold text-stone-500 dark:text-gray-400">⚠️ Order matters! The first pop <code class="font-mono">a</code> goes LAST in the built prefix.</p>
+    `,
+  });
+
+  return steps;
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+   POSTFIX → PREFIX — Stack Method Live Steps
+   ────────────────────────────────────────────────────────────────────── */
+
+export function postfixToPrefixStackLiveSteps(expr) {
+  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  if (!clean) return [];
+
+  const steps = [];
+  const stack = [];
+
+  steps.push({
+    token: '—',
+    stack: [],
+    output: '',
+    operation: 'INITIALIZE',
+    explanation: 'We start with an empty stack of <strong>partial expressions</strong> (strings). We scan the postfix expression <strong>left → right</strong>, because in postfix the operands of an operator always sit to its left.',
+  });
+
+  for (let i = 0; i < clean.length; i++) {
+    const c = clean[i];
+
+    if (isOperandChar(c)) {
+      stack.push(c);
+      steps.push({
+        token: c,
+        stack: [...stack],
+        output: c,
+        operation: 'PUSH',
+        explanation: `<strong>${c}</strong> is an operand. Push it onto the stack as its own mini-expression. We will need it later when its operator arrives.`,
+      });
+    } else if (isOperatorChar(c)) {
+      const a = stack.pop();
+      steps.push({
+        token: c,
+        stack: [...stack],
+        output: stack.length ? stack[stack.length - 1] : '',
+        operation: 'POP-A',
+        explanation: `Operator <strong>${c}</strong> (${getOperatorName(c)}) needs two operands. First pop = <strong>${a}</strong>. Because it was pushed last, it sits on top — and in prefix it must go <em>LAST</em>.`,
+      });
+
+      const b = stack.pop();
+      steps.push({
+        token: c,
+        stack: [...stack],
+        output: stack.length ? stack[stack.length - 1] : '',
+        operation: 'POP-B',
+        explanation: `Second pop = <strong>${b}</strong>. Order matters: we build <code class="font-mono">operator + b + a</code>, never <code class="font-mono">operator + a + b</code>.`,
+      });
+
+      const built = `${c}${b}${a}`;
+      stack.push(built);
+      steps.push({
+        token: c,
+        stack: [...stack],
+        output: built,
+        operation: 'BUILD',
+        explanation: `Combine: <strong>${c}</strong> + <strong>${b}</strong> + <strong>${a}</strong> → <strong>${built}</strong>. Push the finished prefix sub-expression back onto the stack — it is now one item that outer operators can reuse.`,
+      });
+    }
+  }
+
+  const result = stack[0] || '';
+  steps.push({
+    token: '✓',
+    stack: [result],
+    output: result,
+    operation: 'COMPLETE',
+    explanation: `One expression remains on the stack. That is our final prefix expression: <strong>${result}</strong>.`,
+  });
+
+  return steps;
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+   PREFIX → POSTFIX — Intro Steps
+   ────────────────────────────────────────────────────────────────────── */
+
+export function prefixToPostfixIntroSteps(expr) {
+  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  const operands = extractOperands(clean);
+  const operators = extractOperators(clean);
+  const steps = [];
+
+  // What is Prefix?
+  steps.push({
+    type: 'intro',
+    title: 'What is Prefix?',
+    content: `
+      <p class="mb-3">We are given a <strong>prefix expression</strong>:</p>
+      <p class="font-mono text-lg font-extrabold mb-4">${clean}</p>
+      <p class="mb-2">In <strong>prefix notation</strong> the operator comes <em>BEFORE</em> its operands.</p>
+      <div class="grid grid-cols-2 gap-4 my-4">
+        <div class="rounded-xl border border-stone-900/10 bg-cream/50 p-3 dark:border-white/10 dark:bg-white/5">
+          <p class="text-[10px] font-bold uppercase tracking-wider text-stone-500 dark:text-gray-400 mb-1">Infix</p>
+          <p class="font-mono text-lg font-extrabold text-stone-900 dark:text-white">A + B</p>
+        </div>
+        <div class="rounded-xl border border-stone-900/10 bg-cream/50 p-3 dark:border-white/10 dark:bg-white/5">
+          <p class="text-[10px] font-bold uppercase tracking-wider text-stone-500 dark:text-gray-400 mb-1">Prefix</p>
+          <p class="font-mono text-lg font-extrabold text-stone-900 dark:text-white">+AB</p>
+        </div>
+      </div>
+      <p class="mb-2">So <code class="font-mono font-bold">+AB</code> means <code class="font-mono font-bold">A + B</code> — the <strong>+</strong> comes first.</p>
+      <p class="mb-2 mt-3">This expression contains:</p>
+      <ul class="list-disc list-inside space-y-1">
+        <li>Operands: <strong>${operands.join(', ')}</strong></li>
+        <li>Operators: <strong>${operators.join(', ')}</strong></li>
+      </ul>
+    `,
+  });
+
+  // What is Postfix?
+  steps.push({
+    type: 'intro',
+    title: 'What is Postfix?',
+    content: `
+      <p class="mb-3">In <strong>postfix notation</strong> (Reverse Polish Notation) the operator comes <em>AFTER</em> its operands.</p>
+      <div class="grid grid-cols-2 gap-4 my-4">
+        <div class="rounded-xl border border-stone-900/10 bg-cream/50 p-3 dark:border-white/10 dark:bg-white/5">
+          <p class="text-[10px] font-bold uppercase tracking-wider text-stone-500 dark:text-gray-400 mb-1">Infix</p>
+          <p class="font-mono text-lg font-extrabold text-stone-900 dark:text-white">A + B</p>
+        </div>
+        <div class="rounded-xl border border-stone-900/10 bg-cream/50 p-3 dark:border-white/10 dark:bg-white/5">
+          <p class="text-[10px] font-bold uppercase tracking-wider text-stone-500 dark:text-gray-400 mb-1">Postfix</p>
+          <p class="font-mono text-lg font-extrabold text-stone-900 dark:text-white">AB+</p>
+        </div>
+      </div>
+      <p class="mb-3">So <code class="font-mono font-bold">AB+</code> also means <code class="font-mono font-bold">A + B</code> — the <strong>+</strong> comes last.</p>
+      <p>Our job: rewrite the prefix <strong>${clean}</strong> so every operator lands <em>after</em> the two operands it joins.</p>
+    `,
+  });
+
+  // From Prefix to Postfix — the big idea
+  steps.push({
+    type: 'intro',
+    title: 'From Prefix to Postfix',
+    content: `
+      <p class="mb-3">Read the prefix expression <strong>right → left</strong>. Whenever you see an <strong>operator</strong>, pop the two expressions it owns and place the operator <em>after both</em>.</p>
+      <p class="mb-2">For <code class="font-mono font-bold">${clean}</code>, the prefix <code class="font-mono font-bold">+A*BC</code> means <code class="font-mono font-bold">A + (B*C)</code>. Postfix puts each operator AFTER its operands, so the <strong>*</strong> joins <strong>BC</strong> first, then <strong>+</strong> joins <strong>A</strong> and <strong>BC*</strong>.</p>
+      <p class="rounded-xl border border-stone-900/10 bg-cream/50 p-3 font-mono text-sm font-bold dark:border-white/10 dark:bg-white/5">This makes the relationship between the notations obvious: they are the same expression written with the operator in front, between, or behind.</p>
+    `,
+  });
+
+  return steps;
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+   PREFIX → POSTFIX — Normal Method Live Steps
+   ────────────────────────────────────────────────────────────────────── */
+
+export function prefixToPostfixNormalLiveSteps(expr) {
+  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  if (!clean) return [];
+
+  const steps = [];
+  const stack = [];
+
+  steps.push({
+    expression: clean,
+    explanation: `We start with the prefix expression <strong>${clean}</strong>. We read it right → left, rebuilding postfix sub-expressions whenever we meet an operator.`,
+  });
+
+  for (let i = clean.length - 1; i >= 0; i--) {
+    const c = clean[i];
+
+    if (isOperandChar(c)) {
+      stack.push(c);
+    } else if (isOperatorChar(c)) {
+      const a = stack.pop();
+      const b = stack.pop();
+      const combined = `${a}${b}${c}`;
+      stack.push(combined);
+
+      const remaining = clean.slice(0, i);
+      const display = remaining + [...stack].reverse().join('');
+      steps.push({
+        expression: `=${display}`,
+        explanation: `Operator <strong>${c}</strong> (${getOperatorName(c)}) joins the two expressions it owns: <strong>${a}</strong> then <strong>${b}</strong>, and moves <em>after both</em> — so <strong>${a}</strong> + <strong>${b}</strong> + <strong>${c}</strong> → <strong>${combined}</strong>. The part before the operator has not been read yet, so it stays as-is: <strong>${display}</strong>.`,
+      });
+    }
+  }
+
+  const result = stack[0] || '';
+  const lastExpr = steps[steps.length - 1];
+  if (!lastExpr || lastExpr.expression !== `=${result}`) {
+    steps.push({
+      expression: `=${result}`,
+      explanation: `Every operator has moved after its operands and only one grouped expression remains: <strong>${result}</strong>. That is our final postfix expression.`,
+    });
+  }
+
+  const unique = [];
+  for (const s of steps) {
+    if (unique.length === 0 || s.expression !== unique[unique.length - 1].expression) {
+      unique.push(s);
+    }
+  }
+
+  return unique;
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+   PREFIX → POSTFIX — Stack Method Intro Steps
+   ────────────────────────────────────────────────────────────────────── */
+
+export function prefixToPostfixStackIntroSteps() {
+  const steps = [];
+
+  steps.push({
+    type: 'intro',
+    title: 'What is a Stack?',
+    content: `
+      <p class="mb-3">A <strong>stack</strong> is a data structure where the <em>last</em> item added is the <em>first</em> item removed.</p>
+      <p class="mb-3 text-xs font-semibold text-stone-500 dark:text-gray-400 uppercase tracking-wider">Last In, First Out — LIFO</p>
+      <div class="flex justify-center my-4">
+        <div class="inline-flex flex-col items-center">
+          <div class="text-[10px] font-bold uppercase tracking-wider text-stone-400 dark:text-gray-500 mb-1">TOP ↓</div>
+          <div class="rounded-xl border-2 border-indigo-600 bg-indigo-600/10 px-6 py-2.5 font-mono text-sm font-bold text-indigo-600 dark:text-indigo-400">(B*C) ← First removed</div>
+          <div class="h-0.5 w-full bg-indigo-600/20"></div>
+          <div class="rounded-xl border border-stone-900/10 bg-white px-6 py-2.5 font-mono text-sm font-bold text-stone-700 dark:border-white/10 dark:bg-white/5 dark:text-gray-300">A ← Added earlier</div>
+          <div class="mt-3 h-2 w-24 rounded-full bg-stone-300 dark:bg-gray-700"></div>
+        </div>
+      </div>
+      <p class="mb-2">For prefix → postfix, the stack holds <strong>partial expressions</strong> (strings), not single characters.</p>
+      <p>When an operator arrives, we pop two items, build the postfix, and push the result back.</p>
+    `,
+  });
+
+  // Conversion Rules
+  steps.push({
+    type: 'intro',
+    title: 'Conversion Rules',
+    content: `
+      <p class="mb-3">Here are the rules we follow, step by step:</p>
+      <div class="space-y-2">
+        <div class="flex items-start gap-3 rounded-xl border border-stone-900/10 bg-emerald-500/5 px-3 py-2.5 dark:border-white/10 dark:bg-emerald-500/5">
+          <span class="shrink-0 rounded-lg bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-500">1</span>
+          <p class="text-xs font-semibold text-stone-700 dark:text-gray-300"><strong>Operand?</strong> → Push it onto the stack. A single letter is already a valid expression.</p>
+        </div>
+        <div class="flex items-start gap-3 rounded-xl border border-stone-900/10 bg-indigo-600/5 px-3 py-2.5 dark:border-white/10 dark:bg-indigo-600/5">
+          <span class="shrink-0 rounded-lg bg-indigo-600/10 px-2 py-0.5 text-[10px] font-bold text-indigo-600">2</span>
+          <p class="text-xs font-semibold text-stone-700 dark:text-gray-300"><strong>Operator?</strong> → Pop the top expression (first pop = <code class="font-mono">a</code>).</p>
+        </div>
+        <div class="flex items-start gap-3 rounded-xl border border-stone-900/10 bg-rose-500/5 px-3 py-2.5 dark:border-white/10 dark:bg-rose-500/5">
+          <span class="shrink-0 rounded-lg bg-rose-500/10 px-2 py-0.5 text-[10px] font-bold text-rose-500">3</span>
+          <p class="text-xs font-semibold text-stone-700 dark:text-gray-300"><strong>Pop again</strong> → Get the next expression (second pop = <code class="font-mono">b</code>).</p>
+        </div>
+        <div class="flex items-start gap-3 rounded-xl border border-stone-900/10 bg-pink-500/5 px-3 py-2.5 dark:border-white/10 dark:bg-pink-500/5">
+          <span class="shrink-0 rounded-lg bg-pink-500/10 px-2 py-0.5 text-[10px] font-bold text-pink-500">4</span>
+          <p class="text-xs font-semibold text-stone-700 dark:text-gray-300"><strong>Build</strong> → Create <code class="font-mono">a + b + operator</code> and push back.</p>
+        </div>
+      </div>
+      <p class="mt-3 text-xs font-semibold text-stone-500 dark:text-gray-400">⚠️ Order matters! Because we read right → left, the first pop <code class="font-mono">a</code> comes FIRST in the built postfix.</p>
+    `,
+  });
+
+  return steps;
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+   PREFIX → POSTFIX — Stack Method Live Steps
+   ────────────────────────────────────────────────────────────────────── */
+
+export function prefixToPostfixStackLiveSteps(expr) {
+  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  if (!clean) return [];
+
+  const steps = [];
+  const stack = [];
+
+  steps.push({
+    token: '—',
+    stack: [],
+    output: '',
+    operation: 'INITIALIZE',
+    explanation: 'We start with an empty stack of <strong>partial expressions</strong> (strings). We scan the prefix expression <strong>right → left</strong>, because the operands of an operator always sit to its right in prefix.',
+  });
+
+  for (let i = clean.length - 1; i >= 0; i--) {
+    const c = clean[i];
+
+    if (isOperandChar(c)) {
+      stack.push(c);
+      steps.push({
+        token: c,
+        stack: [...stack],
+        output: c,
+        operation: 'PUSH',
+        explanation: `<strong>${c}</strong> is an operand. Push it onto the stack as its own mini-expression. Reading right → left we meet operands first, so they wait on the stack for the operator that combines them.`,
+      });
+    } else if (isOperatorChar(c)) {
+      const a = stack.pop();
+      steps.push({
+        token: c,
+        stack: [...stack],
+        output: stack.length ? stack[stack.length - 1] : '',
+        operation: 'POP-A',
+        explanation: `Operator <strong>${c}</strong> (${getOperatorName(c)}) needs two operands. First pop = <strong>${a}</strong> — because we scanned right → left, it was pushed last, so it comes off first and <em>leads</em> in postfix.`,
+      });
+
+      const b = stack.pop();
+      steps.push({
+        token: c,
+        stack: [...stack],
+        output: stack.length ? stack[stack.length - 1] : '',
+        operation: 'POP-B',
+        explanation: `Second pop = <strong>${b}</strong>. Order matters: we build <code class="font-mono">a + b + operator</code>, never <code class="font-mono">b + a + operator</code>.`,
+      });
+
+      const built = `${a}${b}${c}`;
+      stack.push(built);
+      steps.push({
+        token: c,
+        stack: [...stack],
+        output: built,
+        operation: 'BUILD',
+        explanation: `Combine: <strong>${a}</strong> + <strong>${b}</strong> + <strong>${c}</strong> → <strong>${built}</strong>. Push the finished postfix sub-expression back onto the stack — it is now one item that outer operators can reuse.`,
+      });
+    }
+  }
+
+  const result = stack[0] || '';
+  steps.push({
+    token: '✓',
+    stack: [result],
+    output: result,
+    operation: 'COMPLETE',
+    explanation: `One expression remains on the stack. That is our final postfix expression: <strong>${result}</strong>.`,
+  });
+
+  return steps;
+}
