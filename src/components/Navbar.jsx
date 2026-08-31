@@ -5,7 +5,6 @@ import { FiSun, FiMoon } from 'react-icons/fi';
 import { CONVERSIONS } from '../data/conversions';
 
 const LIVE_CONVERSIONS = CONVERSIONS.filter((c) => c.status === 'live');
-const SOON_CONVERSIONS = CONVERSIONS.filter((c) => c.status === 'soon');
 
 const COLOR_DOT = {
   orange: 'bg-orange-500',
@@ -139,27 +138,6 @@ export default function Navbar() {
                     </Link>
                   ))}
 
-                  {/* Divider */}
-                  <div className="mx-3 my-1 h-px bg-stone-900/5 dark:bg-white/6" />
-
-                  {/* Coming Soon */}
-                  <div className="px-3 py-1.5">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-stone-400 dark:text-[#6b7280]">
-                      Coming Soon
-                    </span>
-                  </div>
-                  {SOON_CONVERSIONS.map((conv) => (
-                    <div
-                      key={conv.id}
-                      className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-stone-400 opacity-60 dark:text-[#6b7280]"
-                    >
-                      <span className={`h-2 w-2 rounded-full ${COLOR_DOT[conv.color]}`} />
-                      <span className="flex-1 text-sm font-medium">{conv.title}</span>
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-stone-300 dark:text-[#4b5563]">
-                        Soon
-                      </span>
-                    </div>
-                  ))}
                 </div>
                 </div>
               )}
@@ -274,22 +252,6 @@ export default function Navbar() {
                       </NavLink>
                     ))}
 
-                    <div className="mx-3 my-1 h-px bg-stone-900/5 dark:bg-white/6" />
-
-                    <div className="px-3 py-1.5">
-                      <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-stone-400 dark:text-[#6b7280]">
-                        Coming Soon
-                      </span>
-                    </div>
-                    {SOON_CONVERSIONS.map((conv) => (
-                      <div
-                        key={conv.id}
-                        className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-stone-400 opacity-60 dark:text-[#6b7280]"
-                      >
-                        <span className={`h-2 w-2 rounded-full ${COLOR_DOT[conv.color]}`} />
-                        <span className="text-sm font-medium">{conv.title}</span>
-                      </div>
-                    ))}
                   </div>
                 )}
               </div>

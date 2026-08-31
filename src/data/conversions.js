@@ -78,7 +78,6 @@ export const CONVERSIONS = [
 ];
 
 export const LIVE_CONVERSIONS = CONVERSIONS.filter((c) => c.status === 'live');
-export const SOON_CONVERSIONS = CONVERSIONS.filter((c) => c.status === 'soon');
 
 /** Class lookup so dynamic Tailwind classes stay statically analyzable. */
 export const COLOR_STYLES = {

@@ -1,7 +1,5 @@
-import { Link } from 'react-router-dom';
-import { FiArrowRight, FiBookOpen, FiCpu, FiEye, FiGitBranch, FiTarget } from 'react-icons/fi';
+import { FiBookOpen, FiCpu, FiEye, FiGitBranch, FiTarget } from 'react-icons/fi';
 import PageHeader from '../components/PageHeader';
-import { LIVE_CONVERSIONS } from '../data/conversions';
 
 const NOTATIONS = [
   {
@@ -123,8 +121,8 @@ export default function About() {
           </div>
         </section>
 
-        {/* Tech + roadmap */}
-        <section className="grid gap-6 lg:grid-cols-2">
+        {/* Tech */}
+        <section>
           <div className="card p-6 dark:bg-bugbusters-card dark:border-[rgba(255,255,255,0.06)]">
             <div className="flex items-center gap-3">
               <span className="grid size-10 place-items-center rounded-2xl bg-stone-900 text-white" style={{ boxShadow: '0 1px 2px rgb(28 25 23 / 0.05), 0 4px 12px -2px rgb(28 25 23 / 0.08)' }}>
@@ -139,32 +137,7 @@ export default function About() {
             </div>
             <p className="mt-4 text-xs leading-relaxed font-semibold text-stone-600 dark:text-bugbusters-soft">
               Algorithms live in pure util modules that emit step lists &mdash; the UI is just a player.
-              That&apos;s what makes the four upcoming conversions plug-and-play.
             </p>
-          </div>
-
-          <div className="card rotate-[0.4deg] p-6 transition-all duration-300 hover:rotate-0 dark:bg-bugbusters-card dark:border-[rgba(255,255,255,0.06)]">
-            <div className="flex items-center gap-3">
-              <span className="grid size-10 place-items-center rounded-2xl bg-linear-to-br from-pink-500 to-rose-500 text-white" style={{ boxShadow: '0 8px 24px rgba(236,72,153,0.2)' }}>
-                <FiArrowRight />
-              </span>
-              <h2 className="heading-skew text-lg font-extrabold text-stone-900 dark:text-white">On the roadmap</h2>
-            </div>
-            <ul className="mt-4 space-y-2 font-mono text-sm font-bold">
-              {['Infix \u2192 Prefix', 'Prefix \u2192 Infix', 'Postfix \u2192 Prefix', 'Prefix \u2192 Postfix'].map((item) => (
-                <li key={item} className="flex justify-between border-b border-dashed border-stone-900/10 pb-1.5 text-stone-700 dark:border-[rgba(255,255,255,0.06)] dark:text-gray-300">
-                  <span>{item}</span>
-                  <span className="text-stone-300 dark:text-gray-600">soon</span>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-5 flex flex-wrap gap-2">
-              {LIVE_CONVERSIONS.map((c) => (
-                <Link key={c.id} to={c.path} className="btn bg-white border border-stone-900/5 px-3 py-2 text-xs dark:bg-bugbusters-card dark:border-[rgba(255,255,255,0.06)] dark:text-white dark:hover:border-[rgba(255,255,255,0.12)]">
-                  Open {c.title}
-                </Link>
-              ))}
-            </div>
           </div>
         </section>
       </div>

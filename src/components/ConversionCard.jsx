@@ -3,9 +3,8 @@ import { COLOR_STYLES } from '../data/conversions';
 
 export default function ConversionCard({ conversion, conv, rotate }) {
   const data = conversion || conv;
-  const { path, title, desc, example, color, status, tagline } = data || {};
+  const { path, title, desc, example, color, tagline } = data || {};
   const colors = COLOR_STYLES[color] || COLOR_STYLES.orange;
-  const isLive = status === 'live';
 
   return (
     <div
@@ -17,14 +16,10 @@ export default function ConversionCard({ conversion, conv, rotate }) {
       {/* Status badge */}
       <div className="absolute -right-2 -top-2 z-10">
         <span
-          className={`
-            inline-block rounded-full px-3 py-0.5 font-bold text-[10px]
-            uppercase tracking-[0.15em]
-            ${isLive ? 'bg-emerald-500 text-white' : 'bg-amber-500/20 text-amber-600'}
-          `}
+          className="inline-block rounded-full px-3 py-0.5 font-bold text-[10px] uppercase tracking-[0.15em] bg-emerald-500 text-white"
           style={{ boxShadow: '0 1px 2px rgb(28 25 23 / 0.05)' }}
         >
-          {isLive ? 'Live' : 'Coming Soon'}
+          Live
         </span>
       </div>
 
@@ -50,13 +45,13 @@ export default function ConversionCard({ conversion, conv, rotate }) {
         </div>
 
         {/* Button */}
-          <Link
+        <Link
           to={path}
           className={`
-            btn w-full text-xs ${isLive ? `${colors.solid}` : 'bg-white text-stone-900 border border-stone-900/5 cursor-default pointer-events-none opacity-60 dark:bg-bugbusters-card dark:border-[rgba(255,255,255,0.06)] dark:text-white'}
+            btn w-full text-xs ${colors.solid}
           `}
         >
-          {isLive ? 'Visualize Now' : 'Coming Soon'}
+          Visualize Now
         </Link>
       </div>
     </div>

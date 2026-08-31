@@ -33,7 +33,7 @@ Live conversions are fully implemented for **Infix ↔ Postfix ↔ Prefix**, eac
 - Animated **3D particle background** ([React Three Fiber](https://r3f.docs.pmnd.rs/) / [Three.js](https://threejs.org/)) and **click spark** effects.
 - **Skeleton loading screen** on app boot.
 - Home page with a self-playing **live demo**, a **marquee**, "How it works", a conversion grid, and a "Why stacks?" section.
-- An **About** page covering notation theory, precedence rules, and the roadmap.
+- An **About** page covering notation theory and precedence rules.
 
 ---
 
@@ -216,7 +216,7 @@ This makes the algorithm legible even on first contact: you see each push and po
     │   └── ...                        # (Standalone visualizer primitives — see note below)
     └── pages/
         ├── Home.jsx                  # Hero, demo, marquee, how-it-works, grid, CTA
-        ├── About.jsx                 # Theory, precedence, roadmap
+        ├── About.jsx                 # Theory, precedence
         └── InfixToPostfix.jsx        # One page per conversion (~identical template)
             PostfixToInfix.jsx
             InfixToPrefix.jsx
@@ -228,11 +228,11 @@ This makes the algorithm legible even on first contact: you see each push and po
 **Important directories/files:**
 
 - `src/utils/` holds all the **pure algorithm code**. Each algorithm returns `{ result, steps }` where every step is a full machine snapshot. This is what makes the UI a thin "player" and the algorithms easy to test in isolation.
-- `src/data/conversions.js` is the single source of truth for every conversion (path, title, example, accent colour, status). Adding a future conversion means adding an entry here.
+- `src/data/conversions.js` is the single source of truth for every conversion (path, title, example, accent colour). Adding a future conversion means adding an entry here.
 - `src/hooks/usePlayer.js` and `src/hooks/useLivePlayer.js` encapsulate all playback timing logic.
 - `DESIGN_SYSTEM.md` documents the visual design language (see below).
 
-> **Note:** `src/components/` also contains several components that are **defined but not currently wired into any page**: standalone visualizer primitives (`ExpressionVisualizer.jsx`, `StackVisualizer.jsx`, `ControlPanel.jsx`, `StepTable.jsx`, `ResultCard.jsx`, `OperationPanel.jsx`, `ExpressionDisplay.jsx`, `OutputDisplay.jsx`) plus `ComingSoonCard.jsx` and `PostfixInfixExplanations.jsx`. The conversion pages render equivalent functionality through `TwoMethodExplanation` and `LiveExplanationCard` instead.
+> **Note:** `src/components/` also contains several components that are **defined but not currently wired into any page**: standalone visualizer primitives (`ExpressionVisualizer.jsx`, `StackVisualizer.jsx`, `ControlPanel.jsx`, `StepTable.jsx`, `ResultCard.jsx`, `OperationPanel.jsx`, `ExpressionDisplay.jsx`, `OutputDisplay.jsx`) plus `PostfixInfixExplanations.jsx`. The conversion pages render equivalent functionality through `TwoMethodExplanation` and `LiveExplanationCard` instead.
 
 ---
 

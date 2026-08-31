@@ -68,11 +68,6 @@ export default function Footer() {
                     className="text-sm font-medium text-stone-600 transition-colors hover:text-orange-500 dark:text-[#9ca3af] dark:hover:text-white"
                   >
                     {c.title}
-                    {c.status === 'soon' && (
-                      <span className="ml-2 inline-block rounded-lg bg-amber-500/10 px-1.5 py-0.5 text-[10px] font-bold uppercase text-amber-500">
-                        Soon
-                      </span>
-                    )}
                   </Link>
                 </li>
               ))}

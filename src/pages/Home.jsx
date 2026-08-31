@@ -10,7 +10,7 @@ import {
   FiZap,
 } from 'react-icons/fi';
 import ConversionCard from '../components/ConversionCard';
-import { CONVERSIONS, LIVE_CONVERSIONS, SOON_CONVERSIONS } from '../data/conversions';
+import { CONVERSIONS, LIVE_CONVERSIONS } from '../data/conversions';
 import { infixToPostfix } from '../utils/infixToPostfix';
 
 const MARQUEE_WORDS = [
@@ -262,7 +262,6 @@ function HowItWorks() {
 
 function ConversionsGrid() {
   const live = CONVERSIONS.filter((c) => c.status === 'live');
-  const soon = SOON_CONVERSIONS;
 
   return (
     <section id="conversions" className="mx-auto max-w-6xl scroll-mt-28 px-4 pb-8 sm:px-6">
@@ -277,27 +276,6 @@ function ConversionsGrid() {
       <div className="mt-10 grid gap-8 md:grid-cols-2">
         {live.map((c, i) => (
           <ConversionCard key={c.id} conv={c} rotate={i % 2 === 0 ? '-rotate-1' : 'rotate-1'} />
-        ))}
-      </div>
-
-      <div className="mt-16 text-center">
-        <span className="section-eyebrow -rotate-1">
-          <span className="inline-block size-1.5 rounded-full bg-stone-400" />
-          Locked
-        </span>
-        <h2 className="heading-skew mt-4 text-3xl font-extrabold text-stone-900 sm:text-4xl dark:text-white">Coming Soon</h2>
-        <p className="mt-3 text-sm font-semibold uppercase tracking-[0.2em] text-stone-500 dark:text-gray-500">
-          Same labs, new algorithms &mdash; currently being wired up
-        </p>
-      </div>
-
-      <div className="mt-8 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-        {soon.map((c, i) => (
-          <ConversionCard
-            key={c.id}
-            conv={c}
-            rotate={['-rotate-1', 'rotate-1', '-rotate-2', 'rotate-2'][i % 4]}
-          />
         ))}
       </div>
     </section>
