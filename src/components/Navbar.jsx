@@ -36,9 +36,9 @@ export default function Navbar() {
     localStorage.setItem('bb-theme', next ? 'dark' : 'light');
   };
 
-  if (dark && typeof document !== 'undefined' && !document.documentElement.classList.contains('dark')) {
-    document.documentElement.classList.add('dark');
-  }
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', dark);
+  }, [dark]);
 
   useEffect(() => {
     setDropdownOpen(false);

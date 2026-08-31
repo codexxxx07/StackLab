@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import ClickSpark from './components/ClickSpark';
 import SkeletonLoader from './components/SkeletonLoader';
 import Antigravity from './components/Antigravity';
+import { useLenis } from './hooks/useLenis';
 import Home from './pages/Home';
 import InfixToPostfix from './pages/InfixToPostfix';
 import PostfixToInfix from './pages/PostfixToInfix';
@@ -16,9 +17,14 @@ import About from './pages/About';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
+  const lenis = useLenis();
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true, force: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, lenis]);
   return null;
 }
 
