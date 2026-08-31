@@ -388,7 +388,11 @@ export function postfixToInfixNormalSteps(expr) {
 /**
  * Postfix → Infix: Generate the "Stack Method" execution table rows.
  *
- * Returns { expression: string, stack: string, operation: string }[]
+ * Returns { expression: string, stack: string, infix: string }[]
+ *
+ * The third column (the growing INFIX result) mirrors the reference
+ * Infix → Postfix table: it shows the most complete sub-expression on the
+ * top of the stack, which is exactly how this algorithm assembles the answer.
  */
 export function postfixToInfixStackRows(steps) {
   if (!steps || steps.length === 0) return [];
@@ -397,8 +401,8 @@ export function postfixToInfixStackRows(steps) {
     .filter((s) => s.type !== 'init' && s.type !== 'done')
     .map((s) => ({
       expression: s.symbol,
-      stack: s.stack.join(', '),
-      operation: s.action,
+      stack: s.stack.join(' '),
+      infix: s.stack.length ? s.stack[s.stack.length - 1] : s.built || '',
     }));
 }
 
@@ -669,7 +673,11 @@ export function prefixToInfixNormalSteps(expr) {
 /**
  * Prefix → Infix: Generate the "Stack Method" execution table rows.
  *
- * Returns { expression: string, stack: string, operation: string }[]
+ * Returns { expression: string, stack: string, infix: string }[]
+ *
+ * The third column (the growing INFIX result) mirrors the reference
+ * Infix → Postfix table: it shows the most complete sub-expression on the
+ * top of the stack, which is exactly how this algorithm assembles the answer.
  */
 export function prefixToInfixStackRows(steps) {
   if (!steps || steps.length === 0) return [];
@@ -678,8 +686,8 @@ export function prefixToInfixStackRows(steps) {
     .filter((s) => s.type !== 'init' && s.type !== 'done')
     .map((s) => ({
       expression: s.symbol,
-      stack: s.stack.join(', '),
-      operation: s.action,
+      stack: s.stack.join(' '),
+      infix: s.stack.length ? s.stack[s.stack.length - 1] : s.built || '',
     }));
 }
 
@@ -745,7 +753,11 @@ export function postfixToPrefixNormalSteps(expr) {
 /**
  * Postfix → Prefix: Generate the "Stack Method" execution table rows.
  *
- * Returns { expression: string, stack: string, operation: string }[]
+ * Returns { expression: string, stack: string, prefix: string }[]
+ *
+ * The third column (the growing PREFIX result) mirrors the reference
+ * Infix → Postfix table: it shows the most complete expression on the top
+ * of the stack, which is how this algorithm assembles the answer.
  */
 export function postfixToPrefixStackRows(steps) {
   if (!steps || steps.length === 0) return [];
@@ -754,8 +766,8 @@ export function postfixToPrefixStackRows(steps) {
     .filter((s) => s.type !== 'init' && s.type !== 'done')
     .map((s) => ({
       expression: s.symbol,
-      stack: s.stack.join(', '),
-      operation: s.action,
+      stack: s.stack.join(' '),
+      prefix: s.output || '',
     }));
 }
 
@@ -819,7 +831,11 @@ export function prefixToPostfixNormalSteps(expr) {
 /**
  * Prefix → Postfix: Generate the "Stack Method" execution table rows.
  *
- * Returns { expression: string, stack: string, operation: string }[]
+ * Returns { expression: string, stack: string, postfix: string }[]
+ *
+ * The third column (the growing POSTFIX result) mirrors the reference
+ * Infix → Postfix table: it shows the most complete expression on the top
+ * of the stack, which is how this algorithm assembles the answer.
  */
 export function prefixToPostfixStackRows(steps) {
   if (!steps || steps.length === 0) return [];
@@ -828,7 +844,7 @@ export function prefixToPostfixStackRows(steps) {
     .filter((s) => s.type !== 'init' && s.type !== 'done')
     .map((s) => ({
       expression: s.symbol,
-      stack: s.stack.join(', '),
-      operation: s.action,
+      stack: s.stack.join(' '),
+      postfix: s.output || '',
     }));
 }

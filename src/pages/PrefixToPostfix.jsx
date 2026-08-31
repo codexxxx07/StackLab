@@ -107,7 +107,7 @@ export default function PrefixToPostfix() {
                 columns: [
                   { label: 'Expression', accessorKey: 'expression' },
                   { label: 'Stack', accessorKey: 'stack' },
-                  { label: 'Operation', accessorKey: 'operation' },
+                  { label: 'Postfix', accessorKey: 'postfix' },
                 ],
                 rows: data.stackRows,
               }}

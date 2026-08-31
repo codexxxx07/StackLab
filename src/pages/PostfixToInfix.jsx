@@ -107,7 +107,7 @@ export default function PostfixToInfix() {
                 columns: [
                   { label: 'Expression', accessorKey: 'expression' },
                   { label: 'Stack', accessorKey: 'stack' },
-                  { label: 'Operation', accessorKey: 'operation' },
+                  { label: 'Infix', accessorKey: 'infix' },
                 ],
                 rows: data.stackRows,
               }}
