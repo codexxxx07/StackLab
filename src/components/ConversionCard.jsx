@@ -9,7 +9,7 @@ export default function ConversionCard({ conversion, conv, rotate }) {
   return (
     <div
       className={`
-        group card card-hover card-shimmer
+        cursor-target group card card-hover card-shimmer
         ${rotate || ''}
       `}
     >

@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import ClickSpark from './components/ClickSpark';
 import SkeletonLoader from './components/SkeletonLoader';
 import Antigravity from './components/Antigravity';
+import TargetCursor from './components/TargetCursor';
 import { useLenis } from './hooks/useLenis';
 import Home from './pages/Home';
 import InfixToPostfix from './pages/InfixToPostfix';
@@ -105,6 +106,12 @@ export default function App() {
   return (
     <Router>
       <ScrollToTop />
+      <TargetCursor
+        spinDuration={2}
+        hideDefaultCursor={true}
+        parallaxOn={true}
+        hoverDuration={0.2}
+      />
       <ClickSpark
         sparkColor="#f97316"
         sparkSize={12}

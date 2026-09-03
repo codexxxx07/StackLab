@@ -89,13 +89,13 @@ function Hero() {
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
           <Link
             to="/infix-to-postfix"
-            className="btn -rotate-1 bg-linear-to-r from-orange-500 to-amber-500 px-8 py-3.5 text-base text-white shadow-glow hover:rotate-0 hover:shadow-lift dark:from-bugbusters-cyan dark:via-bugbusters-blue dark:to-bugbusters-purple dark:shadow-none dark:hover:shadow-dark-card"
+            className="cursor-target btn -rotate-1 bg-linear-to-r from-orange-500 to-amber-500 px-8 py-3.5 text-base text-white shadow-glow hover:rotate-0 hover:shadow-lift dark:from-bugbusters-cyan dark:via-bugbusters-blue dark:to-bugbusters-purple dark:shadow-none dark:hover:shadow-dark-card"
           >
             Start Visualizing <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
           </Link>
           <a
             href="#conversions"
-            className="btn rotate-1 bg-white px-8 py-3.5 text-base border border-stone-900/5 hover:rotate-0 dark:bg-bugbusters-card dark:border-[rgba(255,255,255,0.06)] dark:text-white dark:hover:border-[rgba(255,255,255,0.12)]"
+            className="cursor-target btn rotate-1 bg-white px-8 py-3.5 text-base border border-stone-900/5 hover:rotate-0 dark:bg-bugbusters-card dark:border-[rgba(255,255,255,0.06)] dark:text-white dark:hover:border-[rgba(255,255,255,0.12)]"
           >
             Explore Conversions
           </a>
@@ -273,7 +273,7 @@ function ConversionsGrid() {
         <h2 className="heading-skew mt-4 text-3xl font-extrabold text-stone-900 sm:text-5xl dark:text-white">Available Now</h2>
       </div>
 
-      <div className="mt-10 grid gap-8 md:grid-cols-2">
+      <div id="conversions" className="mt-10 grid gap-8 md:grid-cols-2">
         {live.map((c, i) => (
           <ConversionCard key={c.id} conv={c} rotate={i % 2 === 0 ? '-rotate-1' : 'rotate-1'} />
         ))}
@@ -364,7 +364,7 @@ function FinalCta() {
         </p>
         <div className="relative mt-8 flex flex-wrap justify-center gap-3">
           {LIVE_CONVERSIONS.map((c) => (
-            <Link key={c.id} to={c.path} className="btn bg-white px-6 py-3.5 text-base text-stone-900 border-transparent shadow-soft hover:shadow-lift">
+            <Link key={c.id} to={c.path} className="cursor-target btn bg-white px-6 py-3.5 text-base text-stone-900 border-transparent shadow-soft hover:shadow-lift">
               {c.title} <FiPlay />
             </Link>
           ))}

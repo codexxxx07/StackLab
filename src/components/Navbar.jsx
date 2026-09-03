@@ -63,7 +63,7 @@ export default function Navbar() {
       <div className="mx-auto max-w-5xl">
         <div className="flex items-center justify-between rounded-2xl border border-stone-900/5 bg-white/90 px-4 py-2.5 shadow-soft backdrop-blur-xl sm:px-6 lg:px-8 dark:border-[rgba(255,255,255,0.06)] dark:bg-[rgba(15,23,42,0.85)]">
           {/* Logo */}
-          <Link to="/" className="group flex items-center gap-2.5">
+          <Link to="/" className="cursor-target group flex items-center gap-2.5">
             <div className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-orange-500 to-amber-500 text-white transition-all duration-300 group-hover:-rotate-3 group-hover:scale-110" style={{ boxShadow: 'var(--shadow-glow)' }}>
               <span className="font-extrabold text-sm leading-none">S</span>
             </div>
@@ -78,7 +78,7 @@ export default function Navbar() {
               to="/"
               end
               className={({ isActive }) =>
-                `group relative rounded-xl px-4 py-2 text-sm font-semibold tracking-tight transition-all duration-300 ${
+                `cursor-target group relative rounded-xl px-4 py-2 text-sm font-semibold tracking-tight transition-all duration-300 ${
                   isActive
                     ? 'bg-orange-500/10 text-orange-600 -rotate-1 dark:bg-white/6 dark:text-white'
                     : 'text-stone-600 hover:bg-stone-900/5 hover:text-stone-900 hover:-translate-y-0.5 dark:text-[#9ca3af] dark:hover:bg-white/4 dark:hover:text-white'
@@ -99,7 +99,7 @@ export default function Navbar() {
             <div ref={dropdownRef} className="relative">
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                className={`group flex items-center gap-1 rounded-xl px-4 py-2 text-sm font-semibold tracking-tight transition-all duration-300 ${
+                className={`cursor-target group flex items-center gap-1 rounded-xl px-4 py-2 text-sm font-semibold tracking-tight transition-all duration-300 ${
                   isVisualizerActive()
                     ? 'bg-orange-500/10 text-orange-600 -rotate-1 dark:bg-white/6 dark:text-white'
                     : 'text-stone-600 hover:bg-stone-900/5 hover:text-stone-900 hover:-translate-y-0.5 dark:text-[#9ca3af] dark:hover:bg-white/4 dark:hover:text-white'
@@ -146,7 +146,7 @@ export default function Navbar() {
             <NavLink
               to="/about"
               className={({ isActive }) =>
-                `group relative rounded-xl px-4 py-2 text-sm font-semibold tracking-tight transition-all duration-300 ${
+                `cursor-target group relative rounded-xl px-4 py-2 text-sm font-semibold tracking-tight transition-all duration-300 ${
                   isActive
                     ? 'bg-orange-500/10 text-orange-600 -rotate-1 dark:bg-white/6 dark:text-white'
                     : 'text-stone-600 hover:bg-stone-900/5 hover:text-stone-900 hover:-translate-y-0.5 dark:text-[#9ca3af] dark:hover:bg-white/4 dark:hover:text-white'
@@ -168,7 +168,7 @@ export default function Navbar() {
           <div className="flex items-center gap-2">
             <button
               onClick={toggleDark}
-              className="group rounded-xl border border-stone-900/5 bg-white p-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-soft dark:border-[rgba(255,255,255,0.06)] dark:bg-bugbusters-card"
+              className="cursor-target group rounded-xl border border-stone-900/5 bg-white p-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-soft dark:border-[rgba(255,255,255,0.06)] dark:bg-bugbusters-card"
               aria-label="Toggle theme"
             >
               {dark ? (
