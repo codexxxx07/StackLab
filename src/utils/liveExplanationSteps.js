@@ -1,4 +1,4 @@
-import { PRECEDENCE, isOperandChar, isOperatorChar } from './visualizationSteps';
+import { PRECEDENCE, isOperandChar, isOperatorChar, escapeHtml } from './visualizationSteps';
 
 /* ──────────────────────────────────────────────────────────────────────
    HELPERS
@@ -192,7 +192,7 @@ function extractOperators(expr) {
    ────────────────────────────────────────────────────────────────────── */
 
 export function infixToPostfixIntroSteps(expr) {
-  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  const clean = escapeHtml(expr.replace(/\s+/g, '').toUpperCase());
   const operands = extractOperands(clean);
   const operators = extractOperators(clean);
   const steps = [];
@@ -279,7 +279,7 @@ export function infixToPostfixIntroSteps(expr) {
    ────────────────────────────────────────────────────────────────────── */
 
 export function infixToPostfixNormalLiveSteps(expr) {
-  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  const clean = escapeHtml(expr.replace(/\s+/g, '').toUpperCase());
   if (!clean) return [];
 
   const steps = [];
@@ -563,7 +563,7 @@ export function infixToPostfixStackIntroSteps() {
    ────────────────────────────────────────────────────────────────────── */
 
 export function infixToPostfixStackLiveSteps(expr) {
-  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  const clean = escapeHtml(expr.replace(/\s+/g, '').toUpperCase());
   if (!clean) return [];
 
   const steps = [];
@@ -677,7 +677,7 @@ export function infixToPostfixStackLiveSteps(expr) {
    ────────────────────────────────────────────────────────────────────── */
 
 export function postfixToInfixIntroSteps(expr) {
-  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  const clean = escapeHtml(expr.replace(/\s+/g, '').toUpperCase());
   const operands = extractOperands(clean);
   const operators = extractOperators(clean);
   const steps = [];
@@ -731,7 +731,7 @@ export function postfixToInfixIntroSteps(expr) {
    ────────────────────────────────────────────────────────────────────── */
 
 export function postfixToInfixNormalLiveSteps(expr) {
-  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  const clean = escapeHtml(expr.replace(/\s+/g, '').toUpperCase());
   if (!clean) return [];
 
   const steps = [];
@@ -837,7 +837,7 @@ export function postfixToInfixStackIntroSteps() {
    ────────────────────────────────────────────────────────────────────── */
 
 export function postfixToInfixStackLiveSteps(expr) {
-  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  const clean = escapeHtml(expr.replace(/\s+/g, '').toUpperCase());
   if (!clean) return [];
 
   const steps = [];
@@ -911,7 +911,7 @@ export function postfixToInfixStackLiveSteps(expr) {
    ────────────────────────────────────────────────────────────────────── */
 
 export function infixToPrefixIntroSteps(expr) {
-  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  const clean = escapeHtml(expr.replace(/\s+/g, '').toUpperCase());
   const operands = extractOperands(clean);
   const operators = extractOperators(clean);
   const steps = [];
@@ -1025,7 +1025,7 @@ export function infixToPrefixIntroSteps(expr) {
    ────────────────────────────────────────────────────────────────────── */
 
 export function infixToPrefixNormalLiveSteps(expr) {
-  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  const clean = escapeHtml(expr.replace(/\s+/g, '').toUpperCase());
   if (!clean) return [];
 
   const steps = [];
@@ -1311,7 +1311,7 @@ export function infixToPrefixStackIntroSteps() {
    ────────────────────────────────────────────────────────────────────── */
 
 export function infixToPrefixStackLiveSteps(expr) {
-  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  const clean = escapeHtml(expr.replace(/\s+/g, '').toUpperCase());
   if (!clean) return [];
 
   const steps = [];
@@ -1444,7 +1444,7 @@ export function infixToPrefixStackLiveSteps(expr) {
    ────────────────────────────────────────────────────────────────────── */
 
 export function prefixToInfixIntroSteps(expr) {
-  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  const clean = escapeHtml(expr.replace(/\s+/g, '').toUpperCase());
   const operands = extractOperands(clean);
   const operators = extractOperators(clean);
   const steps = [];
@@ -1518,7 +1518,7 @@ export function prefixToInfixIntroSteps(expr) {
    ────────────────────────────────────────────────────────────────────── */
 
 export function prefixToInfixNormalLiveSteps(expr) {
-  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  const clean = escapeHtml(expr.replace(/\s+/g, '').toUpperCase());
   if (!clean) return [];
 
   const steps = [];
@@ -1632,7 +1632,7 @@ export function prefixToInfixStackIntroSteps() {
    ────────────────────────────────────────────────────────────────────── */
 
 export function prefixToInfixStackLiveSteps(expr) {
-  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  const clean = escapeHtml(expr.replace(/\s+/g, '').toUpperCase());
   if (!clean) return [];
 
   const steps = [];
@@ -1706,7 +1706,7 @@ export function prefixToInfixStackLiveSteps(expr) {
    ────────────────────────────────────────────────────────────────────── */
 
 export function postfixToPrefixIntroSteps(expr) {
-  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  const clean = escapeHtml(expr.replace(/\s+/g, '').toUpperCase());
   const operands = extractOperands(clean);
   const operators = extractOperators(clean);
   const steps = [];
@@ -1788,7 +1788,7 @@ export function postfixToPrefixIntroSteps(expr) {
    ────────────────────────────────────────────────────────────────────── */
 
 export function postfixToPrefixNormalLiveSteps(expr) {
-  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  const clean = escapeHtml(expr.replace(/\s+/g, '').toUpperCase());
   if (!clean) return [];
 
   const steps = [];
@@ -1893,7 +1893,7 @@ export function postfixToPrefixStackIntroSteps() {
    ────────────────────────────────────────────────────────────────────── */
 
 export function postfixToPrefixStackLiveSteps(expr) {
-  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  const clean = escapeHtml(expr.replace(/\s+/g, '').toUpperCase());
   if (!clean) return [];
 
   const steps = [];
@@ -1967,7 +1967,7 @@ export function postfixToPrefixStackLiveSteps(expr) {
    ────────────────────────────────────────────────────────────────────── */
 
 export function prefixToPostfixIntroSteps(expr) {
-  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  const clean = escapeHtml(expr.replace(/\s+/g, '').toUpperCase());
   const operands = extractOperands(clean);
   const operators = extractOperators(clean);
   const steps = [];
@@ -2039,7 +2039,7 @@ export function prefixToPostfixIntroSteps(expr) {
    ────────────────────────────────────────────────────────────────────── */
 
 export function prefixToPostfixNormalLiveSteps(expr) {
-  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  const clean = escapeHtml(expr.replace(/\s+/g, '').toUpperCase());
   if (!clean) return [];
 
   const steps = [];
@@ -2152,7 +2152,7 @@ export function prefixToPostfixStackIntroSteps() {
    ────────────────────────────────────────────────────────────────────── */
 
 export function prefixToPostfixStackLiveSteps(expr) {
-  const clean = expr.replace(/\s+/g, '').toUpperCase();
+  const clean = escapeHtml(expr.replace(/\s+/g, '').toUpperCase());
   if (!clean) return [];
 
   const steps = [];
